@@ -4072,7 +4072,7 @@ fieldset:disabled a.btn {
   .btn-outline-success:hover {
     color: #212529;
     background-color: #00a518;
-    border-color: :#00a518; }
+    border-color: #00a518; }
   .btn-outline-success:focus, .btn-outline-success.focus {
     -webkit-box-shadow: 0 0 0 0.2rem rgba(28, 182, 49, 0.5);
     box-shadow: 0 0 0 0.2rem  rgba(28, 182, 49, 0.5); }
@@ -12808,11 +12808,13 @@ dl {
         display: flex;
         -webkit-box-align: center;
         -ms-flex-align: center;
-        align-items: center; }
+        align-items: center;
+        cursor: pointer; }
         @media (max-width: 767px) {
           .navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link {
             margin-left: .8rem;
-            margin-right: .8rem; } }
+            margin-right: .8rem;
+            cursor: pointer; } }
         .navbar .navbar-menu-wrapper .navbar-nav .nav-item .nav-link i {
           font-size: 1.25rem; }
       .navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .dropdown-toggle:after {
@@ -13141,7 +13143,8 @@ dl {
         height: auto;
         line-height: 1;
         border-top: 0;
-        padding: 1.25rem 0; }
+        padding: 1.25rem 0;
+         }
         .sidebar .nav .nav-item.nav-profile .nav-link .nav-profile-image {
           width: 80px;
           height: 80px; }
