@@ -3,10 +3,6 @@
     <Nav />
     <link
       rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
       href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css"
     />
     <link
@@ -192,6 +188,7 @@
 <script>
 import axios from 'axios'
 import Nav from '@/components/front/Nav'
+import Swal from 'sweetalert2'
 export default {
   name: 'Register',
   components: { Nav },
@@ -215,7 +212,20 @@ export default {
     async register () { 
       const response = await axios.post('http://localhost/api/register', this.data)
       this.data = response.data
-      this.$router.push('/login')
+      if (this.data.message !== '') {
+        Swal.fire(
+          'Registro Exitoso!',
+          'You clicked the button!',
+          'success'
+        )
+        this.$router.push('/login')
+      } else {
+        Swal.fire(
+          'Error!',
+          this.data.message,
+          'danger'
+        )
+      }
     }
   }
 }

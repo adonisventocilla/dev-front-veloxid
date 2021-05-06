@@ -13,7 +13,7 @@
         <a
           class="navbar-brand brand-logo-mini"
           href="@/purple/assets/images/perfil.jpg"
-          ><img src="@/purple/assets/images/favicon-96x96.png" alt="logo"
+          ><img src="@/purple/assets/images/perfil.jpg" alt="logo"
         /></a>
       </div>
       <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import '@/purple/assets/js/off-canvas.js'
 import axios from 'axios'
 export default {
   name: 'HomeAdmin',
@@ -96,5 +97,4 @@ export default {
   }
 }
 </script>
-
 <style></style>

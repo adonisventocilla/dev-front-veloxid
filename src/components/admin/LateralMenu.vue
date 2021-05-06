@@ -10,7 +10,7 @@
                   <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
-                  <span class="font-weight-bold mb-2 text-truncate">{{ user.name }}</span>
+                  <span class="font-weight-bold mb-2 text-truncate">{{ user.role.tipo }}</span>
                   <span class="text-secondary text-small"></span>
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
@@ -26,6 +26,7 @@
           </nav>
 </template>
 <script>
+import '@/purple/assets/js/off-canvas.js'
 import axios from 'axios'
 export default {
   name: 'LateralMenu',
@@ -49,3 +50,9 @@ export default {
   }
 }
 </script>
+<style scoped>
+  .text-truncate {
+    width: 80px;
+    white-space: initial;
+  }
+</style>

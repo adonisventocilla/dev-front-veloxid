@@ -63,6 +63,7 @@
                       <div class="form-group row">
                         <div class="col-sm-12">
                           <input
+                            type="email"
                             class="form-control"
                             v-model="data.email"
                             placeholder="Email"
@@ -80,6 +81,7 @@
                       <div class="form-group row">
                         <div class="col-sm-12">
                           <input
+                            type="password"
                             class="form-control"
                             v-model="data.password"
                             placeholder="Password"
@@ -165,6 +167,7 @@
                       <div class="form-group row">
                         <div class="col-sm-12">
                           <input
+                            type="email"
                             class="form-control"
                             v-model="data.email"
                             placeholder="Email"
@@ -182,6 +185,7 @@
                       <div class="form-group row">
                         <div class="col-sm-12">
                           <input
+                            type="password"
                             class="form-control"
                             v-model="data.password"
                             placeholder="Password"
@@ -254,58 +258,74 @@
               </div>
             </div>
           </div>
- <div class="container-fluid mt-2 d-flex justify-content-center w-100">             
-              <div class="table-responsive w-100">
-                <table class="table">
-                  <thead>
-                    <tr style="background-color: #309D4F; color: #fff">
-                      <th>#</th>
-                      <th class="text-right">Nombres y Apellidos</th>
-                      <th class="text-right">Email</th>
-                      <th class="text-right">Estado</th>
-                      <th> Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr 
-                      class="text-right"
-                      v-for="item in data"
-                      :key="item.id"
-                    >
-                      <td class="text-left">{{ item.id }}</td>
-                      <td class="text-left">{{ item.name }}</td>
-                      <td class="text-left">{{ item.email}}</td>
-                      <td>
-                        <div v-if="item.estado === 0">
-                      <label class="badge badge-danger">Inactivo</label>
-                      </div>
-                        <div v-else>
-                      <label class="badge badge-success">Activo</label>
-                        </div>
-                      </td>
-                      <td>        
-                        <div class="col-lg-3">
-                    <div class="input-group">
-                      <div class="input-group-append">
-                        <button
-                          class="btn btn-warning btn-sm"
-                          data-toggle="modal"
-                          data-target="#exampleModalActualizarConductor"
-                          type="button"
-                          @click="loadFieldsUpdate(item.id)"
-                          title="Actualizar"
-                        >
-                          <i class="mdi mdi-lead-pencil"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+          <div class="card">
+            <div class="card-body">
+              <div class="card-title">Usuarios Jefe de Transporte</div>
+              <br />
+              <div
+                class="container-fluid mt-2 d-flex justify-content-center w-100"
+              >
+                <div class="table-responsive w-100">
+                  <table class="table">
+                    <thead>
+                      <tr style="background-color: #309D4F; color: #fff">
+                        <th>#</th>
+                        <th class="text-left">Nombres y Apellidos</th>
+                        <th class="text-left">Email</th>
+                        <th class="text-left">Estado</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        class="text-right"
+                        v-for="item in users"
+                        :key="item.id"
+                      >
+                        <td class="text-left">{{ item.id }}</td>
+                        <td class="text-left">{{ item.name }}</td>
+                        <td class="text-left">{{ item.email }}</td>
+                        <td class="text-left">
+                          <div v-if="item.idStatus === 2">
+                            <label class="badge badge-danger">Inactivo</label>
+                          </div>
+                          <div v-else>
+                            <label class="badge badge-success">Activo</label>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="col-lg-3">
+                            <div class="input-group">
+                              <div class="input-group-append">
+                                <button 
+                                  class="btn btn-warning btn-sm"
+                                  data-toggle="modal"
+                                  data-target="#exampleModalActualizarConductor"
+                                  type="button"
+                                  @click="loadFieldsUpdate(item.id)"
+                                  title="Activar/Desactivar"
+                                >
+                                  <i class="mdi mdi-lead-pencil"></i>
+                                </button>
+                                <button
+                                  class="btn btn-danger btn-sm"
+                                  type="button"
+                                  @click="changestatus(item.id, item.idStatus)"
+                                  title="Desactivar/Activar conductor"
+                                >
+                                  <i class="mdi mdi-account"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
+          </div>
           <br />
           <div class="row">
             <div class="col-sm-12 col-md-5"></div>
@@ -332,8 +352,9 @@
                       data-dt-idx="1"
                       tabindex="0"
                       class="page-link"
-                      > 1 </a
                     >
+                      1
+                    </a>
                   </li>
                   <li id="order-listing_next">
                     <button
@@ -360,12 +381,15 @@
 import axios from 'axios'
 import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
+import Swal from 'sweetalert2'
 export default {
   name: 'UserAdmin',
-  components: {HomeAdmin, LateralMenu},
+  components: { HomeAdmin, LateralMenu },
   data () {
     return {
+      users: {},
       data: {
+        id: '',
         name: '',
         email: '',
         password: ''
@@ -373,25 +397,135 @@ export default {
       key_busqueda: null
     }
   },
-  created () {},
+  created () {
+    axios
+      .get('http://localhost/api/chiefs_drivers', {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: 'include'
+      })
+      .then(res => {
+        this.users = res.data
+      })
+  },
 
   methods: {
+    getUsers () {
+      axios
+        .get('http://localhost/api/chiefs_drivers', {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: 'include'
+        })
+        .then(res => {
+          this.users = res.data
+        })
+    },
+
     saveUser () {
-      const response = axios.post('http://localhost/api/register', this.data)
+      const response = axios.post(
+        'http://localhost/api/chiefs_drivers',
+        this.data,
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: 'include'
+        }
+      )
       this.data = response.data
+      this.clearFields()
+      Swal.fire(
+        'Registro Exitoso!',
+        'Se registró correctamente los datos del usuario!',
+        'success'
+      )
+      this.getUsers()
+    },
+    changestatus (id, status) {
+      let me = this
+      if (status === 1) {
+        Swal.fire({
+          title: '¿Estas seguro de inhabilitar al usuario ' + id + '?',
+          text: 'Tú inhabilitarás al conductor!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No'
+        }).then(result => {
+          if (result.value) {
+            axios
+              .delete('http://localhost/api/users/' + id, {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: 'include'
+              })
+              .then(function (response) {
+                Swal.fire(
+                  'Operación Exitosa!',
+                  'El usuario ha sido inhabilitado.',
+                  'success'
+                )
+                me.getUsers()
+              })
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire(
+              'Cancelado',
+              'El usuario no ha sido inhabilitado',
+              'error'
+            )
+          }
+        })
+      } else {
+        Swal.fire({
+          title: '¿Estas seguro de activar al usuario ' + id + '?',
+          text: 'Tú habilitarás al usuario!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No'
+        }).then(result => {
+          if (result.value) {
+            axios
+              .put('http://localhost/api/users/' + id, {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: 'include'
+              })
+              .then(function (response) {
+                Swal.fire(
+                  'Operación Exitosa!',
+                  'El usuario ha sido habilitado.',
+                  'success'
+                )
+                me.getUsers()
+              })
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire(
+              'Cancelado',
+              'El usuario no ha sido inhabilitado',
+              'error'
+            )
+          }
+        })
+      }
+    },
+
+    clearFields () {
+      /* Limpia los campos e inicializa la variable update a 0 */
+      this.data.id = ''
+      this.data.name = ''
+      this.data.email = ''
+      this.data.password = ''
     },
 
     loadFieldsUpdate (id) {
       // Esta función rellena los campos y la variable update, con la tarea que queremos modificar
       let me = this
-      this.update = id
-      let url = 'http://localhost/api/register' + this.update
+      let url = 'http://localhost/api/chiefs_drivers/' + id
       axios
-        .get(url)
+        .get(url, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: 'include'
+        })
         .then(function (response) {
-          me.email = response.data.email
-          me.name = response.data.name
-          me.password = response.data.password
+          me.data.id = response.data.id
+          me.data.email = response.data.email
+          me.data.name = response.data.name
         })
         .catch(function (error) {
           // handle error
@@ -399,9 +533,37 @@ export default {
         })
     },
 
-    clearFields () {
-      /* Limpia los campos e inicializa la variable update a 0 */
-      this.data = ''
+    updateUser () {
+      const config = {
+        headers: { 'content-type': 'multipart/form-data' },
+        withCredentials: 'include'
+      }
+      let me = this
+      let formData = new FormData()
+      if (this.data.password) {
+        formData.append('password', this.data.password)
+        formData.append('name', this.data.name)
+        formData.append('email', this.data.email)
+      } else {
+        formData.append('name', this.data.name)
+        formData.append('email', this.data.email)
+      }
+      formData.append('_method', 'put')
+      let url = 'http://localhost/api/chiefs_drivers/' + this.data.id // Ruta que hemos creado para enviar una tarea y guardarla
+      axios
+        .post(url, formData, config)
+        .then(function (response) {
+          Swal.fire(
+            'Actualización Exitosa!',
+            'Se actualizó correctamente los datos del usuario!',
+            'success'
+          )
+          me.getUsers() // llamamos al metodo getPDrivers(); para que refresque nuestro array y muestro los nuevos datos
+          me.clearFields() // Limpiamos los campos e inicializamos la variable update a 0
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   },
 

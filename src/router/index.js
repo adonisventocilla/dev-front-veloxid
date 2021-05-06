@@ -39,7 +39,7 @@ export default new Router({
       component: Driver
     },
     {
-      path: '/vehicles',
+      path: '/vehicles/:id',
       name: 'Vehicle',
       component: Vehicle
     },

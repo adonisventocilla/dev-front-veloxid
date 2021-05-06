@@ -11,10 +11,6 @@
       rel="stylesheet"
       href="https://cdn.materialdesignicons.com/4.8.95/css/materialdesignicons.min.css"
     />
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-    />
     <body>
         <div class="container-fluid">
           <div class="row">
@@ -108,6 +104,7 @@
 <script>
 import axios from 'axios'
 import Nav from '@/components/front/Nav'
+import Swal from 'sweetalert2'
 export default {
   name: 'Login',
   components: {Nav},
@@ -126,17 +123,24 @@ export default {
   },
   methods: {
     async login () { 
-      const response = await axios.post('http://localhost/api/login', this.data, {
+      await axios.post('http://localhost/api/login', this.data, {
         headers: {'Content-Type': 'application/json'},
         withCredentials: 'include'
+      }).then(res => {
+        this.data = res.data
+        if (this.data.message === 'Success') {
+          this.$router.push('/home')
+        } 
       })
-      this.data = response.data
-      if (this.data.message === 'Success') {
-        this.$router.push('/home')
-      } else {
-        console.log('no entras perro')
-      }
+        .catch(function () {
+          Swal.fire(
+            'Error!',
+            'Las credenciales ingresadas no son válidas!',
+            'error'
+          )
+        })
     }
+
   }
 }
 </script>

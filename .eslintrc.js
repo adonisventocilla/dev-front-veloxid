@@ -28,7 +28,9 @@ module.exports = {
     "no-console": "off",
     "no-multiple-empty-lines": "off",
     "no-trailing-spaces": "off",
-    "camelcase": "off"
+    "camelcase": "off",
+    "no-undef": "off",
+    "no-unused-vars": "off"
   
   }
     

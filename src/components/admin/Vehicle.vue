@@ -305,7 +305,9 @@
           <!--DATOS DEL CONDUCTOR-->
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title">Conductor</h4>
+              <router-link to="/conductores"><i class="mdi mdi-arrow-left-bold-circle" style="font-size: 1.50rem;"></i></router-link>
+              <br /><br />
+              <h3 class="card-title">Datos del Conductor</h3>
               <br />
               <div class="row">
                 <div class="col-lg-4">
@@ -461,11 +463,23 @@
                     }}</label>
                   </div>
                 </div>
-                <!--     <a
-            :href="this.driver.driver.constanciaEstadoSalud"
-            v-text="item.label"
-            @click.prevent="downloadItem(item)" />-->
-                <!--   <pdf :src="this.driver.driver.constanciaEstadoSalud"></pdf> -->
+                </div> 
+                 <div class="row">
+                    <div class="col-lg-4">
+                  <div class="form-group row">
+                    <label
+                      class="col-sm-4 font-weight-bold"
+                      for="exampleInputName1"
+                      >Constancia de Estado Salud</label
+                    >
+                    <div class="col-sm-8" v-if="this.driver.driver.constanciaEstadoSalud === ''">
+                      <label class="text-danger" for="exampleInputName1">No se ha registrado constancia</label>
+                    </div>
+                    <a v-else class="col-sm-8" :href="'http://localhost' + this.driver.driver.constanciaEstadoSalud" target="_blank">    
+                   <i class="mdi mdi-file-pdf" style="font-size: 2rem;"></i>
+                  </a>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -515,7 +529,7 @@
                 <div class="card-body">
                   <img
                     class="card-img-top"
-                    :src="item.imagen"
+                    :src="'http://localhost' + item.imagen"
                     style="width: 250px; height: 200px"
                   />
                   <div class="card-title text-truncate">
@@ -633,13 +647,16 @@ import axios from 'axios'
 import pdf from 'vue-pdf'
 import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
+import Swal from 'sweetalert2'
 export default {
   name: 'Vehicle',
   components: {HomeAdmin, LateralMenu, pdf},
   data () {
     return {
+      id: this.$route.params.id,
       driver: [],
       vehicles: [],
+      idDriver: '',
       placa: '',
       capacidadCarga: '',
       idVehicleType: '',
@@ -659,13 +676,20 @@ export default {
       .then(res => {
         this.vehicletypes = res.data.VehicleTypes
       })
+    axios
+      .get('http://localhost/api/drivers/' + this.id, {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: 'include'
+      })
+      .then(res => {
+        this.driver = res.data
+      })
   },
 
   methods: {
     getVehicles (num_page) {
-      let id = this.$route.params.id
       axios
-        .get('http://localhost/api/drivers/' + id + '/vehicles', {
+        .get('http://localhost/api/drivers/' + this.id + '/vehicles', {
           params: {
             page: num_page
           },
@@ -674,8 +698,6 @@ export default {
         })
         .then(res => {
           this.vehicles = res.data.vehicles
-          console.log('Obteniendo vehiculos')
-          console.log(this.vehicles.data)
         })
         .catch(function (error) {
           // handle error
@@ -709,20 +731,20 @@ export default {
     },
 
     saveVehicles () {
-      const config = { headers: { 'content-type': 'multipart/form-data' } }
+      const config = { 
+        headers: { 'content-type': 'multipart/form-data' },
+        withCredentials: 'include' }
       let me = this
       let formData = new FormData()
       formData.append('placa', this.placa)
       formData.append('capacidadCarga', this.capacidadCarga)
       formData.append('idVehicleType', this.idVehicleType)
       formData.append('imagen', this.imagen)
-      let url = 'http://localhost/api/drivers/' + this.idDriver + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
+      let url = 'http://localhost/api/drivers/' + this.id + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
       axios
-        .post(url, formData, config, {
-          withCredentials: 'include'
-        })
+        .post(url, formData, config)
         .then(function (response) {
-          alert('Se registró correctamente el vehículo.')
+          Swal.fire('Registro Exitoso!', 'Se registró correctamente los datos del vehiculo!', 'success')
           me.getVehicles() // llamamos al metodo getVehicles(); para que refresque nuestro array y muestro los nuevos datos
           me.clearFields() // Limpiamos los campos e inicializamos la variable update a 0
         })
@@ -732,7 +754,9 @@ export default {
     },
 
     updateVehicles () {
-      const config = { headers: { 'content-type': 'multipart/form-data' } }
+      const config = { 
+        headers: { 'content-type': 'multipart/form-data' },
+        withCredentials: 'include' }
       let me = this
       let formData = new FormData()
       formData.append('id', this.update)
@@ -744,11 +768,9 @@ export default {
       formData.append('_method', 'put')
       let url = 'http://localhost/api/vehicles/' + this.update // Ruta que hemos creado para enviar una tarea y guardarla
       axios
-        .post(url, formData, config, {
-          withCredentials: 'include'
-        })
+        .post(url, formData, config)
         .then(function (response) {
-          alert('Se modificó correctamente el vehículo.')
+          Swal.fire('Actualización Exitosa!', 'Se actualizó correctamente los datos del vehiculo!', 'success')
           me.getVehicles() // llamamos al metodo getProductos(); para que refresque nuestro array y muestro los nuevos datos
           me.clearFields() // Limpiamos los campos e inicializamos la variable update a 0
         })
@@ -757,26 +779,35 @@ export default {
         })
     },
 
-    deleteVehicles (id, placa) {
+    deleteVehicles (id) {
       // Esta nos abrirá un alert de javascript y si aceptamos borrará el vehículo que hemos elegido
       let me = this
-      if (confirm('¿Seguro que deseas eliminar este vehículo? ')) {
-        axios
-          .delete('http://localhost/api/vehicles/' + id, {
-            params: {
-              id: id
-            },
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: 'include'
-          })
-          .then(function (response) {
-            alert('Se eliminó correctamente el vehículo.')
-            me.getVehicles() // llamamos al metodo getVehicles(); para que refresque nuestro array y muestro los nuevos datos
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      }
+      Swal.fire({
+        title: '¿Estas seguro de eliminar al vehiculo ' + id + '?',
+        text: 'Tú inhabilitarás el vehiculo!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, eliminalo!',
+        cancelButtonText: 'No, conservalo'
+      }).then(result => {
+        if (result.value) {
+          axios
+            .delete('http://localhost/api/vehicles/' + id, {
+              headers: { 'Content-Type': 'application/json' },
+              withCredentials: 'include'
+            })
+            .then(function (response) {
+              Swal.fire(
+                'Eliminación Exitosa!',
+                'El vehiculo ha sido inhabilitado.',
+                'success'
+              )
+              me.getDrivers()
+            })
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire('Cancelado', 'El vehiculo no ha sido inhabilitado', 'error')
+        }
+      })
     },
 
     clearFields () {
@@ -811,15 +842,6 @@ export default {
 
   mounted () {
     this.getVehicles()
-    let id = this.$route.params.id
-    axios
-      .get('http://localhost/api/drivers/' + id, {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: 'include'
-      })
-      .then(res => {
-        this.driver = res.data
-      })
   }
 
 }
