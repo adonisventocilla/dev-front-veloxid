@@ -643,14 +643,12 @@
 </template>
 
 <script>
-import axios from 'axios'
-import pdf from 'vue-pdf'
 import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
 import Swal from 'sweetalert2'
 export default {
   name: 'Vehicle',
-  components: {HomeAdmin, LateralMenu, pdf},
+  components: {HomeAdmin, LateralMenu},
   data () {
     return {
       id: this.$route.params.id,
@@ -668,16 +666,16 @@ export default {
     }
   },
   created () {
-    axios
-      .get('http://localhost/api/vehicletypes', {
+    this.$http
+      .get('/vehicletypes', {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: 'include'
       })
       .then(res => {
         this.vehicletypes = res.data.VehicleTypes
       })
-    axios
-      .get('http://localhost/api/drivers/' + this.id, {
+    this.$http
+      .get('/drivers/' + this.id, {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: 'include'
       })
@@ -688,8 +686,8 @@ export default {
 
   methods: {
     getVehicles (num_page) {
-      axios
-        .get('http://localhost/api/drivers/' + this.id + '/vehicles', {
+      this.$http
+        .get('/drivers/' + this.id + '/vehicles', {
           params: {
             page: num_page
           },
@@ -740,8 +738,8 @@ export default {
       formData.append('capacidadCarga', this.capacidadCarga)
       formData.append('idVehicleType', this.idVehicleType)
       formData.append('imagen', this.imagen)
-      let url = 'http://localhost/api/drivers/' + this.id + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
-      axios
+      let url = '/drivers/' + this.id + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
+      this.$http
         .post(url, formData, config)
         .then(function (response) {
           Swal.fire('Registro Exitoso!', 'Se registró correctamente los datos del vehiculo!', 'success')
@@ -766,8 +764,8 @@ export default {
       formData.append('idDriver', this.idDriver)
       formData.append('imagen', this.imagen)
       formData.append('_method', 'put')
-      let url = 'http://localhost/api/vehicles/' + this.update // Ruta que hemos creado para enviar una tarea y guardarla
-      axios
+      let url = '/vehicles/' + this.update // Ruta que hemos creado para enviar una tarea y guardarla
+      this.$http
         .post(url, formData, config)
         .then(function (response) {
           Swal.fire('Actualización Exitosa!', 'Se actualizó correctamente los datos del vehiculo!', 'success')
@@ -791,8 +789,8 @@ export default {
         cancelButtonText: 'No, conservalo'
       }).then(result => {
         if (result.value) {
-          axios
-            .delete('http://localhost/api/vehicles/' + id, {
+          this.$http
+            .delete('/vehicles/' + id, {
               headers: { 'Content-Type': 'application/json' },
               withCredentials: 'include'
             })
@@ -817,20 +815,6 @@ export default {
       this.idVehicleType = ''
       this.idDriver = ''
       this.update = 0
-    },
-
-    downloadItem ({ url, label }) {
-      axios
-        .get(url, { responseType: 'blob' })
-        .then(response => {
-          const blob = new Blob([response.data], { type: 'application/pdf' })
-          const link = document.createElement('a')
-          link.href = URL.createObjectURL(blob)
-          link.download = label
-          link.click()
-          URL.revokeObjectURL(link.href)
-        })
-        .catch(console.error)
     }
   },
 

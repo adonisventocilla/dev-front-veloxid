@@ -186,7 +186,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Nav from '@/components/front/Nav'
 import Swal from 'sweetalert2'
 export default {
@@ -210,7 +209,7 @@ export default {
   },
   methods: {
     async register () { 
-      const response = await axios.post('http://localhost/api/register', this.data)
+      const response = await this.$http.post('/register', this.data)
       this.data = response.data
       if (this.data.message !== '') {
         Swal.fire(

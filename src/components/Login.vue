@@ -102,7 +102,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Nav from '@/components/front/Nav'
 import Swal from 'sweetalert2'
 export default {
@@ -123,7 +122,7 @@ export default {
   },
   methods: {
     async login () { 
-      await axios.post('http://localhost/api/login', this.data, {
+      await this.$http.post('/login', this.data, {
         headers: {'Content-Type': 'application/json'},
         withCredentials: 'include'
       }).then(res => {

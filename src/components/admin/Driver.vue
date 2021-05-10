@@ -854,7 +854,7 @@
                   <center>
                     <img
                       class="card-img-top"
-                      :src="'http://localhost' + item.person.imagen"
+                      :src=" 'http://localhost' + item.person.imagen"
                       style="width: 180px; height: 170px"
                     />
                   </center>
@@ -1007,7 +1007,6 @@
 
 <script>
 import '@/purple/assets/js/off-canvas.js'
-import axios from 'axios'
 import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
 import Swal from 'sweetalert2'
@@ -1050,8 +1049,8 @@ export default {
     }
   },
   created () {
-    axios
-      .get('http://localhost/api/drivers', {
+    this.$http
+      .get('/drivers', {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: 'include'
       })
@@ -1061,16 +1060,17 @@ export default {
         this.inactive = res.data.inactive
       })
 
-    axios
-      .get('http://localhost/api/vehicletypes', {
+    this.$http
+      .get('/vehicletypes', {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: 'include'
       })
       .then(res => {
         this.vehicletypes = res.data.VehicleTypes
       })
-    axios
-      .get('http://localhost/api/documenttypes', {
+
+    this.$http
+      .get('/documenttypes', {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: 'include'
       })
@@ -1081,8 +1081,8 @@ export default {
 
   methods: {
     getDrivers (num_page) {
-      axios
-        .get('http://localhost/api/drivers', {
+      this.$http
+        .get('/drivers', {
           params: {
             page: num_page
           },
@@ -1122,8 +1122,8 @@ export default {
       formData.append('name', this.name)
       formData.append('password', this.password)
       formData.append('imagen', this.imagen)
-      let url = 'http://localhost/api/drivers' // Ruta que hemos creado para enviar un vehiculo y guardarlo
-      axios
+      let url = '/drivers' // Ruta que hemos creado para enviar un vehiculo y guardarlo
+      this.$http
         .post(url, formData, config)
         .then(function (response) {
           Swal.fire(
@@ -1164,8 +1164,8 @@ export default {
       formData.append('capacidadCarga', this.capacidadCarga)
       formData.append('idVehicleType', this.idVehicleType)
       formData.append('imagen', this.imagen)
-      let url = 'http://localhost/api/drivers/' + this.idDriver + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
-      axios
+      let url = '/drivers/' + this.idDriver + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
+      this.$http
         .post(url, formData, config)
         .then(function (response) {
           Swal.fire(
@@ -1207,8 +1207,8 @@ export default {
       // Esta función rellena los campos y la variable update, con la tarea que queremos modificar
       let me = this
       this.update = id
-      let url = 'http://localhost/api/drivers/' + this.update
-      axios
+      let url = '/api/drivers/' + this.update
+      this.$http
         .get(url, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: 'include'
@@ -1258,8 +1258,8 @@ export default {
       formData.append('password', this.password)
       formData.append('imagen', this.imagen)
       formData.append('_method', 'put')
-      let url = 'http://localhost/api/drivers/' + this.update // Ruta que hemos creado para enviar una tarea y guardarla
-      axios
+      let url = '/api/drivers/' + this.update // Ruta que hemos creado para enviar una tarea y guardarla
+      this.$http
         .post(url, formData, config)
         .then(function (response) {
           Swal.fire(
@@ -1288,8 +1288,8 @@ export default {
           cancelButtonText: 'No'
         }).then(result => {
           if (result.value) {
-            axios
-              .delete('http://localhost/api/users/' + id, {
+            this.$http
+              .delete('/users/' + id, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: 'include'
               })
@@ -1319,9 +1319,9 @@ export default {
           cancelButtonText: 'No'
         }).then(result => {
           if (result.value) {
-            axios
+            this.$http
               .post(
-                'http://localhost/api/users/' + id,
+                '/users/' + id,
                 { _method: 'put' },
                 {
                   headers: { 'Content-Type': 'application/json' },
@@ -1347,8 +1347,8 @@ export default {
       }
     },
     searchDriver (key_busqueda) {
-      axios
-        .get('http://localhost/api/drivers/search?query=' + key_busqueda, {
+      this.$http
+        .get('/search?query=' + key_busqueda, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: 'include'
         })
@@ -1374,6 +1374,7 @@ export default {
       this.name = ''
       this.password = ''
       this.imagen = ''
+      this.imagenminiatura = ''
       this.update = 0
     },
 

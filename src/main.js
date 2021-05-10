@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
 
 // Style Purple
 import './purple/assets/css/style.css'
@@ -20,6 +21,10 @@ import './purple/assets/vendors/js/vendor.bundle.base.js'
 import './purple/assets/vendors/chart.js/Chart.min.js'
 import './purple/assets/js/dashboard.js' */
 Vue.config.productionTip = false
+
+/* URL base para acceder a APIS */
+Vue.prototype.$http = axios
+axios.defaults.baseURL = 'http://localhost/api'
 
 /* eslint-disable no-new */
 new Vue({

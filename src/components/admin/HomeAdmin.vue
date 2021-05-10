@@ -68,7 +68,6 @@
 
 <script>
 import '@/purple/assets/js/off-canvas.js'
-import axios from 'axios'
 export default {
   name: 'HomeAdmin',
   data () {
@@ -77,8 +76,8 @@ export default {
     }
   },
   created () {
-    axios
-      .get('http://localhost/api/user', {
+    this.$http
+      .get('/user', {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: 'include'
       })
@@ -88,7 +87,7 @@ export default {
   },
   methods: {
     logout () {
-      axios.post('http://localhost/api/logout', {
+      this.$http.post('/logout', {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: 'include'
       })

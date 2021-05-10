@@ -378,7 +378,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
 import Swal from 'sweetalert2'
@@ -398,8 +397,8 @@ export default {
     }
   },
   created () {
-    axios
-      .get('http://localhost/api/chiefs_drivers', {
+    this.$http
+      .get('/chiefs_drivers', {
         headers: { 'Content-Type': 'application/json' },
         withCredentials: 'include'
       })
@@ -410,8 +409,8 @@ export default {
 
   methods: {
     getUsers () {
-      axios
-        .get('http://localhost/api/chiefs_drivers', {
+      this.$http
+        .get('/chiefs_drivers', {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: 'include'
         })
@@ -421,8 +420,8 @@ export default {
     },
 
     saveUser () {
-      const response = axios.post(
-        'http://localhost/api/chiefs_drivers',
+      const response = this.$http.post(
+        '/chiefs_drivers',
         this.data,
         {
           headers: { 'Content-Type': 'application/json' },
@@ -450,8 +449,8 @@ export default {
           cancelButtonText: 'No'
         }).then(result => {
           if (result.value) {
-            axios
-              .delete('http://localhost/api/users/' + id, {
+            this.$http
+              .delete('/users/' + id, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: 'include'
               })
@@ -481,11 +480,13 @@ export default {
           cancelButtonText: 'No'
         }).then(result => {
           if (result.value) {
-            axios
-              .put('http://localhost/api/users/' + id, {
-                headers: { 'Content-Type': 'application/json' },
-                withCredentials: 'include'
-              })
+            this.$http
+              .post('/users/' + id,
+                { _method: 'put' },
+                {
+                  headers: { 'Content-Type': 'application/json' },
+                  withCredentials: 'include'
+                })
               .then(function (response) {
                 Swal.fire(
                   'Operación Exitosa!',
@@ -516,8 +517,8 @@ export default {
     loadFieldsUpdate (id) {
       // Esta función rellena los campos y la variable update, con la tarea que queremos modificar
       let me = this
-      let url = 'http://localhost/api/chiefs_drivers/' + id
-      axios
+      let url = '/chiefs_drivers/' + id
+      this.$http
         .get(url, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: 'include'
@@ -549,8 +550,8 @@ export default {
         formData.append('email', this.data.email)
       }
       formData.append('_method', 'put')
-      let url = 'http://localhost/api/chiefs_drivers/' + this.data.id // Ruta que hemos creado para enviar una tarea y guardarla
-      axios
+      let url = '/chiefs_drivers/' + this.data.id // Ruta que hemos creado para enviar una tarea y guardarla
+      this.$http
         .post(url, formData, config)
         .then(function (response) {
           Swal.fire(

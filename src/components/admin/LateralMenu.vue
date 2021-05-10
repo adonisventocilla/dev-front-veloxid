@@ -27,7 +27,6 @@
 </template>
 <script>
 import '@/purple/assets/js/off-canvas.js'
-import axios from 'axios'
 export default {
   name: 'LateralMenu',
   data () {
@@ -37,11 +36,11 @@ export default {
     }
   },
   created () {
-    axios.get('http://localhost/api/user', {
+    this.$http.get('/user', {
       headers: {'Content-Type': 'application/json'},
       withCredentials: 'include'
     }).then(res => { this.user = res.data })
-    axios.get('http://localhost/api/modules', {
+    this.$http.get('/modules', {
       headers: {'Content-Type': 'application/json'},
       withCredentials: 'include'
     }).then(res => { 
