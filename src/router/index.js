@@ -7,7 +7,8 @@ import Dashboard from '@/components/admin/Dashboard'
 import Driver from '@/components/admin/Driver'
 import Vehicle from '@/components/admin/Vehicle'
 import UserAdmin from '@/components/admin/UserAdmin'
-
+import History from '@/components/admin/RevisionHistory'
+import Evaluation from '@/components/admin/Evaluation'
 
 Vue.use(Router)
 
@@ -44,9 +45,14 @@ export default new Router({
       component: Vehicle
     },
     {
-      path: '/usuarios',
-      name: 'UserAdmin',
-      component: UserAdmin
+      path: '/evaluacion',
+      name: 'Evaluation',
+      component: Evaluation
+    },
+    {
+      path: '/revisiones',
+      name: 'History',
+      component: History
     }
   ]
 })

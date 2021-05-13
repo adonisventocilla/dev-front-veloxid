@@ -1207,7 +1207,7 @@ export default {
       // Esta función rellena los campos y la variable update, con la tarea que queremos modificar
       let me = this
       this.update = id
-      let url = '/api/drivers/' + this.update
+      let url = '/drivers/' + this.update
       this.$http
         .get(url, {
           headers: { 'Content-Type': 'application/json' },
@@ -1258,7 +1258,7 @@ export default {
       formData.append('password', this.password)
       formData.append('imagen', this.imagen)
       formData.append('_method', 'put')
-      let url = '/api/drivers/' + this.update // Ruta que hemos creado para enviar una tarea y guardarla
+      let url = '/drivers/' + this.update // Ruta que hemos creado para enviar una tarea y guardarla
       this.$http
         .post(url, formData, config)
         .then(function (response) {
