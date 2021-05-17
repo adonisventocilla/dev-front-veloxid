@@ -524,7 +524,7 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-4" v-for="item in vehicles.data" :key="item.id">
+            <div class="col-lg-4 grid-margin" v-for="item in vehicles.data" :key="item.id">
               <div class="card">
                 <div class="card-body">
                   <img
