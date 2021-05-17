@@ -918,7 +918,7 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-4" v-for="item in drivers" :key="item.id">
+            <div class="col-lg-4 grid-margin" v-for="item in drivers" :key="item.id">
               <div class="card">
                 <div class="card-body">
                   <center>
@@ -1162,6 +1162,8 @@ export default {
         })
         .then(res => {
           this.drivers = res.data.drivers.data
+          this.active = res.data.active
+          this.inactive = res.data.inactive
           this.current_page = res.data.drivers.current_page
           console.log(this.drivers)
         })
@@ -1418,6 +1420,7 @@ export default {
         })
       }
     },
+
     searchDriver (key_busqueda) {
       this.$http
         .get('/search?query=' + key_busqueda, {
