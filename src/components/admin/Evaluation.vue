@@ -14,6 +14,7 @@
         <div class="content-wrapper">
           <div class="row">
             <div class="col-lg-12">
+              
               <div class="card">
                 <div class="card-body">
                   <div class="row">
@@ -223,11 +224,14 @@ export default {
     saveRequerimentsDrivers () {
       let me = this
       let url = '/drivers/' + this.iddriver + '/evaluations' // Ruta que hemos creado para enviar los requerimentos y guardarlos
-      this.$http
-        .post(url, {
+      this.$http.post(url, {
           // estas variables son las que enviaremos
           evals: this.requerimentdriver,
-          observacion: this.observaciondriver
+          observacion: this.observaciondriver,
+          
+        },{
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: 'include'
         })
         .then(function (response) {
           alert('Se registró correctamente la evaluación.')
@@ -236,7 +240,9 @@ export default {
         .catch(function (error) {
           console.log(error)
         })
+        
     },
+
     saveRequerimentsVehicles () {
       let me = this
       let url = '/vehicles/' + this.idvehicle + '/evaluations' // Ruta que hemos creado para enviar los requerimentos y guardarlos
@@ -245,6 +251,9 @@ export default {
           // estas variables son las que enviaremos
           evals: this.requerimentvehicle,
           observacion: this.observacionvehicle
+        },{
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: 'include'
         })
         .then(function (response) {
           alert('Se registró correctamente la evaluación.')

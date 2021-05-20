@@ -1,6 +1,20 @@
 <template>
   <div>
-    <div class="card">
+    <!-- partial:partials/_navbar.html -->
+    <nav
+      class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"
+    >
+      <HomeAdmin />
+    </nav>
+    <div class="container-fluid page-body-wrapper">
+      <!-- partial:partials/_sidebar.html -->
+      <LateralMenu />
+      <!-- partial -->
+      <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="card">
       <div class="card-body">
         <h4 class="card-title">Historial de Revisiones</h4>
 
@@ -57,7 +71,7 @@
                   </td>
                   <td>{{ item.created_at | timeformat }}</td>
                   <td>
-                    <a :href="'/revisionesdetalle?revision=' + item.id">
+                    <a :href="'#/revisionesdetalle?revision=' + item.id">
                       <button
                         class="btn btn-outline-light text-black btn-sm"
                         type="button"
@@ -118,6 +132,11 @@
         </div>
       </div>
     </div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
   </div>
 </template>
 <script>
@@ -141,15 +160,16 @@ export default {
     // Es post la ruta, para listar todo deben estar vacíos los campos (to =="" AND from =="")
     this.$http
       .post(
-        'api/revisions',
+        '/revisions',
+        
+        {
+          from: '',
+          to: ''
+        },
         {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: 'include'
         },
-        {
-          from: '',
-          to: ''
-        }
       )
       .then(res => {
         this.revisionhistory = res.data.data
@@ -159,7 +179,7 @@ export default {
     // Paginación
     getPedidos (num_page) {
       this.$http
-        .post('api/revisions' + '?page=' + num_page, {
+        .post('/revisions' + '?page=' + num_page, {
           from: '',
           to: ''
         })
@@ -176,7 +196,7 @@ export default {
 
     filtrar () {
       this.$http
-        .post('api/revisions', {
+        .post('/revisions', {
           from: this.from,
           to: this.to
         })
