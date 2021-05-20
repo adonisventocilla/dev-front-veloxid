@@ -199,6 +199,10 @@ export default {
         .post('/revisions', {
           from: this.from,
           to: this.to
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: 'include'
         })
         .then(res => {
           console.log(res.data.data)
