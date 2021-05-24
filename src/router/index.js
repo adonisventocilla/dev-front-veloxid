@@ -9,6 +9,7 @@ import Vehicle from '@/components/admin/Vehicle'
 import UserAdmin from '@/components/admin/UserAdmin'
 import History from '@/components/admin/RevisionHistory'
 import Evaluation from '@/components/admin/Evaluation'
+import RevisionDetail from '@/components/admin/RevisionDetail'
 
 Vue.use(Router)
 
@@ -48,6 +49,12 @@ export default new Router({
       path: '/evaluacion',
       name: 'Evaluation',
       component: Evaluation
+    },
+    {
+      path: '/revisionesdetalle',
+      name: 'RevisionDetail',
+      component: RevisionDetail
+      
     },
     {
       path: '/revisiones',

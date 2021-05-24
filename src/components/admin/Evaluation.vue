@@ -224,11 +224,18 @@ export default {
       let me = this
       let url = '/drivers/' + this.iddriver + '/evaluations' // Ruta que hemos creado para enviar los requerimentos y guardarlos
       this.$http
-        .post(url, {
-          // estas variables son las que enviaremos
-          evals: this.requerimentdriver,
-          observacion: this.observaciondriver
-        })
+        .post(
+          url,
+          {
+            // estas variables son las que enviaremos
+            evals: this.requerimentdriver,
+            observacion: this.observaciondriver
+          },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: 'include'
+          }
+        )
         .then(function (response) {
           alert('Se registró correctamente la evaluación.')
           me.clearFieldsD()
@@ -237,15 +244,23 @@ export default {
           console.log(error)
         })
     },
+
     saveRequerimentsVehicles () {
       let me = this
       let url = '/vehicles/' + this.idvehicle + '/evaluations' // Ruta que hemos creado para enviar los requerimentos y guardarlos
       this.$http
-        .post(url, {
-          // estas variables son las que enviaremos
-          evals: this.requerimentvehicle,
-          observacion: this.observacionvehicle
-        })
+        .post(
+          url,
+          {
+            // estas variables son las que enviaremos
+            evals: this.requerimentvehicle,
+            observacion: this.observacionvehicle
+          },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: 'include'
+          }
+        )
         .then(function (response) {
           alert('Se registró correctamente la evaluación.')
           me.clearFieldsV()

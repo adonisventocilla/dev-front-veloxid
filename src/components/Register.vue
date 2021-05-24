@@ -48,7 +48,7 @@
                 </div>
                 <p class="login-description">{{ msg }}</p>
               </center>
-              <form action  @submit.prevent="register">
+              <form action @submit.prevent="register">
                 <div class="form-group">
                   <label for="name" class="sr-only"
                     >{{ register_nombres }}
@@ -67,11 +67,25 @@
                       id="name"
                       class="form-control"
                       placeholder="Nombres y Apellidos"
-                      required
                       autocomplete="name"
                       autofocus
+                      @blur="$v.data.name.$touch()"
                     />
                   </div>
+                  <template v-if="$v.data.name.$error">
+                    <p class="errorMessage error" v-if="!$v.data.name.required">
+                      Este campo es obligatorio(*)
+                    </p>
+                    <p class="errorMessage error" v-if="!$v.data.name.alpha">
+                      Solo se permiten letras(*)
+                    </p>
+                    <p
+                      class="errorMessage error"
+                      v-if="!$v.data.name.minLength"
+                    >
+                      Min. 3 caracteres(*)
+                    </p>
+                  </template>
                 </div>
 
                 <div class="form-group">
@@ -92,11 +106,22 @@
                       id="email"
                       class="form-control"
                       placeholder="Email"
-                      required
                       autocomplete="email"
                       autofocus
+                      @blur="$v.data.email.$touch()"
                     />
                   </div>
+                  <template v-if="$v.data.email.$error">
+                    <p
+                      class="errorMessage error"
+                      v-if="!$v.data.email.required"
+                    >
+                      Este campo es obligatorio(*)
+                    </p>
+                    <p class="errorMessage error" v-if="!$v.data.email.email">
+                      Correo no válido(*)
+                    </p>
+                  </template>
                 </div>
 
                 <div class="form-group">
@@ -117,10 +142,24 @@
                       class="form-control"
                       name="password"
                       placeholder="Contraseña"
-                      required
                       autocomplete="current-password"
+                      @blur="$v.data.password.$touch()"
                     />
                   </div>
+                  <template v-if="$v.data.password.$error">
+                    <p
+                      class="errorMessage error"
+                      v-if="!$v.data.password.required"
+                    >
+                      Este campo es obligatorio(*)
+                    </p>
+                    <p
+                      class="errorMessage error"
+                      v-if="!$v.data.password.minLength"
+                    >
+                      La contraseña debe tener al menos 6 caracteres(*)
+                    </p>
+                  </template>
                 </div>
 
                 <div class="form-group">
@@ -135,15 +174,25 @@
                       ></span>
                     </div>
                     <input
-                      id="password"
+                      v-model="data.repeatPassword"
+                      id="repeatPassword"
                       type="password"
                       class="form-control"
-                      name="password"
+                      name="repeatPassword"
                       placeholder="Confirmar Contraseña"
                       required
                       autocomplete="current-password"
+                      @blur="$v.data.repeatPassword.$touch()"
                     />
                   </div>
+                  <template v-if="$v.data.repeatPassword.$error">
+                    <p
+                      class="errorMessage error"
+                      v-if="!$v.data.repeatPassword.sameAsPassword"
+                    >
+                      Las contraseñas deben ser idénticas
+                    </p>
+                  </template>
                 </div>
 
                 <button
@@ -151,10 +200,13 @@
                   id="login"
                   class="btn btn-block login-btn btn btn-primary "
                   type="submit"
+                  :disabled="$v.$invalid"
                 >
                   {{ register_button }}
                 </button>
-                <p v-if="error" class="error">Has introducido mal el email o la contraseña.</p>
+                <p v-if="error" class="error">
+                  Has introducido mal el email o la contraseña.
+                </p>
                 <p class="login-wrapper-footer-text">
                   ¿Ya tienes cuenta?
                   <router-link to="/login" class="text-reset"
@@ -188,6 +240,14 @@
 <script>
 import Nav from '@/components/front/Nav'
 import Swal from 'sweetalert2'
+import {
+  required,
+  email,
+  minLength,
+  sameAs,
+  alpha
+} from 'vuelidate/lib/validators'
+
 export default {
   name: 'Register',
   components: { Nav },
@@ -203,27 +263,57 @@ export default {
       data: {
         name: '',
         email: '',
-        password: ''
+        password: '',
+        repeatPassword: ''
       }
     }
   },
   methods: {
-    async register () { 
-      const response = await this.$http.post('/register', this.data)
-      this.data = response.data
-      if (this.data.message !== '') {
-        Swal.fire(
-          'Registro Exitoso!',
-          'You clicked the button!',
-          'success'
+    async register () {
+      await this.$http
+        .post(
+          '/register',
+          {
+            name: this.data.name,
+            email: this.data.email,
+            password: this.data.password
+          },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: 'include'
+          }
         )
-        this.$router.push('/login')
-      } else {
-        Swal.fire(
-          'Error!',
-          this.data.message,
-          'danger'
-        )
+        .then(res => {
+          this.data = res.data
+          Swal.fire('Registro Exitoso!', 'You clicked the button!', 'success')
+          this.$router.push('/login')
+        })
+        .catch(function () {
+          Swal.fire(
+            'Error!',
+            'El correo ingresado ya ha sido registrado!',
+            'error'
+          )
+        })
+    }
+  },
+  validations: {
+    data: {
+      name: {
+        required,
+        alpha,
+        minLength: minLength(3)
+      },
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        minLength: minLength(6)
+      },
+      repeatPassword: {
+        sameAsPassword: sameAs('password')
       }
     }
   }
@@ -400,5 +490,13 @@ body {
   .form-options-wrapper {
     display: block;
   }
+}
+
+.error {
+  text-align: center;
+  color: red;
+  margin-top: -3%;
+  margin-bottom: -3%;
+  font-size: 0.8rem;
 }
 </style>

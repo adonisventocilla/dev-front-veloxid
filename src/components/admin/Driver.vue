@@ -52,7 +52,13 @@
                             title="Ingresar nombres completos del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.nombre.$touch()"
                           />
+                          <template v-if="$v.nombre.$error">
+                            <p class="errorMessage error" v-if="!$v.nombre.required">Este campo es obligatorio(*)</p>
+                            <p class="errorMessage error" v-if="!$v.nombre.minLength">Min. 3 caracteres(*)</p>
+                            <p class="errorMessage error" v-if="!$v.nombre.alpha">Solo letras(*)</p>
+                          </template>    
                         </div>
                       </div>
                     </div>
@@ -71,7 +77,13 @@
                             title="Ingresar solo apellido paterno del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.apellidoPaterno.$touch()"
                           />
+                          <template v-if="$v.apellidoPaterno.$error">
+                            <p class="errorMessage error" v-if="!$v.apellidoPaterno.required">Este campo es obligatorio(*)</p>
+                            <p class="errorMessage error" v-if="!$v.apellidoPaterno.minLength">Min. 3 caracteres(*)</p>
+                            <p class="errorMessage error" v-if="!$v.apellidoPaterno.alpha">Solo letras(*)</p>
+                          </template>                           
                         </div>
                       </div>
                     </div>
@@ -87,7 +99,13 @@
                             title="Ingresar solo apellido materno del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.apellidoMaterno.$touch()"
                           />
+                          <template v-if="$v.apellidoMaterno.$error">
+                            <p class="errorMessage error" v-if="!$v.apellidoMaterno.required">Este campo es obligatorio(*)</p>
+                            <p class="errorMessage error" v-if="!$v.apellidoMaterno.minLength">Min. 3 caracteres(*)</p>
+                            <p class="errorMessage error" v-if="!$v.apellidoMaterno.alpha">Solo letras(*)</p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -102,11 +120,16 @@
                             class="form-control"
                             v-model="telefono"
                             maxlength="9"
-                            placeholder="Teléfono"
+                            placeholder="Celular"
                             title="Ingresar número de celular del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.telefono.$touch()"
                           />
+                          <template v-if="$v.telefono.$error">
+                            <p class="errorMessage error" v-if="!$v.telefono.required">Este campo es obligatorio(*)</p>
+                            <p class="errorMessage error" v-if="!$v.telefono.minLength">Min. 9 caracteres(*)</p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -121,7 +144,12 @@
                             title="Ingresar correo personal del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.email.$touch()"
                           />
+                          <template v-if="$v.email.$error">
+                            <p class="errorMessage error" v-if="!$v.email.required">Este campo es obligatorio(*)</p>
+                            <p class="errorMessage error" v-if="!$v.email.email">Correo no válido(*)</p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -139,7 +167,11 @@
                             title="Ingresar dirección del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.direccion.$touch()"
                           ></textarea>
+                          <template v-if="$v.direccion.$error">
+                            <p class="errorMessage error" v-if="!$v.direccion.required">Este campo es obligatorio(*)</p>
+                          </template>                          
                         </div>
                       </div>
                     </div>
@@ -149,7 +181,7 @@
                     <div class="col-lg-6">
                       <div class="form-group row">
                         <div class="col-sm-12">
-                          <select class="form-control" v-model="idDocumentType">
+                          <select class="form-control" v-model="idDocumentType" @blur="$v.idDocumentType.$touch()">
                             <option value="" selected disabled>
                               Tipo de Documento
                             </option>
@@ -161,6 +193,9 @@
                               {{ item.tipo }}
                             </option>
                           </select>
+                          <template v-if="$v.idDocumentType.$error">
+                            <p class="errorMessage error" v-if="!$v.idDocumentType.required">Seleccione tipo de documento(*)</p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -168,14 +203,19 @@
                       <div class="form-group row">
                         <div class="col-sm-12">
                           <input
-                            type="text"
+                            type="number"
                             class="form-control"
                             v-model="numero"
                             placeholder="N° Documento"
                             title="Ingresar número de identidad del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.numero.$touch()"
                           />
+                          <template v-if="$v.numero.$error">
+                            <p class="errorMessage error" v-if="!$v.numero.required">Este campo es obligatorio(*)</p>
+                            <p class="errorMessage error" v-if="!$v.numero.minLength">Min. 8 caracteres(*)</p>
+                          </template>                          
                         </div>
                       </div>
                     </div>
@@ -193,7 +233,12 @@
                             title="Ingresar licencia de conducir actual del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.licenciaConducir.$touch()"
                           />
+                          <template v-if="$v.licenciaConducir.$error">
+                            <p class="errorMessage error" v-if="!$v.licenciaConducir.required">Este campo es obligatorio(*)</p>
+                            <p class="errorMessage error" v-if="!$v.licenciaConducir.minLength">Min. 9 caracteres(*)</p>
+                          </template>                             
                         </div>
                       </div>
                     </div>
@@ -212,7 +257,11 @@
                             title="Ingresar entidad bancaria afiliada a la cuenta bancaria del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.banco.$touch()"
                           />
+                          <template v-if="$v.banco.$error">
+                            <p class="errorMessage error" v-if="!$v.banco.required">Este campo es obligatorio(*)</p>
+                          </template>                            
                         </div>
                       </div>
                     </div>
@@ -228,7 +277,11 @@
                             title="Ingresar número de cuenta o CCI del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.cuentaBancaria.$touch()"
                           />
+                          <template v-if="$v.cuentaBancaria.$error">
+                            <p class="errorMessage error" v-if="!$v.cuentaBancaria.required">Este campo es obligatorio(*)</p>
+                          </template>                             
                         </div>
                       </div>
                     </div>
@@ -246,7 +299,12 @@
                             title="Ingresar el nombre de usuario del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.name.$touch()"
                           />
+                          <template v-if="$v.name.$error">
+                            <p class="errorMessage error" v-if="!$v.name.required">Este campo es obligatorio(*)</p>
+                            <p class="errorMessage error" v-if="!$v.name.alpha">Solo letras(*)</p>
+                          </template>                               
                         </div>
                       </div>
                     </div>
@@ -261,7 +319,12 @@
                             title="Ingresar la contraseña del conductor."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.password.$touch()"
                           />
+                          <template v-if="$v.password.$error">
+                            <p class="errorMessage error" v-if="!$v.password.required">Este campo es obligatorio(*)</p>
+                            <p class="errorMessage error" v-if="!$v.password.minLength">Min. 6 caracteres(*)</p>
+                          </template>                            
                         </div>
                       </div>
                     </div>
@@ -327,6 +390,7 @@
                   <button
                     @click="saveDrivers()"
                     class="btn btn-gradient-primary mr-2"
+                    :disabled="$v.$invalid"
                   >
                     Registrar
                   </button>
@@ -670,9 +734,12 @@
                             v-model="placa"
                             placeholder="Placas"
                           />
-                          <code style="color: #9c9fa6;"
+                          <!-- <template v-if="$v.placa.$error">
+                            <p class="errorMessage error" v-if="!$v.placa.required">Este campo es obligatorio(*)</p>
+                          </template>                               -->
+                          <!-- <code style="color: #9c9fa6;"
                             >Ingresar placa actual del vehículo.</code
-                          >
+                          > -->
                         </div>
                       </div>
                     </div>
@@ -691,9 +758,12 @@
                             v-model="capacidadCarga"
                             placeholder="Capacidad de Carga"
                           />
-                          <code style="color: #9c9fa6;"
+                          <!-- <template v-if="$v.capacidadCarga.$error">
+                            <p class="errorMessage error" v-if="!$v.capacidadCarga.required">Este campo es obligatorio(*)</p>
+                          </template>                             -->
+                          <!-- <code style="color: #9c9fa6;"
                             >Ingresar la capacidad máxima del vehículo.</code
-                          >
+                          > -->
                         </div>
                       </div>
                     </div>
@@ -1011,6 +1081,7 @@ import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
 import Swal from 'sweetalert2'
 import moment from 'moment'
+import {required, email, minLength, maxLength, alpha} from 'vuelidate/lib/validators'
 
 export default {
   name: 'Driver',
@@ -1103,6 +1174,7 @@ export default {
     },
 
     saveDrivers () {
+      console.log(this.nombre)
       const config = {
         headers: { 'content-type': 'multipart/form-data' },
         withCredentials: 'include'
@@ -1383,6 +1455,7 @@ export default {
       this.imagen = ''
       this.imagenminiatura = ''
       this.update = 0
+      this.$v.$reset()
     },
 
     clearFieldsV () {
@@ -1407,7 +1480,75 @@ export default {
     img () {
       return this.imagenminiatura
     }
+  },
+
+  mounted () {
+    this.getDrivers()
+  },
+
+  validations: {
+    nombre: {
+      required,
+      minLength: minLength(3),
+      alpha
+    },
+    apellidoPaterno: {
+      required,
+      minLength: minLength(3),
+      alpha
+    },
+    apellidoMaterno: {
+      required,
+      minLength: minLength(3),
+      alpha
+    },
+    telefono: {
+      required,
+      minLength: minLength(9)
+    },
+    email: {
+      required,
+      email
+    },
+    direccion: {
+      required
+    },
+    idDocumentType: {
+      required
+    },
+    numero: {
+      required,
+      minLength: minLength(8)
+    },
+    licenciaConducir: {
+      required,
+      minLength: minLength(9)
+    },
+    banco: {
+      required
+    },
+    cuentaBancaria: {
+      required
+    },
+    name: {
+      required,
+      alpha
+    },
+    password: {
+      required,
+      minLength: minLength(6)
+    }
   }
 
 }
 </script>
+
+<style scoped>
+  .error {
+    text-align: left;
+    color: red;
+    margin-top: 0%;
+    margin-bottom: -3%;
+    font-size: .75rem;
+  }
+</style>

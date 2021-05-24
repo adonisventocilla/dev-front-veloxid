@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios'
+import Vuelidate from 'vuelidate' // Validation package
 
 // Style Purple
 import './purple/assets/css/style.css'
@@ -24,12 +25,14 @@ Vue.config.productionTip = false
 
 /* URL base para acceder a APIS */
 Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://localhost/api'
+axios.defaults.baseURL = 'http://dev-back.veloxid.xyz/api'
 
-/* eslint-disable no-new */
+Vue.use(Vuelidate)
+
+/* eslint-disable */
 new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>'
 })
