@@ -25,14 +25,14 @@ Vue.config.productionTip = false
 
 /* URL base para acceder a APIS */
 Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
+axios.defaults.baseURL = 'http://dev-back.veloxid.xyz/api'
 
-Vue.use(Vuelidate) 
+Vue.use(Vuelidate)
 
-/* eslint-disable no-new */
+/* eslint-disable */
 new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
+    el: '#app',
+    router,
+    components: { App },
+    template: '<App/>'
 })
