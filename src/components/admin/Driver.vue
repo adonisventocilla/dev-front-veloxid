@@ -788,8 +788,8 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Buscar conductor"
                     @keyup="searchDriver()"
+                    placeholder="Buscar conductor"
                     aria-describedby="basic-addon2"
                     v-model="key_busqueda"
                   />
@@ -1018,7 +1018,7 @@ export default {
   data () {
     return {
       drivers: [],
-      current_page: 1,
+      current_page: 0,
       id: '',
       name: '',
       password: '',
@@ -1058,6 +1058,7 @@ export default {
         this.drivers = res.data.drivers.data
         this.active = res.data.active
         this.inactive = res.data.inactive
+        this.current_page = res.data.drivers.current_page
       })
 
     this.$http
@@ -1094,7 +1095,6 @@ export default {
           this.active = res.data.active
           this.inactive = res.data.inactive
           this.current_page = res.data.drivers.current_page
-          console.log(this.drivers)
         })
         .catch(function (error) {
           // handle error
@@ -1349,14 +1349,18 @@ export default {
       }
     },
 
-    searchDriver (key_busqueda) {
+    searchDriver () {
+      let me = this
       this.$http
-        .get('/search?query=' + key_busqueda, {
+        .get('/drivers/search?query=' + me.key_busqueda, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: 'include'
         })
         .then(res => {
-          this.drivers = res.data.drivers.data
+          me.drivers = res.data.data
+        }).catch(function (error) {
+          // handle error
+          console.log(error)
         })
     },
 
@@ -1403,10 +1407,7 @@ export default {
     img () {
       return this.imagenminiatura
     }
-  },
-
-  mounted () {
-    this.getDrivers()
   }
+
 }
 </script>

@@ -696,6 +696,7 @@ export default {
         })
         .then(res => {
           this.vehicles = res.data.vehicles
+
         })
         .catch(function (error) {
           // handle error
@@ -806,6 +807,21 @@ export default {
           Swal.fire('Cancelado', 'El vehiculo no ha sido inhabilitado', 'error')
         }
       })
+    },
+
+    searchVehicles () {
+      let me = this
+      this.$http
+        .get('/drivers/' + this.id + '/vehicles/search?query=' + me.key_busqueda, {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: 'include'
+        })
+        .then(res => {
+          me.vehicles = res.data.vehicles
+        }).catch(function (error) {
+          // handle error
+          console.log(error)
+        })
     },
 
     clearFields () {
