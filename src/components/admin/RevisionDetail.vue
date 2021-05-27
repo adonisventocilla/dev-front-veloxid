@@ -16,6 +16,13 @@
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
+                  <router-link to="/revisiones"
+                    ><i
+                      class="mdi mdi-arrow-left-bold-circle"
+                      style="font-size: 1.50rem;"
+                    ></i
+                  ></router-link>
+                  <br /><br />
                   <div class="row">
                     <!-- Evaluacion Conductor -->
                     <div class="col-lg-6 col-md-4 border-right">

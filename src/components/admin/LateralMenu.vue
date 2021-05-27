@@ -10,13 +10,13 @@
                   <!--change to offline or busy as needed-->
                 </div>
                 <div class="nav-profile-text d-flex flex-column">
-                  <span class="font-weight-bold mb-2 text-truncate">{{ user.role.tipo }}</span>
+                  <span class="font-weight-bold mb-2 text-truncate">{{ rol }}</span>
                   <span class="text-secondary text-small"></span>
                 </div>
                 <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
               </a>
             </li>
-               <li class="nav-item" v-for="item in menu" :key="item.id">
+               <li class="nav-item" v-for="(item, i) in menu" :key="i">
               <router-link class="nav-link" :to="item.href">
                 <span class="menu-title">{{item.nombre}}</span>
                 <i :class="item.icon"></i>
@@ -32,14 +32,18 @@ export default {
   data () {
     return {
       user: {},
-      menu: {}
+      menu: {},
+      rol: {}
     }
   },
   created () {
     this.$http.get('/user', {
       headers: {'Content-Type': 'application/json'},
       withCredentials: 'include'
-    }).then(res => { this.user = res.data })
+    }).then(res => { 
+      this.user = res.data 
+      this.rol = this.user.role.tipo
+    })
     this.$http.get('/modules', {
       headers: {'Content-Type': 'application/json'},
       withCredentials: 'include'

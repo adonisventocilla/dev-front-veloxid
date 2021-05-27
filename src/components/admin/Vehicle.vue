@@ -4,11 +4,11 @@
     <nav
       class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"
     >
-      <HomeAdmin/>
+      <HomeAdmin />
     </nav>
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_sidebar.html -->
-      <LateralMenu/>
+      <LateralMenu />
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
@@ -305,7 +305,12 @@
           <!--DATOS DEL CONDUCTOR-->
           <div class="card">
             <div class="card-body">
-              <router-link to="/conductores"><i class="mdi mdi-arrow-left-bold-circle" style="font-size: 1.50rem;"></i></router-link>
+              <router-link to="/conductores"
+                ><i
+                  class="mdi mdi-arrow-left-bold-circle"
+                  style="font-size: 1.50rem;"
+                ></i
+              ></router-link>
               <br /><br />
               <h3 class="card-title">Datos del Conductor</h3>
               <br />
@@ -318,7 +323,7 @@
                       >Nombres</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.person.nombre
+                      this.person.nombre
                     }}</label>
                   </div>
                 </div>
@@ -330,7 +335,7 @@
                       >Apellido Paterno</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.person.apellidoPaterno
+                      this.person.apellidoPaterno
                     }}</label>
                   </div>
                 </div>
@@ -342,7 +347,7 @@
                       >Apellido Materno</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.person.apellidoMaterno
+                      this.person.apellidoMaterno
                     }}</label>
                   </div>
                 </div>
@@ -357,7 +362,7 @@
                       >Teléfono</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.person.telefono
+                      this.person.telefono
                     }}</label>
                   </div>
                 </div>
@@ -369,7 +374,7 @@
                       >Email</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.email
+                      this.driver_email.email
                     }}</label>
                   </div>
                 </div>
@@ -381,7 +386,7 @@
                       >Dirección</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.person.direccion
+                      this.person.direccion
                     }}</label>
                   </div>
                 </div>
@@ -396,7 +401,7 @@
                       >Tipo de Documento</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.person.document_type.tipo
+                      this.document_type.tipo
                     }}</label>
                   </div>
                 </div>
@@ -408,7 +413,7 @@
                       >Número de Documento</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.person.numero
+                      this.person.numero
                     }}</label>
                   </div>
                 </div>
@@ -420,7 +425,7 @@
                       >Licencia de Conducir</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.driver.licenciaConducir
+                      this.driver.licenciaConducir
                     }}</label>
                   </div>
                 </div>
@@ -435,7 +440,7 @@
                       >Banco</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.driver.banco
+                      this.driver.banco
                     }}</label>
                   </div>
                 </div>
@@ -447,7 +452,7 @@
                       >Número de Cuenta Bancaria</label
                     >
                     <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.driver.cuentaBancaria
+                      this.driver.cuentaBancaria
                     }}</label>
                   </div>
                 </div>
@@ -456,28 +461,27 @@
                     <label
                       class="col-sm-4 font-weight-bold"
                       for="exampleInputName1"
-                      >Usuario</label
-                    >
-                    <label class="col-sm-8" for="exampleInputName1">{{
-                      this.driver.name
-                    }}</label>
-                  </div>
-                </div>
-                </div> 
-                 <div class="row">
-                    <div class="col-lg-4">
-                  <div class="form-group row">
-                    <label
-                      class="col-sm-4 font-weight-bold"
-                      for="exampleInputName1"
                       >Constancia de Estado Salud</label
                     >
-                    <div class="col-sm-8" v-if="this.driver.driver.constanciaEstadoSalud === ''">
-                      <label class="text-danger" for="exampleInputName1">No se ha registrado constancia</label>
+                    <div
+                      class="col-sm-8"
+                      v-if="this.driver.constanciaEstadoSalud === ''"
+                    >
+                      <label class="text-danger" for="exampleInputName1"
+                        >No se ha registrado constancia</label
+                      >
                     </div>
-                    <a v-else class="col-sm-8" :href="'http://localhost' + this.driver.driver.constanciaEstadoSalud" target="_blank">    
-                   <i class="mdi mdi-file-pdf" style="font-size: 2rem;"></i>
-                  </a>
+                    <a
+                      v-else
+                      class="col-sm-8"
+                      :href="
+                        'http://localhost' +
+                          this.driver.constanciaEstadoSalud
+                      "
+                      target="_blank"
+                    >
+                      <i class="mdi mdi-file-pdf" style="font-size: 2rem;"></i>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -493,7 +497,7 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="Buscar vehiculo"
+                    placeholder="Buscar vehículo"
                     @keyup="searchVehicles()"
                     aria-describedby="basic-addon2"
                     v-model="key_busqueda"
@@ -524,7 +528,11 @@
           </div>
 
           <div class="row">
-            <div class="col-lg-4 grid-margin" v-for="item in vehicles.data" :key="item.id">
+            <div
+              class="col-lg-4 grid-margin"
+              v-for="item in vehicles.data"
+              :key="item.id"
+            >
               <div class="card">
                 <div class="card-body">
                   <img
@@ -541,9 +549,17 @@
                     Capacidad_Carga: {{ item.capacidadCarga }} <br />
                     Tipo: {{ item.type.nombre }} <br />
                   </p>
+                  <div v-if="item.deleted_at === null" class="text-success">
+                    Estado: Activo
+                  </div>
+                  <div v-else class="text-danger">
+                    Estado: Inactivo
+                  </div>
+                  <br />
                   <p class="card-text">
                     <small class="text-muted"
-                      >Última actualización {{ item.updated_at }}</small
+                      >Última actualización
+                      {{ item.updated_at | timeformat }}</small
                     >
                   </p>
 
@@ -578,7 +594,7 @@
                             <button
                               class="btn btn-danger"
                               type="button"
-                              @click="deleteVehicles(item.id, item.placa)"
+                              @click="deleteVehicles(item.id, item.deleted_at)"
                               title="Eliminar"
                             >
                               <i class="mdi mdi-delete"></i>
@@ -607,7 +623,7 @@
                       data-dt-idx="0"
                       tabindex="0"
                       class="page-link"
-                      @click="getVehicles(vehicles.current_page - 1)"
+                      @click="getVehicles(current_page - 1)"
                     >
                       Anterior
                     </button>
@@ -618,7 +634,7 @@
                       data-dt-idx="1"
                       tabindex="0"
                       class="page-link"
-                      >{{ vehicles.current_page }}</a
+                      >{{ current_page }}</a
                     >
                   </li>
                   <li id="order-listing_next">
@@ -627,7 +643,7 @@
                       data-dt-idx="2"
                       tabindex="0"
                       class="page-link"
-                      @click="getVehicles(vehicles.current_page + 1)"
+                      @click="getVehicles(current_page + 1)"
                     >
                       Siguiente
                     </button>
@@ -646,13 +662,17 @@
 import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
 import Swal from 'sweetalert2'
+import moment from 'moment'
 export default {
   name: 'Vehicle',
-  components: {HomeAdmin, LateralMenu},
+  components: { HomeAdmin, LateralMenu },
   data () {
     return {
       id: this.$route.params.id,
-      driver: [],
+      driver_email: {},
+      driver: {},
+      person: {},
+      document_type: {},
       vehicles: [],
       idDriver: '',
       placa: '',
@@ -662,7 +682,8 @@ export default {
       key_busqueda: '',
       vehicletypes: '',
       update: 0,
-      imagenminiatura: ''
+      imagenminiatura: '',
+      current_page: 0
     }
   },
   created () {
@@ -680,7 +701,19 @@ export default {
         withCredentials: 'include'
       })
       .then(res => {
-        this.driver = res.data
+        this.driver_email = res.data
+        this.driver = res.data.driver
+        this.person = this.driver_email.person
+        this.document_type = this.person.document_type
+      })
+    this.$http
+      .get('/drivers/' + this.id + '/vehicles', {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: 'include'
+      })
+      .then(res => {
+        this.vehicles = res.data.vehicles
+        this.current_page = this.vehicles.current_page
       })
   },
 
@@ -696,7 +729,7 @@ export default {
         })
         .then(res => {
           this.vehicles = res.data.vehicles
-
+          this.current_page = this.vehicles.current_page
         })
         .catch(function (error) {
           // handle error
@@ -730,9 +763,10 @@ export default {
     },
 
     saveVehicles () {
-      const config = { 
+      const config = {
         headers: { 'content-type': 'multipart/form-data' },
-        withCredentials: 'include' }
+        withCredentials: 'include'
+      }
       let me = this
       let formData = new FormData()
       formData.append('placa', this.placa)
@@ -743,7 +777,11 @@ export default {
       this.$http
         .post(url, formData, config)
         .then(function (response) {
-          Swal.fire('Registro Exitoso!', 'Se registró correctamente los datos del vehiculo!', 'success')
+          Swal.fire(
+            'Registro Exitoso!',
+            'Se registró correctamente los datos del vehiculo!',
+            'success'
+          )
           me.getVehicles() // llamamos al metodo getVehicles(); para que refresque nuestro array y muestro los nuevos datos
           me.clearFields() // Limpiamos los campos e inicializamos la variable update a 0
         })
@@ -753,9 +791,10 @@ export default {
     },
 
     updateVehicles () {
-      const config = { 
+      const config = {
         headers: { 'content-type': 'multipart/form-data' },
-        withCredentials: 'include' }
+        withCredentials: 'include'
+      }
       let me = this
       let formData = new FormData()
       formData.append('id', this.update)
@@ -769,7 +808,11 @@ export default {
       this.$http
         .post(url, formData, config)
         .then(function (response) {
-          Swal.fire('Actualización Exitosa!', 'Se actualizó correctamente los datos del vehiculo!', 'success')
+          Swal.fire(
+            'Actualización Exitosa!',
+            'Se actualizó correctamente los datos del vehículo!',
+            'success'
+          )
           me.getVehicles() // llamamos al metodo getProductos(); para que refresque nuestro array y muestro los nuevos datos
           me.clearFields() // Limpiamos los campos e inicializamos la variable update a 0
         })
@@ -778,47 +821,92 @@ export default {
         })
     },
 
-    deleteVehicles (id) {
-      // Esta nos abrirá un alert de javascript y si aceptamos borrará el vehículo que hemos elegido
+    deleteVehicles (id, status) {
+      // Esta nos abrirá un alert de javascript y si aceptamos borrará el conductor que hemos elegido
       let me = this
-      Swal.fire({
-        title: '¿Estas seguro de eliminar al vehiculo ' + id + '?',
-        text: 'Tú inhabilitarás el vehiculo!',
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Si, eliminalo!',
-        cancelButtonText: 'No, conservalo'
-      }).then(result => {
-        if (result.value) {
-          this.$http
-            .delete('/vehicles/' + id, {
-              headers: { 'Content-Type': 'application/json' },
-              withCredentials: 'include'
-            })
-            .then(function (response) {
-              Swal.fire(
-                'Eliminación Exitosa!',
-                'El vehiculo ha sido inhabilitado.',
-                'success'
+      if (status === null) {
+        Swal.fire({
+          title: '¿Estas seguro de inhabilitar al vehiculo ' + id + '?',
+          text: 'Tú inhabilitarás al vehículo!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No'
+        }).then(result => {
+          if (result.value) {
+            this.$http
+              .delete('/vehicles/' + id, {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: 'include'
+              })
+              .then(function (response) {
+                Swal.fire(
+                  'Operación Exitosa!',
+                  'El conductor ha sido inhabilitado.',
+                  'success'
+                )
+                me.getDrivers()
+              })
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire(
+              'Cancelado',
+              'El vehículo no ha sido inhabilitado',
+              'error'
+            )
+          }
+        })
+      } else {
+        Swal.fire({
+          title: '¿Estas seguro de activar al vehículo ' + id + '?',
+          text: 'Tú habilitarás al vehiculo!',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si',
+          cancelButtonText: 'No'
+        }).then(result => {
+          if (result.value) {
+            this.$http
+              .post(
+                '/vehicles/' + id,
+                { _method: 'put' },
+                {
+                  headers: { 'Content-Type': 'application/json' },
+                  withCredentials: 'include'
+                }
               )
-              me.getDrivers()
-            })
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire('Cancelado', 'El vehiculo no ha sido inhabilitado', 'error')
-        }
-      })
+              .then(function (response) {
+                Swal.fire(
+                  'Operación Exitosa!',
+                  'El vehículo ha sido habilitado.',
+                  'success'
+                )
+                me.getDrivers()
+              })
+          } else if (result.dismiss === Swal.DismissReason.cancel) {
+            Swal.fire(
+              'Cancelado',
+              'El vehículo no ha sido inhabilitado',
+              'error'
+            )
+          }
+        })
+      }
     },
 
     searchVehicles () {
       let me = this
       this.$http
-        .get('/drivers/' + this.id + '/vehicles/search?query=' + me.key_busqueda, {
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: 'include'
-        })
+        .get(
+          '/drivers/' + this.id + '/vehicles/search?query=' + me.key_busqueda,
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: 'include'
+          }
+        )
         .then(res => {
           me.vehicles = res.data.vehicles
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           // handle error
           console.log(error)
         })
@@ -834,6 +922,14 @@ export default {
     }
   },
 
+  filters: {
+    timeformat: function (arg) {
+      // return moment(arg).subtract(10, 'days').calendar()
+      moment.locale('es')
+      return moment(arg).format('LLL')
+    }
+  },
+
   computed: {
     img () {
       return this.imagenminiatura
@@ -843,6 +939,5 @@ export default {
   mounted () {
     this.getVehicles()
   }
-
 }
 </script>

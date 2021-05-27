@@ -60,6 +60,11 @@ export default new Router({
       path: '/revisiones',
       name: 'History',
       component: History
+    },
+    {
+      path: '/usuarios',
+      name: 'Users',
+      component: UserAdmin
     }
   ]
 })
