@@ -5,19 +5,47 @@
       <input type="checkbox" id="menu-bar" />
       <label class="fontawesome-align-justify" for="menu-bar"></label>
       <nav class="menu">
-        <router-link to="/" style="text-decoration: none; color: #fff;">Inicio</router-link>
+        <router-link to="/" style="text-decoration: none; color: #fff;"
+          >Inicio</router-link
+        >
         <a href="#" style="text-decoration: none; color: #fff;">Nosotros</a>
         <a href="#" style="text-decoration: none; color: #fff;">Servicios</a>
-        <a href="#" style="text-decoration: none; color: #fff;">Cotizar</a>
-        <router-link router-link to="/login" style="decoration: non; color: #fff;">Iniciar Sesión</router-link>
-        <router-link to="/registrar"  style="text-decoration: none; color: #fff;">Registrarse</router-link>
+        <router-link
+          to="/cotizacion"
+          style="text-decoration: none; color: #fff;"
+          >Cotizar</router-link
+        >
+        <router-link to="/home" v-if="message == 'Success' && rol == '3'">Home</router-link>
+        <router-link to="/tracking" v-if="message == 'Success' && rol == '1'">Home</router-link>
+        <router-link
+          router-link
+          to="/login"
+          v-if="message == undefined"
+          style="decoration: non; color: #fff;"
+          >Iniciar Sesión</router-link
+        >
+        <router-link to="/registrar" v-if="message == undefined" style="text-decoration: none; color: #fff;"
+          >Registrarse</router-link
+        >
       </nav>
     </div>
   </header>
 </template>
 
 <script>
-export default {}
+import Cookies from 'js-cookie'
+export default {
+  data () {
+    return {
+      message: '',
+      rol: ''
+    }
+  },
+  created () {
+    this.message = Cookies.get('userLogged')
+    this.rol = Cookies.get('rolLogged')
+  }
+}
 </script>
 
 <style>

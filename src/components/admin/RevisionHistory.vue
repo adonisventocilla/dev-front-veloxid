@@ -161,7 +161,7 @@ export default {
       revisionhistory: [],
       from: '',
       to: '',
-      current_page: 1
+      current_page: 0
     }
   },
   created () {
@@ -181,16 +181,24 @@ export default {
       )
       .then(res => {
         this.revisionhistory = res.data.data
+        this.current_page = res.data.current_page
       })
   },
   methods: {
     // Paginación
     getPedidos (num_page) {
       this.$http
-        .post('/revisions' + '?page=' + num_page, {
-          from: '',
-          to: ''
-        })
+        .post(
+          '/revisions' + '?page=' + num_page,
+          {
+            from: '',
+            to: ''
+          },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: 'include'
+          }
+        )
         .then(res => {
           this.revisionhistory = res.data.data
           this.current_page = res.data.current_page
@@ -216,7 +224,6 @@ export default {
           }
         )
         .then(res => {
-          console.log(res.data.data)
           this.revisionhistory = res.data.data
         })
         .catch(function (error) {

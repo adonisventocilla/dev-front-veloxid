@@ -101,63 +101,80 @@
 
                     <!-- Evaluacion Vehiculo -->
                     <div class="col-lg-6 col-md-4">
-                      <div class="page-header">
-                        <h4>Evaluación de Vehículo</h4>
-                      </div>
-                      <select class="form-control" v-model="idvehicle">
-                        <option
-                          v-for="item in vehicles"
-                          :value="item.id"
-                          :key="item.id"
-                        >
-                          {{ item.placa }}
-                        </option>
-                      </select>
-                      <div class="form-group" style="margin-top: 30px">
-                        <label>Requerimientos:</label>
-                        <div class="list-wrapper">
-                          <ul
-                            class="d-flex flex-column-reverse todo-list"
-                            v-for="item in evaluacionvehicle"
-                            :key="item.id"
+                      <div class="row">
+                        <div class="col">
+                          <h4>¿Desea evaluar vehículos?</h4>
+                        </div>
+                        <div class="col">
+                          <button
+                            class="btn btn-gradient-primary"
+                            @click="confirmEvaluation()"
                           >
-                            <li style="padding: 0">
-                              <div class="form-check">
-                                <label class="form-check-label">
-                                  <input
-                                    class="checkbox"
-                                    type="checkbox"
-                                    v-model="requerimentvehicle"
-                                    :value="{
-                                      idRequirement: item.id,
-                                      valor: 0
-                                    }"/>{{ item.requerimiento }}
-                                  <i class="input-helper"></i
-                                ></label>
-                              </div>
-                              <!-- <i class="remove mdi mdi-close-circle-outline"></i> -->
-                            </li>
-                          </ul>
+                            +
+                          </button>
                         </div>
                       </div>
-                      <div class="form-group">
-                        <label for="exampleTextarea1">Observaciones:</label>
-                        <textarea
-                          v-model="observacionvehicle"
-                          class="form-control"
-                          rows="4"
-                        ></textarea>
+
+                      <br /><br />
+                      <div v-if="evaluar === true">
+                        <div class="page-header">
+                          <h4>Evaluación de Vehículo</h4>
+                        </div>
+                        <select class="form-control" v-model="idvehicle">
+                          <option
+                            v-for="item in vehicles"
+                            :value="item.id"
+                            :key="item.id"
+                          >
+                            {{ item.placa }}
+                          </option>
+                        </select>
+                        <div class="form-group" style="margin-top: 30px">
+                          <label>Requerimientos:</label>
+                          <div class="list-wrapper">
+                            <ul
+                              class="d-flex flex-column-reverse todo-list"
+                              v-for="item in evaluacionvehicle"
+                              :key="item.id"
+                            >
+                              <li style="padding: 0">
+                                <div class="form-check">
+                                  <label class="form-check-label">
+                                    <input
+                                      class="checkbox"
+                                      type="checkbox"
+                                      v-model="requerimentvehicle"
+                                      :value="{
+                                        idRequirement: item.id,
+                                        valor: 0
+                                      }"/>{{ item.requerimiento }}
+                                    <i class="input-helper"></i
+                                  ></label>
+                                </div>
+                                <!-- <i class="remove mdi mdi-close-circle-outline"></i> -->
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleTextarea1">Observaciones:</label>
+                          <textarea
+                            v-model="observacionvehicle"
+                            class="form-control"
+                            rows="4"
+                          ></textarea>
+                        </div>
+                        <div class="float-right">
+                          <button
+                            type="submit"
+                            class="btn btn-gradient-primary"
+                            @click="saveRequerimentsVehicles()"
+                          >
+                            Guardar
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="float-right">
-                    <button
-                      type="submit"
-                      class="btn btn-gradient-primary"
-                      @click="saveRequerimentsVehicles()"
-                    >
-                      Guardar
-                    </button>
                   </div>
                 </div>
               </div>
@@ -173,7 +190,7 @@
 import '@/purple/assets/js/off-canvas.js'
 import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
-
+import Swal from 'sweetalert2'
 export default {
   name: 'Evaluation',
   components: { HomeAdmin, LateralMenu },
@@ -190,7 +207,8 @@ export default {
       observacionvehicle: '',
       iddriver: 0,
       idvehicle: 0,
-      key_busqueda: null
+      key_busqueda: null,
+      evaluar: false
     }
   },
   created () {
@@ -237,7 +255,11 @@ export default {
           }
         )
         .then(function (response) {
-          alert('Se registró correctamente la evaluación.')
+          Swal.fire(
+            'Operación Exitosa!',
+            'La evaluación se ha registrado correctamente.',
+            'success'
+          )
           me.clearFieldsD()
         })
         .catch(function (error) {
@@ -252,7 +274,6 @@ export default {
         .post(
           url,
           {
-            // estas variables son las que enviaremos
             evals: this.requerimentvehicle,
             observacion: this.observacionvehicle
           },
@@ -262,7 +283,11 @@ export default {
           }
         )
         .then(function (response) {
-          alert('Se registró correctamente la evaluación.')
+          Swal.fire(
+            'Operación Exitosa!',
+            'La evaluación se ha registrado correctamente.',
+            'success'
+          )
           me.clearFieldsV()
         })
         .catch(function (error) {
@@ -291,6 +316,14 @@ export default {
           this.vehicles = res.data.vehicles.data
           console.log(this.vehicles)
         })
+    },
+
+    confirmEvaluation () {
+      if (this.evaluar === false) {
+        this.evaluar = true
+      } else {
+        this.evaluar = false
+      }
     },
 
     clearFieldsD () {

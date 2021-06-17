@@ -55,10 +55,25 @@
                             @blur="$v.nombre.$touch()"
                           />
                           <template v-if="$v.nombre.$error">
-                            <p class="errorMessage error" v-if="!$v.nombre.required">Este campo es obligatorio(*)</p>
-                            <p class="errorMessage error" v-if="!$v.nombre.minLength">Min. 3 caracteres(*)</p>
-                            <p class="errorMessage error" v-if="!$v.nombre.alpha">Solo letras(*)</p>
-                          </template>    
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.nombre.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.nombre.minLength"
+                            >
+                              Min. 3 caracteres(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.nombre.validString"
+                            >
+                              Solo letras(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -80,10 +95,25 @@
                             @blur="$v.apellidoPaterno.$touch()"
                           />
                           <template v-if="$v.apellidoPaterno.$error">
-                            <p class="errorMessage error" v-if="!$v.apellidoPaterno.required">Este campo es obligatorio(*)</p>
-                            <p class="errorMessage error" v-if="!$v.apellidoPaterno.minLength">Min. 3 caracteres(*)</p>
-                            <p class="errorMessage error" v-if="!$v.apellidoPaterno.alpha">Solo letras(*)</p>
-                          </template>                           
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoPaterno.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoPaterno.minLength"
+                            >
+                              Min. 3 caracteres(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoPaterno.validString"
+                            >
+                              Solo letras(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -102,9 +132,24 @@
                             @blur="$v.apellidoMaterno.$touch()"
                           />
                           <template v-if="$v.apellidoMaterno.$error">
-                            <p class="errorMessage error" v-if="!$v.apellidoMaterno.required">Este campo es obligatorio(*)</p>
-                            <p class="errorMessage error" v-if="!$v.apellidoMaterno.minLength">Min. 3 caracteres(*)</p>
-                            <p class="errorMessage error" v-if="!$v.apellidoMaterno.alpha">Solo letras(*)</p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoMaterno.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoMaterno.minLength"
+                            >
+                              Min. 3 caracteres(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoMaterno.validString"
+                            >
+                              Solo letras(*)
+                            </p>
                           </template>
                         </div>
                       </div>
@@ -127,8 +172,18 @@
                             @blur="$v.telefono.$touch()"
                           />
                           <template v-if="$v.telefono.$error">
-                            <p class="errorMessage error" v-if="!$v.telefono.required">Este campo es obligatorio(*)</p>
-                            <p class="errorMessage error" v-if="!$v.telefono.minLength">Min. 9 caracteres(*)</p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.telefono.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.telefono.minLength"
+                            >
+                              Min. 9 caracteres(*)
+                            </p>
                           </template>
                         </div>
                       </div>
@@ -147,8 +202,18 @@
                             @blur="$v.email.$touch()"
                           />
                           <template v-if="$v.email.$error">
-                            <p class="errorMessage error" v-if="!$v.email.required">Este campo es obligatorio(*)</p>
-                            <p class="errorMessage error" v-if="!$v.email.email">Correo no válido(*)</p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.email.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.email.email"
+                            >
+                              Correo no válido(*)
+                            </p>
                           </template>
                         </div>
                       </div>
@@ -170,8 +235,13 @@
                             @blur="$v.direccion.$touch()"
                           ></textarea>
                           <template v-if="$v.direccion.$error">
-                            <p class="errorMessage error" v-if="!$v.direccion.required">Este campo es obligatorio(*)</p>
-                          </template>                          
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.direccion.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -181,7 +251,11 @@
                     <div class="col-lg-6">
                       <div class="form-group row">
                         <div class="col-sm-12">
-                          <select class="form-control" v-model="idDocumentType" @blur="$v.idDocumentType.$touch()">
+                          <select
+                            class="form-control"
+                            v-model="idDocumentType"
+                            @blur="$v.idDocumentType.$touch()"
+                          >
                             <option value="" selected disabled>
                               Tipo de Documento
                             </option>
@@ -194,7 +268,12 @@
                             </option>
                           </select>
                           <template v-if="$v.idDocumentType.$error">
-                            <p class="errorMessage error" v-if="!$v.idDocumentType.required">Seleccione tipo de documento(*)</p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.idDocumentType.required"
+                            >
+                              Seleccione tipo de documento(*)
+                            </p>
                           </template>
                         </div>
                       </div>
@@ -213,9 +292,19 @@
                             @blur="$v.numero.$touch()"
                           />
                           <template v-if="$v.numero.$error">
-                            <p class="errorMessage error" v-if="!$v.numero.required">Este campo es obligatorio(*)</p>
-                            <p class="errorMessage error" v-if="!$v.numero.minLength">Min. 8 caracteres(*)</p>
-                          </template>                          
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.numero.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.numero.minLength"
+                            >
+                              Min. 8 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -236,9 +325,19 @@
                             @blur="$v.licenciaConducir.$touch()"
                           />
                           <template v-if="$v.licenciaConducir.$error">
-                            <p class="errorMessage error" v-if="!$v.licenciaConducir.required">Este campo es obligatorio(*)</p>
-                            <p class="errorMessage error" v-if="!$v.licenciaConducir.minLength">Min. 9 caracteres(*)</p>
-                          </template>                             
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.licenciaConducir.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.licenciaConducir.minLength"
+                            >
+                              Min. 9 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -248,20 +347,27 @@
                     <div class="col-lg-6">
                       <div class="form-group row">
                         <div class="col-sm-12">
-                          <input
-                            type="text"
+                          <select
                             class="form-control"
                             v-model="banco"
-                            placeholder="Banco"
-                            maxlength="20"
-                            title="Ingresar entidad bancaria afiliada a la cuenta bancaria del conductor."
-                            data-toggle="tooltip"
-                            data-placement="right"
                             @blur="$v.banco.$touch()"
-                          />
+                          >
+                            <option value="" selected disabled>
+                              Entidad Bancaria
+                            </option>
+                            <option value="BCP">BCP</option>
+                            <option value="BBVA">BBVA</option>
+                            <option value="Interbank">Interbank</option>
+                            <option value="Scotiabank">Scotiabank</option>
+                          </select>
                           <template v-if="$v.banco.$error">
-                            <p class="errorMessage error" v-if="!$v.banco.required">Este campo es obligatorio(*)</p>
-                          </template>                            
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.banco.required"
+                            >
+                              Seleccione entidad bancaria(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -280,8 +386,13 @@
                             @blur="$v.cuentaBancaria.$touch()"
                           />
                           <template v-if="$v.cuentaBancaria.$error">
-                            <p class="errorMessage error" v-if="!$v.cuentaBancaria.required">Este campo es obligatorio(*)</p>
-                          </template>                             
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.cuentaBancaria.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -302,9 +413,19 @@
                             @blur="$v.name.$touch()"
                           />
                           <template v-if="$v.name.$error">
-                            <p class="errorMessage error" v-if="!$v.name.required">Este campo es obligatorio(*)</p>
-                            <p class="errorMessage error" v-if="!$v.name.alpha">Solo letras(*)</p>
-                          </template>                               
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.name.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.name.validString"
+                            >
+                              Solo letras(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -322,9 +443,19 @@
                             @blur="$v.password.$touch()"
                           />
                           <template v-if="$v.password.$error">
-                            <p class="errorMessage error" v-if="!$v.password.required">Este campo es obligatorio(*)</p>
-                            <p class="errorMessage error" v-if="!$v.password.minLength">Min. 6 caracteres(*)</p>
-                          </template>                            
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.password.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.password.minLength"
+                            >
+                              Min. 6 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -387,10 +518,14 @@
 
                 <div class="modal-footer">
                   <!-- Botón que añade los datos del formulario, solo se muestra si la variable update es igual a 0-->
+                  <!-- <button 
+                          @click="saveDrivers()" 
+                          class="btn btn-gradient-primary mr-2" 
+                          :disabled="$v.$invalid"}
+                        >-->
                   <button
                     @click="saveDrivers()"
                     class="btn btn-gradient-primary mr-2"
-                    :disabled="$v.$invalid"
                   >
                     Registrar
                   </button>
@@ -443,7 +578,28 @@
                             class="form-control"
                             v-model="nombre"
                             placeholder="Nombres"
+                            @blur="$v.nombre.$touch()"
                           />
+                          <template v-if="$v.nombre.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.nombre.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.nombre.minLength"
+                            >
+                              Min. 3 caracteres(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.nombre.validString"
+                            >
+                              Solo letras(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -458,7 +614,28 @@
                             class="form-control"
                             v-model="apellidoPaterno"
                             placeholder="Apellido Paterno"
+                            @blur="$v.apellidoPaterno.$touch()"
                           />
+                          <template v-if="$v.apellidoPaterno.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoPaterno.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoPaterno.minLength"
+                            >
+                              Min. 3 caracteres(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoPaterno.validString"
+                            >
+                              Solo letras(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -470,7 +647,28 @@
                             class="form-control"
                             v-model="apellidoMaterno"
                             placeholder="Apellido Materno"
+                            @blur="$v.apellidoMaterno.$touch()"
                           />
+                          <template v-if="$v.apellidoMaterno.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoMaterno.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoMaterno.minLength"
+                            >
+                              Min. 3 caracteres(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.apellidoMaterno.validString"
+                            >
+                              Solo letras(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -485,7 +683,22 @@
                             class="form-control"
                             v-model="telefono"
                             placeholder="Teléfono"
+                            @blur="$v.telefono.$touch()"
                           />
+                          <template v-if="$v.telefono.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.telefono.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.telefono.minLength"
+                            >
+                              Min. 9 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -497,7 +710,22 @@
                             class="form-control"
                             v-model="email"
                             placeholder="Email"
+                            @blur="$v.email.$touch()"
                           />
+                          <template v-if="$v.email.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.email.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.email.email"
+                            >
+                              Correo no válido(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -512,7 +740,16 @@
                             v-model="direccion"
                             placeholder="Dirección"
                             row="2"
+                            @blur="$v.direccion.$touch()"
                           ></textarea>
+                          <template v-if="$v.direccion.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.direccion.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -545,7 +782,22 @@
                             class="form-control"
                             v-model="numero"
                             placeholder="N° Documento"
+                            @blur="$v.numero.$touch()"
                           />
+                          <template v-if="$v.numero.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.numero.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.numero.minLength"
+                            >
+                              Min. 8 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -560,7 +812,22 @@
                             class="form-control"
                             v-model="licenciaConducir"
                             placeholder="Licencia de Conducir"
+                            @blur="$v.licenciaConducir.$touch()"
                           />
+                          <template v-if="$v.licenciaConducir.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.licenciaConducir.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.licenciaConducir.minLength"
+                            >
+                              Min. 9 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -570,12 +837,27 @@
                     <div class="col-lg-6">
                       <div class="form-group row">
                         <div class="col-sm-12">
-                          <input
-                            type="text"
+                          <select
                             class="form-control"
                             v-model="banco"
-                            placeholder="Banco"
-                          />
+                            @blur="$v.banco.$touch()"
+                          >
+                            <option value="" selected disabled>
+                              Entidad Bancaria
+                            </option>
+                            <option value="BCP">BCP</option>
+                            <option value="BBVA">BBVA</option>
+                            <option value="Interbank">Interbank</option>
+                            <option value="Scotiabank">Scotiabank</option>
+                          </select>
+                          <template v-if="$v.banco.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.banco.required"
+                            >
+                              Seleccione entidad bancaria(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -587,7 +869,16 @@
                             class="form-control"
                             v-model="cuentaBancaria"
                             placeholder="Cuenta Bancaria"
+                            @blur="$v.cuentaBancaria.$touch()"
                           />
+                          <template v-if="$v.cuentaBancaria.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.cuentaBancaria.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -602,7 +893,22 @@
                             class="form-control"
                             v-model="name"
                             placeholder="Usuario"
+                            @blur="$v.name.$touch()"
                           />
+                          <template v-if="$v.name.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.name.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.name.validString"
+                            >
+                              Solo letras(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -614,7 +920,22 @@
                             class="form-control"
                             v-model="password"
                             placeholder="Contraseña"
+                            @blur="$v.password.$touch()"
                           />
+                          <template v-if="$v.password.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.password.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.password.minLength"
+                            >
+                              Min. 6 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -711,7 +1032,7 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title text-primary" id="exampleModalLabel">
-                    REGISTRAR VEHICULO
+                    REGISTRAR VEHÍCULO
                   </h5>
                   <button
                     type="button"
@@ -732,8 +1053,23 @@
                             type="text"
                             class="form-control"
                             v-model="placa"
-                            placeholder="Placas"
+                            placeholder="Ejm: A1A-123, ABC-123"
+                            @blur="$v.placa.$touch()"
                           />
+                          <template v-if="$v.placa.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.placa.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>                          
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.placa.validPlaca"
+                            >
+                              El número de placa no es válido(*)
+                            </p>
+                          </template>                            
                           <!-- <template v-if="$v.placa.$error">
                             <p class="errorMessage error" v-if="!$v.placa.required">Este campo es obligatorio(*)</p>
                           </template>                               -->
@@ -752,18 +1088,35 @@
                           >Capacidad de Carga</label
                         >
                         <div class="col-sm-9">
-                          <input
-                            type="text"
-                            class="form-control"
-                            v-model="capacidadCarga"
-                            placeholder="Capacidad de Carga"
-                          />
-                          <!-- <template v-if="$v.capacidadCarga.$error">
-                            <p class="errorMessage error" v-if="!$v.capacidadCarga.required">Este campo es obligatorio(*)</p>
-                          </template>                             -->
-                          <!-- <code style="color: #9c9fa6;"
-                            >Ingresar la capacidad máxima del vehículo.</code
-                          > -->
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              v-model="capacidadCarga"
+                              placeholder="Capacidad de Carga"
+                              @blur="$v.capacidadCarga.$touch()"
+                            />
+                            <div class="input-group-append">
+                              <span class="input-group-text">TN.</span>
+                            </div>
+                            <!--<code style="color: #9c9fa6;"
+                              >Ingresar la capacidad máxima del vehículo.</code
+                            >-->
+                          </div>
+                        <template v-if="$v.capacidadCarga.$error">
+                          <p
+                            class="errorMessage error"
+                            v-if="!$v.capacidadCarga.required"
+                          >
+                            Este campo es obligatorio(*)
+                          </p>
+                          <p
+                            class="errorMessage error"
+                            v-if="!$v.capacidadCarga.validNumeric"
+                          >
+                            La capacidad ingresada no es válida(*)
+                          </p>                          
+                        </template>
                         </div>
                       </div>
                     </div>
@@ -778,7 +1131,7 @@
                           >Tipo de Vehículo</label
                         >
                         <div class="col-sm-9">
-                          <select class="form-control" v-model="idVehicleType">
+                          <select class="form-control" v-model="idVehicleType" @blur="$v.idVehicleType.$touch()">
                             <option
                               v-for="item in vehicletypes"
                               :value="item.id"
@@ -787,6 +1140,14 @@
                               {{ item.nombre }}
                             </option>
                           </select>
+                          <template v-if="$v.idVehicleType.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.idVehicleType.required"
+                            >
+                              Seleccione tipo de vehículo(*)
+                            </p>
+                          </template>                           
                         </div>
                       </div>
                     </div>
@@ -840,7 +1201,7 @@
                   </button>
                   <!-- Botón que cierra el modal-->
                   <button
-                    @click="clearFields()"
+                    @click="clearFieldsV()"
                     class="btn btn-danger"
                     data-dismiss="modal"
                   >
@@ -917,26 +1278,55 @@
             </div>
           </div>
 
+          <div v-if="drivers === ''">
+            <center><p>No existen conductores registrados.</p></center>
+          </div>
+
           <div class="row">
-            <div class="col-lg-4 grid-margin" v-for="item in drivers" :key="item.id">
+            <div
+              class="col-lg-4 grid-margin"
+              v-for="item in drivers"
+              :key="item.id"
+            >
               <div class="card">
                 <div class="card-body">
                   <center>
                     <img
                       class="card-img-top"
-                      :src=" 'http://localhost' + item.person.imagen"
-                      style="width: 180px; height: 170px"
+                      :src="'http://localhost' + item.person.imagen"
+                      style="width: 200px; height: 220px"
                     />
+
+                    <br /><br />
+                    <div
+                      v-if="
+                        item.status.nombre === 'activo' &&
+                          item.driver.is_suitable === 1
+                      "
+                      class="badge style-badge-success"
+                    >
+                      Apto
+                    </div>
+                    <div
+                      v-if="
+                        item.status.nombre === 'activo' &&
+                          item.driver.is_suitable === 2
+                      "
+                      class="badge style-badge-danger"
+                    >
+                      No Apto
+                    </div>
                   </center>
                   <br />
                   <p class="card-text crop-text-2">
-                    Nombres: {{ item.person.nombre }}
-                    {{ item.person.apellidoPaterno }}
-                    {{ item.person.apellidoMaterno }} <br />
-                    Número de Identidad:{{ item.person.numero }} <br />
-                    Licencia de Conducir: {{ item.driver.licenciaConducir }}
+                    <strong>Nombres: </strong>{{ item.person.nombre }}
+                    {{ item.person.apellidoPaterno }}<br />
+                    <strong>Número de Identidad:</strong
+                    >{{ item.person.numero }} <br />
+                    <strong>Licencia de Conducir:</strong>
+                    {{ item.driver.licenciaConducir }}
                     <br />
-                    Usuario: {{ item.name }}<br />
+                    <strong>Usuario:</strong> {{ item.email }}<br />
                   </p>
                   <div
                     v-if="item.status.nombre === 'activo'"
@@ -960,62 +1350,54 @@
                       <div class="row">
                         <div class="col-lg-3">
                           <div class="input-group">
-                            <div class="input-group-append">
-                              <button
-                                class="btn btn-info btn-sm"
-                                type="button"
-                                title="Ver detalle"
-                                @click="viewdetalle(item.id)"
-                              >
-                                <i class="mdi mdi-eye"></i>
-                              </button>
-                            </div>
+                            <button
+                              class="btn btn-info btn-sm"
+                              type="button"
+                              title="Ver detalle"
+                              @click="viewdetalle(item.id)"
+                            >
+                              <i class="mdi mdi-eye"></i>
+                            </button>
                           </div>
                         </div>
                         <div class="col-lg-3">
                           <div class="input-group">
-                            <div class="input-group-append">
-                              <button
-                                class="btn btn-primary btn-sm"
-                                type="button"
-                                data-toggle="modal"
-                                data-target="#exampleModalRegistrarVehiculo"
-                                @click="addVehicles(item.id)"
-                                title="Agregar vehículo"
-                              >
-                                <i class="mdi mdi-truck-delivery"></i>
-                              </button>
-                            </div>
+                            <button
+                              class="btn btn-primary btn-sm"
+                              type="button"
+                              data-toggle="modal"
+                              data-target="#exampleModalRegistrarVehiculo"
+                              @click="addVehicles(item.id)"
+                              title="Agregar vehículo"
+                            >
+                              <i class="mdi mdi-truck-delivery"></i>
+                            </button>
                           </div>
                         </div>
                         <div class="col-lg-3">
                           <div class="input-group">
-                            <div class="input-group-append">
-                              <button
-                                class="btn btn-warning btn-sm"
-                                data-toggle="modal"
-                                data-target="#exampleModalActualizarConductor"
-                                type="button"
-                                @click="loadFieldsUpdate(item.id)"
-                                title="Actualizar"
-                              >
-                                <i class="mdi mdi-lead-pencil"></i>
-                              </button>
-                            </div>
+                            <button
+                              class="btn btn-warning btn-sm"
+                              data-toggle="modal"
+                              data-target="#exampleModalActualizarConductor"
+                              type="button"
+                              @click="loadFieldsUpdate(item.id)"
+                              title="Actualizar"
+                            >
+                              <i class="mdi mdi-lead-pencil"></i>
+                            </button>
                           </div>
                         </div>
                         <div class="col-lg-3">
                           <div class="input-group">
-                            <div class="input-group-append">
-                              <button
-                                class="btn btn-danger btn-sm"
-                                type="button"
-                                @click="deleteDrivers(item.id, item.idStatus)"
-                                title="Desactivar/Activar conductor"
-                              >
-                                <i class="mdi mdi-account"></i>
-                              </button>
-                            </div>
+                            <button
+                              class="btn btn-danger btn-sm"
+                              type="button"
+                              @click="deleteDrivers(item.id, item.idStatus)"
+                              title="Desactivar/Activar conductor"
+                            >
+                              <i class="mdi mdi-account"></i>
+                            </button>
                           </div>
                         </div>
                       </div>
@@ -1081,7 +1463,7 @@ import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
 import Swal from 'sweetalert2'
 import moment from 'moment'
-import {required, email, minLength, maxLength, alpha} from 'vuelidate/lib/validators'
+import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Driver',
@@ -1430,7 +1812,8 @@ export default {
         })
         .then(res => {
           me.drivers = res.data.data
-        }).catch(function (error) {
+        })
+        .catch(function (error) {
           // handle error
           console.log(error)
         })
@@ -1465,6 +1848,7 @@ export default {
       this.idDriver = ''
       this.idVehicleType = ''
       this.update = 0
+      this.$v.$reset()
     }
   },
 
@@ -1490,17 +1874,26 @@ export default {
     nombre: {
       required,
       minLength: minLength(3),
-      alpha
+      validString (value) {
+        var re = /^[A-Za-z ]+$/
+        return re.test(value)
+      }
     },
     apellidoPaterno: {
       required,
       minLength: minLength(3),
-      alpha
+      validString (value) {
+        var re = /^[A-Za-z ]+$/
+        return re.test(value)
+      }
     },
     apellidoMaterno: {
       required,
       minLength: minLength(3),
-      alpha
+      validString (value) {
+        var re = /^[A-Za-z ]+$/
+        return re.test(value)
+      }
     },
     telefono: {
       required,
@@ -1532,23 +1925,56 @@ export default {
     },
     name: {
       required,
-      alpha
+      validString (value) {
+        var re = /^[A-Za-z ]+$/
+        return re.test(value)
+      }
     },
     password: {
       required,
       minLength: minLength(6)
+    },
+    placa: {
+      required,
+      validPlaca (value) {
+        var re = /^[A-Z]+[0-9A-Z]+[A-Z]+[-]+[0-9]{3}$/
+        return re.test(value)
+      }
+    },
+    capacidadCarga: {
+      required,
+      validNumeric (value) {
+        var re = /[0-9]{1,5}/
+        return re.test(value)
+      }
+    },
+    idVehicleType: {
+      required
     }
   }
-
 }
 </script>
 
 <style scoped>
-  .error {
-    text-align: left;
-    color: red;
-    margin-top: 0%;
-    margin-bottom: -3%;
-    font-size: .75rem;
-  }
+.error {
+  text-align: left;
+  color: #fe7c96;
+  margin-top: 0%;
+  margin-bottom: -1%;
+  font-size: 0.75rem;
+}
+
+.style-badge-success {
+  background-color: #00a518;
+  border-color: #00a518;
+  color: white;
+  font-size: 14px;
+}
+
+.style-badge-danger {
+  background-color: #fe7c96;
+  border-color: #fe7c96;
+  color: white;
+  font-size: 14px;
+}
 </style>

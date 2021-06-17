@@ -301,8 +301,10 @@ export default {
     data: {
       name: {
         required,
-        alpha,
-        minLength: minLength(3)
+        validString (value) {
+          var re = /^[A-Za-z ]+$/
+          return re.test(value)
+        }
       },
       email: {
         required,
@@ -494,7 +496,7 @@ body {
 
 .error {
   text-align: center;
-  color: red;
+  color: #fe7c96;
   margin-top: -3%;
   margin-bottom: -3%;
   font-size: 0.8rem;

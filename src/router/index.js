@@ -135,11 +135,7 @@ routes.beforeEach((to, from, next) => {
       next('/login')
     }
   }
-  if (to.fullPath === '/login') {
-    if (Cookies.get('userLogged')) {
-      next('/home')
-    }
-  }
+
   next()
 })
 

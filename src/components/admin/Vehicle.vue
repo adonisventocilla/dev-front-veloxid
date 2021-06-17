@@ -46,12 +46,27 @@
                             type="text"
                             class="form-control"
                             v-model="placa"
-                            placeholder="Placa"
+                            placeholder="Ejm: A1A-123, ABC-123"
                             title="Ingresar la placa actual del vehículo."
+                            @blur="$v.placa.$touch()"
                           />
-                          <code style="color: #9c9fa6;"
+                          <!-- <code style="color: #9c9fa6;"
                             >Ingresar placa actual del vehículo.</code
-                          >
+                          >-->
+                          <template v-if="$v.placa.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.placa.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.placa.validPlaca"
+                            >
+                              El número de placa no es válido(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -64,15 +79,35 @@
                           >Capacidad de Carga</label
                         >
                         <div class="col-sm-9">
-                          <input
-                            type="text"
-                            class="form-control"
-                            v-model="capacidadCarga"
-                            placeholder="Capacidad de Carga"
-                          />
-                          <code style="color: #9c9fa6;"
-                            >Ingresar la capacidad máxima del vehículo.</code
-                          >
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              v-model="capacidadCarga"
+                              placeholder="Capacidad de Carga"
+                              @blur="$v.capacidadCarga.$touch()"
+                            />
+                            <div class="input-group-append">
+                              <span class="input-group-text">TN.</span>
+                            </div>
+                            <!--<code style="color: #9c9fa6;"
+                              >Ingresar la capacidad máxima del vehículo.</code
+                            >-->
+                          </div>
+                          <template v-if="$v.capacidadCarga.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.capacidadCarga.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.capacidadCarga.validNumeric"
+                            >
+                              La capacidad ingresada no es válida(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -87,7 +122,11 @@
                           >Tipo de Vehículo</label
                         >
                         <div class="col-sm-9">
-                          <select class="form-control" v-model="idVehicleType">
+                          <select
+                            class="form-control"
+                            v-model="idVehicleType"
+                            @blur="$v.idVehicleType.$touch()"
+                          >
                             <option
                               v-for="item in vehicletypes"
                               :value="item.id"
@@ -96,6 +135,14 @@
                               {{ item.nombre }}
                             </option>
                           </select>
+                          <template v-if="$v.idVehicleType.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.idVehicleType.required"
+                            >
+                              Seleccione tipo de vehículo(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -196,8 +243,23 @@
                             class="form-control"
                             v-model="placa"
                             id="exampleTextarea1"
-                            placeholder="Placa"
+                            placeholder="Ejm: A1A-123, ABC-123"
+                            @blur="$v.placa.$touch()"
                           />
+                          <template v-if="$v.placa.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.placa.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.placa.validPlaca"
+                            >
+                              El número de placa no es válido(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -210,12 +272,35 @@
                           >Capacidad de Carga</label
                         >
                         <div class="col-sm-9">
-                          <input
-                            type="text"
-                            class="form-control"
-                            v-model="capacidadCarga"
-                            placeholder="Capacidad de Carga"
-                          />
+                          <div class="input-group">
+                            <input
+                              type="text"
+                              class="form-control"
+                              v-model="capacidadCarga"
+                              placeholder="Capacidad de Carga"
+                              @blur="$v.capacidadCarga.$touch()"
+                            />
+                            <div class="input-group-append">
+                              <span class="input-group-text">TN.</span>
+                            </div>
+                            <!--<code style="color: #9c9fa6;"
+                              >Ingresar la capacidad máxima del vehículo.</code
+                            >-->
+                          </div>
+                          <template v-if="$v.capacidadCarga.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.capacidadCarga.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.capacidadCarga.validNumeric"
+                            >
+                              La capacidad ingresada no es válida(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -475,8 +560,7 @@
                       v-else
                       class="col-sm-8"
                       :href="
-                        'http://localhost' +
-                          this.driver.constanciaEstadoSalud
+                        'http://localhost' + this.driver.constanciaEstadoSalud
                       "
                       target="_blank"
                     >
@@ -527,6 +611,10 @@
             </div>
           </div>
 
+          <div v-if="vehicles.data === ''">
+            <center><p>No existen conductores registrados.</p></center>
+          </div>
+
           <div class="row">
             <div
               class="col-lg-4 grid-margin"
@@ -535,19 +623,38 @@
             >
               <div class="card">
                 <div class="card-body">
+                  <center>
                   <img
                     class="card-img-top"
                     :src="'http://localhost' + item.imagen"
-                    style="width: 250px; height: 200px"
+                    style="width: 200px; height: 200px"
                   />
-                  <div class="card-title text-truncate">
-                    {{ item.descripcion }}
-                  </div>
-
+                  <br /><br />
+                                     <div
+                      v-if="
+                        item.deleted_at === null &&
+                          item.is_suitable === 1
+                      "
+                      class="badge style-badge-success"
+                    >
+                      Apto
+                    </div>
+                    <div
+                      v-if="
+                        item.deleted_at !== null &&
+                          item.is_suitable === 2
+                      "
+                      class="badge style-badge-danger"
+                    >
+                      No Apto
+                    </div>
+                    </center>
+                    <br />
                   <p class="card-text crop-text-2">
-                    Placa: {{ item.placa }} <br />
-                    Capacidad_Carga: {{ item.capacidadCarga }} <br />
-                    Tipo: {{ item.type.nombre }} <br />
+                    <strong>Placa:</strong> {{ item.placa }} <br />
+                    <strong>Capacidad Carga:</strong>
+                    {{ item.capacidadCarga }} TN<br />
+                    <strong>Tipo:</strong> {{ item.type.nombre }} <br />
                   </p>
                   <div v-if="item.deleted_at === null" class="text-success">
                     Estado: Activo
@@ -663,6 +770,8 @@ import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
 import Swal from 'sweetalert2'
 import moment from 'moment'
+import { required } from 'vuelidate/lib/validators'
+
 export default {
   name: 'Vehicle',
   components: { HomeAdmin, LateralMenu },
@@ -787,6 +896,7 @@ export default {
         })
         .catch(function (error) {
           console.log(error)
+          Swal.fire('Error!', 'Inténtelo más tarde', 'error')
         })
     },
 
@@ -818,6 +928,7 @@ export default {
         })
         .catch(function (error) {
           console.log(error)
+          Swal.fire('Error!', 'Inténtelo más tarde', 'error')
         })
     },
 
@@ -835,7 +946,7 @@ export default {
         }).then(result => {
           if (result.value) {
             this.$http
-              .delete('/vehicles/' + id, {
+              .get('/vehicles/' + id + '/deactivate', {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: 'include'
               })
@@ -845,7 +956,7 @@ export default {
                   'El conductor ha sido inhabilitado.',
                   'success'
                 )
-                me.getDrivers()
+                me.getVehicles()
               })
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire(
@@ -866,21 +977,17 @@ export default {
         }).then(result => {
           if (result.value) {
             this.$http
-              .post(
-                '/vehicles/' + id,
-                { _method: 'put' },
-                {
-                  headers: { 'Content-Type': 'application/json' },
-                  withCredentials: 'include'
-                }
-              )
+              .get('/vehicles/' + id + '/activate', {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: 'include'
+              })
               .then(function (response) {
                 Swal.fire(
                   'Operación Exitosa!',
                   'El vehículo ha sido habilitado.',
                   'success'
                 )
-                me.getDrivers()
+                me.getVehicles()
               })
           } else if (result.dismiss === Swal.DismissReason.cancel) {
             Swal.fire(
@@ -919,6 +1026,8 @@ export default {
       this.idVehicleType = ''
       this.idDriver = ''
       this.update = 0
+      this.imagenminiatura = ''
+      this.$v.$reset()
     }
   },
 
@@ -938,6 +1047,50 @@ export default {
 
   mounted () {
     this.getVehicles()
+  },
+
+  validations: {
+    placa: {
+      required,
+      validPlaca (value) {
+        var re = /^[A-Z]+[0-9A-Z]+[A-Z]+[-]+[0-9]{3}$/
+        return re.test(value)
+      }
+    },
+    capacidadCarga: {
+      required,
+      validNumeric (value) {
+        var re = /[0-9]{1,5}/
+        return re.test(value)
+      }
+    },
+    idVehicleType: {
+      required
+    }
   }
 }
 </script>
+
+<style scoped>
+.error {
+  text-align: left;
+  color: #fe7c96;
+  margin-top: 0%;
+  margin-bottom: -1%;
+  font-size: 0.75rem;
+}
+
+.style-badge-success {
+  background-color: #00a518;
+  border-color: #00a518;
+  color: white;
+  font-size: 14px;
+}
+
+.style-badge-danger {
+  background-color: #fe7c96;
+  border-color: #fe7c96;
+  color: white;
+  font-size: 14px;
+}
+</style>

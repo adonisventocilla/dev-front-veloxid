@@ -5,18 +5,16 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import Vuelidate from 'vuelidate' // Validation package
-
 // Style Purple
 import './purple/assets/css/style.css'
 import './purple/assets/vendors/css/vendor.bundle.base.css'
 import './purple/assets/vendors/mdi/css/materialdesignicons.min.css'
 import './purple/assets/js/off-canvas.js'
 import './purple/assets/js/hoverable-collapse.js'
-import './purple/assets/js/tablesorter.js'
 import './purple/assets/js/todolist.js'
 import './purple/assets/js/misc.js'
 import './purple/assets/js/tooltips.js'
-
+import $ from 'jquery'
 /*
 import './purple/assets/vendors/js/vendor.bundle.base.js'
 import './purple/assets/vendors/chart.js/Chart.min.js'
@@ -25,7 +23,7 @@ Vue.config.productionTip = false
 
 /* URL base para acceder a APIS */
 Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://dev-back.veloxid.xyz/api'
+axios.defaults.baseURL = 'http://localhost/api'
 
 Vue.use(Vuelidate)
 

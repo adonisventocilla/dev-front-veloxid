@@ -1,15 +1,15 @@
 <template>
   <div>
     <!-- partial:partials/_navbar.html -->
-    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <nav
+      class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"
+    >
       <div
         class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center"
       >
-        <a
-          class="navbar-brand brand-logo"
-          href=""
+        <router-link class="navbar-brand brand-logo" to="/"
           ><img src="@/purple/assets/images/logo.png" alt="logo" />
-        </a>
+        </router-link>
         <a
           class="navbar-brand brand-logo-mini"
           href="@/purple/assets/images/perfil.jpg"
@@ -27,9 +27,7 @@
 
         <ul class="navbar-nav navbar-nav-right">
           <li class="nav-item nav-profile dropdown">
-            <a
-              class="nav-link"
-            >
+            <a class="nav-link">
               <div class="nav-profile-img">
                 <i class="mdi mdi-account"></i>
                 <span class="availability-status online"></span>
@@ -68,6 +66,7 @@
 
 <script>
 import '@/purple/assets/js/off-canvas.js'
+import Cookies from 'js-cookie'
 export default {
   name: 'HomeAdmin',
   data () {
@@ -87,11 +86,20 @@ export default {
   },
   methods: {
     logout () {
-      this.$http.post('/logout', {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: 'include'
-      })
-      this.$router.push('/login')
+      this.$http
+        .post(
+          '/logout',
+          {},
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: 'include'
+          }
+        )
+        .then(res => {
+          Cookies.remove('userLogged')
+          Cookies.remove('rolLogged')
+          this.$router.push('/login')
+        })
     }
   }
 }
