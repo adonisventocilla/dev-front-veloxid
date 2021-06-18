@@ -46,13 +46,29 @@
                           <input
                             type="text"
                             class="form-control"
-                            v-model="data.name"
+                            v-model="user.name"
                             placeholder="Nombres y Apellidos"
                             maxlength="60"
                             title="Ingresar nombres completos"
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.user.name.$touch()"
+                            required
                           />
+                          <template v-if="$v.user.name.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.name.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.name.maxLength"
+                            >
+                              Máx. 60 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -65,12 +81,28 @@
                           <input
                             type="email"
                             class="form-control"
-                            v-model="data.email"
+                            v-model="user.email"
                             placeholder="Email"
                             title="Ingresar correo electrónico actual."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.user.email.$touch()"
+                            required
                           />
+                          <template v-if="$v.user.email.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.email.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.email.email"
+                            >
+                              Correo inválido(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -83,12 +115,28 @@
                           <input
                             type="password"
                             class="form-control"
-                            v-model="data.password"
+                            v-model="user.password"
                             placeholder="Password"
                             title="Ingresar una contraseña con 8 caracteres mínimo."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.user.password.$touch()"
+                            required
                           />
+                          <template v-if="$v.user.password.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.password.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.password.minLength"
+                            >
+                              Mín. 8 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -150,13 +198,29 @@
                           <input
                             type="text"
                             class="form-control"
-                            v-model="data.name"
+                            v-model="user.name"
                             placeholder="Nombres y Apellidos"
                             maxlength="60"
                             title="Ingresar nombres completos"
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.user.name.$touch()"
+                            required
                           />
+                          <template v-if="$v.user.name.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.name.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.name.maxLength"
+                            >
+                              Máx. 60 caracteres(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -169,12 +233,28 @@
                           <input
                             type="email"
                             class="form-control"
-                            v-model="data.email"
+                            v-model="user.email"
                             placeholder="Email"
                             title="Ingresar correo electrónico actual."
                             data-toggle="tooltip"
                             data-placement="right"
+                            @blur="$v.user.email.$touch()"
+                            required
                           />
+                          <template v-if="$v.user.email.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.email.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.user.email.email"
+                            >
+                              Correo inválido(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -187,7 +267,7 @@
                           <input
                             type="password"
                             class="form-control"
-                            v-model="data.password"
+                            v-model="user.password"
                             placeholder="Password"
                             title="Ingresar una contraseña con 8 caracteres mínimo."
                             data-toggle="tooltip"
@@ -297,7 +377,7 @@
                           <div class="col-lg-3">
                             <div class="input-group">
                               <div class="input-group-append">
-                                <button 
+                                <button
                                   class="btn btn-warning btn-sm"
                                   data-toggle="modal"
                                   data-target="#exampleModalActualizarConductor"
@@ -381,13 +461,14 @@
 import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
 import Swal from 'sweetalert2'
+import { required, minLength, maxLength, email } from 'vuelidate/lib/validators'
 export default {
   name: 'UserAdmin',
   components: { HomeAdmin, LateralMenu },
   data () {
     return {
       users: {},
-      data: {
+      user: {
         id: '',
         name: '',
         email: '',
@@ -420,23 +501,25 @@ export default {
     },
 
     saveUser () {
-      const response = this.$http.post(
-        '/chiefs_drivers',
-        this.data,
-        {
+      this.$http
+        .post('/chiefs_drivers', this.user, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: 'include'
-        }
-      )
-      this.data = response.data
-      this.clearFields()
-      Swal.fire(
-        'Registro Exitoso!',
-        'Se registró correctamente los datos del usuario!',
-        'success'
-      )
-      this.getUsers()
+        })
+        .then(function (response) {
+          Swal.fire(
+            'Registro Exitoso!',
+            'Se registró correctamente los datos del usuario!',
+            'success'
+          )
+          this.getUsers()
+          this.clearFields()
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
+
     changestatus (id, status) {
       let me = this
       if (status === 1) {
@@ -481,12 +564,14 @@ export default {
         }).then(result => {
           if (result.value) {
             this.$http
-              .post('/users/' + id,
+              .post(
+                '/users/' + id,
                 { _method: 'put' },
                 {
                   headers: { 'Content-Type': 'application/json' },
                   withCredentials: 'include'
-                })
+                }
+              )
               .then(function (response) {
                 Swal.fire(
                   'Operación Exitosa!',
@@ -508,10 +593,10 @@ export default {
 
     clearFields () {
       /* Limpia los campos e inicializa la variable update a 0 */
-      this.data.id = ''
-      this.data.name = ''
-      this.data.email = ''
-      this.data.password = ''
+      this.user.id = 0
+      this.user.name = ''
+      this.user.email = ''
+      this.user.password = ''
     },
 
     loadFieldsUpdate (id) {
@@ -523,10 +608,10 @@ export default {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: 'include'
         })
-        .then(function (response) {
-          me.data.id = response.data.id
-          me.data.email = response.data.email
-          me.data.name = response.data.name
+        .then(function (res) {
+          console.log(res.data.name)
+          me.user.name = res.data.name
+          me.user.email = res.data.email
         })
         .catch(function (error) {
           // handle error
@@ -541,16 +626,16 @@ export default {
       }
       let me = this
       let formData = new FormData()
-      if (this.data.password) {
-        formData.append('password', this.data.password)
-        formData.append('name', this.data.name)
-        formData.append('email', this.data.email)
+      if (this.user.password) {
+        formData.append('password', this.user.password)
+        formData.append('name', this.user.name)
+        formData.append('email', this.user.email)
       } else {
-        formData.append('name', this.data.name)
-        formData.append('email', this.data.email)
+        formData.append('name', this.user.name)
+        formData.append('email', this.user.email)
       }
       formData.append('_method', 'put')
-      let url = '/chiefs_drivers/' + this.data.id // Ruta que hemos creado para enviar una tarea y guardarla
+      let url = '/chiefs_drivers/' + this.user.id // Ruta que hemos creado para enviar una tarea y guardarla
       this.$http
         .post(url, formData, config)
         .then(function (response) {
@@ -568,6 +653,33 @@ export default {
     }
   },
 
-  mounted () {}
+  mounted () {},
+
+  validations: {
+    user: {
+      name: {
+        required,
+        maxLength: maxLength(60)
+      },
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        minLength: minLength(8)
+      }
+    }
+  }
 }
 </script>
+
+<style>
+.error {
+  text-align: left;
+  color: #fe7c96;
+  margin-top: 0%;
+  margin-bottom: -1%;
+  font-size: 0.75rem;
+}
+</style>
