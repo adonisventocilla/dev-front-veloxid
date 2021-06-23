@@ -6,7 +6,13 @@
         <div class="col-12 grid-margin">
           <div class="card">
             <div class="card-body">
-              <center><h2 class="card-title">Cotización de Pedido</h2></center>
+              <h3>
+                <font style="vertical-align: inherit;"
+                  ><font style="vertical-align: inherit;"
+                    >Cotización de Pedidos</font
+                  ></font
+                >
+              </h3>
               <p class="card-description"></p>
               <div class="row" v-if="service.products == ''">
                 <div class="col-md-6">
@@ -114,7 +120,13 @@
                 </div>
               </div>
 
-              <center><h4>Registrar Producto</h4></center>
+              <h4>
+                <font style="vertical-align: inherit;"
+                  ><font style="vertical-align: inherit;"
+                    >Registrar Productos</font
+                  ></font
+                >
+              </h4>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group row">
@@ -256,7 +268,7 @@
             </div>
               -->
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-3">
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Peso</label>
                     <div class="col-sm-9">
@@ -301,7 +313,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-3">
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Alto</label>
                     <div class="col-sm-9">
@@ -345,10 +357,8 @@
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-3">
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Ancho</label>
                     <div class="col-sm-9">
@@ -393,7 +403,7 @@
                   </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-3">
                   <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Largo</label>
                     <div class="col-sm-9">
@@ -587,7 +597,9 @@
                 </div>
                 <div class="col-md-2">
                   <div class="form-group row">
-                    <button @click="cancelarPedido()" class="btn btn-secondary">Cancelar</button>
+                    <button @click="cancelarPedido()" class="btn btn-secondary">
+                      Cancelar
+                    </button>
                   </div>
                 </div>
                 <div class="col-md-5" v-if="confirmacion == true">
@@ -762,8 +774,16 @@
                         class="form-control"
                         v-model="service.direccion_origen"
                         placeholder="Escribir Dirección"
-                        required
+                        @blur="$v.service.direccion_origen.$touch()"
                       />
+                      <template v-if="$v.service.direccion_origen.$error">
+                        <p
+                          class="errorMessage error"
+                          v-if="!$v.service.direccion_origen.required"
+                        >
+                          Este campo es obligatorio(*)
+                        </p>
+                      </template>
                     </div>
                   </div>
                 </div>
@@ -778,8 +798,16 @@
                         v-model="service.direccion_destino"
                         class="form-control"
                         placeholder="Escribir Dirección"
-                        required
+                        @blur="$v.service.direccion_destino.$touch()"
                       />
+                      <template v-if="$v.service.direccion_destino.$error">
+                        <p
+                          class="errorMessage error"
+                          v-if="!$v.service.direccion_destino.required"
+                        >
+                          Este campo es obligatorio(*)
+                        </p>
+                      </template>
                     </div>
                   </div>
                 </div>
@@ -796,8 +824,16 @@
                         type="date"
                         class="form-control"
                         v-model="service.fecha_recojo"
-                        required
+                        @blur="$v.service.fecha_recojo.$touch()"
                       />
+                      <template v-if="$v.service.fecha_recojo.$error">
+                        <p
+                          class="errorMessage error"
+                          v-if="!$v.service.fecha_recojo.required"
+                        >
+                          Este campo es obligatorio(*)
+                        </p>
+                      </template>
                     </div>
                   </div>
                 </div>
@@ -811,8 +847,16 @@
                         type="date"
                         v-model="service.fecha_entrega"
                         class="form-control"
-                        required
+                        @blur="$v.service.fecha_entrega.$touch()"
                       />
+                      <template v-if="$v.service.fecha_entrega.$error">
+                        <p
+                          class="errorMessage error"
+                          v-if="!$v.service.fecha_entrega.required"
+                        >
+                          Este campo es obligatorio(*)
+                        </p>
+                      </template>
                     </div>
                   </div>
                 </div>
@@ -827,6 +871,7 @@
                         class="form-check-input"
                         type="checkbox"
                         v-model="terminos"
+                        @blur="$v.terminos.$touch()"
                       />
                     </label>
                     Acepto los
@@ -837,27 +882,42 @@
                     >
                       <b>Términos y Condiciones</b>
                     </a>
+                    <template v-if="$v.terminos.$error">
+                      <p
+                        class="errorMessage error"
+                        v-if="!$v.terminos.required"
+                      >
+                        Debe aceptar los término(*)
+                      </p>
+                    </template>
                   </div>
                   <div class="row">
-                    <div class="col-m-3">
-                      <button
-                        v-if="terminos == false"
-                        class="btn btn-secondary mr-2"
-                        disabled
-                      >
-                        Pagar
-                      </button>
-                      <button
-                        v-else
-                        class="btn btn-gradient-primary mr-2"
-                        @click="makeRequest()"
-                      >
-                        Pagar
-                      </button>
+                    <div class="form-group row">
+                      <div class="col-md-6">
+                        <button
+                          v-if="terminos == false"
+                          class="btn btn-secondary mr-2"
+                          disabled
+                        >
+                          Pagar
+                        </button>
+                        <button
+                          v-else
+                          class="btn btn-gradient-primary mr-2"
+                          @click="makeRequest()"
+                        >
+                          Pagar
+                        </button>
+                      </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                       <div class="form-group row">
-                        <button class="btn btn-secondary" @click="cancelarPedido()">Cancelar</button>
+                        <button
+                          class="btn btn-secondary"
+                          @click="cancelarPedido()"
+                        >
+                          Cancelar
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -965,8 +1025,7 @@ export default {
           localStorage.removeItem('distritodestino')
           Swal.fire(
             'Operación Exitosa!',
-            'Tu servicio ha sido registrado correctamente. Tu número de Operación es:',
-            service.transaction_id,
+            'Tu servicio ha sido registrado correctamente!',
             'success'
           )
           this.$router.push('/tracking')
@@ -990,10 +1049,11 @@ export default {
   },
   methods: {
     saveProductos (producto) {
-      if (producto != null) {
-        /// Obtener precio del producto
+      if (producto.descripcion === '') {
+        Swal.fire('Error!', 'No se ha registrado un producto', 'error')
+      } else {
+        // Obtener precio del producto
 
-        // obtener el precio mediante la función api/prices
         var distritodestino = this.distritodestino
         var distritoorigen = this.distritoorigen
 
@@ -1050,7 +1110,6 @@ export default {
       reader.readAsDataURL(file)
       reader.onload = () => {
         this.producto.imagen = reader.result
-        console.log(this.producto.imagen)
       }
       reader.onerror = function (error) {
         console.log('Error: ', error)
@@ -1127,18 +1186,31 @@ export default {
     makeRequest: function () {
       const parsed = JSON.stringify(this.service)
       localStorage.setItem('service', parsed)
-      const config = {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: 'include'
+      if (
+        this.service.direccion_origen === '' ||
+        this.service.direccion_destino === '' ||
+        this.service.fecha_recojo === '' ||
+        this.service.fecha_entrega === ''
+      ) {
+        Swal.fire(
+          'Error!',
+          'Necesita completar todos los campos para confirmar el servicio.',
+          'error'
+        )
+      } else {
+        const config = {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: 'include'
+        }
+        this.$http
+          .post('/checkout', { price: this.service.total }, config)
+          .then(res => {
+            window.location.replace(res.data.init_point)
+          })
+          .catch(error => {
+            console.log(error)
+          })
       }
-      this.$http
-        .post('/checkout', { price: this.service.total }, config)
-        .then(res => {
-          window.location.replace(res.data.init_point)
-        })
-        .catch(error => {
-          console.log(error)
-        })
     }
   },
 
@@ -1224,12 +1296,30 @@ export default {
     },
     categorie: {
       required
+    },
+
+    service: {
+      direccion_origen: {
+        required
+      },
+      direccion_destino: {
+        required
+      },
+      fecha_recojo: {
+        required
+      },
+      fecha_entrega: {
+        required
+      }
+    },
+    terminos: {
+      required
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
 .card .card-title {
   font-size: 1.5rem;
 }

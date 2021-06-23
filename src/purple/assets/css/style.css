@@ -12251,12 +12251,11 @@ code {
     outline: none; }
 
 select.form-control {
-  border-color: #309D4F;
+    /* border-color: #309D4F; */
     padding: .4375rem .75rem;
-    border: 0;
-    background: #309D4C;
-    /* outline: 1px solid #ccc; */
-    color: #FFFFFF; }
+    /*background: #309D4C;*/
+    outline: 1px solid #ccc; 
+    /* color: #FFFFFF; */ }
   select.form-control:focus {
     outline: 1px solid #ccc; }
   select.form-control.border-primary {
