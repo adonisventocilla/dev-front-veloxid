@@ -16,7 +16,13 @@
             <div class="col-lg-12">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Historial de Revisiones</h4>
+                  <h4>
+                <font style="vertical-align: inherit;"
+                  ><font style="vertical-align: inherit;"
+                    >Historial de Revisiones</font
+                  ></font
+                >
+              </h4>
 
                   <div class="form-group row" style="margin-top: 30px">
                     <div class="col-lg-4">

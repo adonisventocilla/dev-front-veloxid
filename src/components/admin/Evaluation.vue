@@ -20,7 +20,13 @@
                     <!-- Evaluacion Conductor -->
                     <div class="col-lg-6 col-md-4 border-right">
                       <div class="page-header">
-                        <h4>Evaluación de Conductor</h4>
+                        <h4>
+                          <font style="vertical-align: inherit;"
+                            ><font style="vertical-align: inherit;"
+                              >Evaluación de Conductor</font
+                            ></font
+                          >
+                        </h4>
                       </div>
                       <div class="input-group chat-search-input">
                         <input
@@ -103,7 +109,13 @@
                     <div class="col-lg-6 col-md-4">
                       <div class="row">
                         <div class="col">
-                          <h4>¿Desea evaluar vehículos?</h4>
+                          <h4>
+                            <font style="vertical-align: inherit;"
+                              ><font style="vertical-align: inherit;"
+                                >¿Desea evaluar vehículos?</font
+                              ></font
+                            >
+                          </h4>
                         </div>
                         <div class="col">
                           <button
@@ -118,7 +130,13 @@
                       <br /><br />
                       <div v-if="evaluar === true">
                         <div class="page-header">
-                          <h4>Evaluación de Vehículo</h4>
+                          <h4>
+                            <font style="vertical-align: inherit;"
+                              ><font style="vertical-align: inherit;"
+                                >Evaluación de Vehículo</font
+                              ></font
+                            >
+                          </h4>
                         </div>
                         <select class="form-control" v-model="idvehicle">
                           <option
