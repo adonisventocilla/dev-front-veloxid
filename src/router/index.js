@@ -13,6 +13,8 @@ import Evaluation from '@/components/admin/Evaluation'
 import RevisionDetail from '@/components/admin/RevisionDetail'
 import Cotization from '@/components/front/Cotization'
 import Tracking from '@/components/admin/Tracking'
+import Orders from '@/components/admin/Order'
+import OrdersConfirmation from '@/components/admin/OrderConfirmation'
 
 Vue.use(Router)
 
@@ -77,6 +79,16 @@ const routes = new Router({
       path: '/tracking',
       name: 'Tracking',
       component: Tracking
+    },
+    {
+      path: '/pedidos',
+      name: 'Orders',
+      component: Orders
+    },
+    {
+      path: '/confirmacionconductor',
+      name: 'OrdersConfirmation',
+      component: OrdersConfirmation
     }
   ]
 })
@@ -131,6 +143,18 @@ routes.beforeEach((to, from, next) => {
   }
 
   if (to.fullPath === '/tracking') {
+    if (Cookies.get('userLogged') === undefined) {
+      next('/login')
+    }
+  }
+
+  if (to.fullPath === '/pedidos') {
+    if (Cookies.get('userLogged') === undefined) {
+      next('/login')
+    }
+  }
+
+  if (to.fullPath === '/confirmacionconductor') {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
     }
