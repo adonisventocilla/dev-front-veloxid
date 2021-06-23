@@ -214,6 +214,9 @@ export default {
                 if (Cookies.get('rolLogged') === '4') {
                   this.$router.push('/usuarios')
                 }
+                if (Cookies.get('rolLogged') === '2') {
+                  this.$router.push('/confirmacionconductor')
+                }
               })
           } else {
             Swal.fire(
