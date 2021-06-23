@@ -609,7 +609,6 @@ export default {
           withCredentials: 'include'
         })
         .then(function (res) {
-          console.log(res.data.name)
           me.user.name = res.data.name
           me.user.email = res.data.email
         })
