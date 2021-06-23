@@ -397,7 +397,13 @@
                 ></i
               ></router-link>
               <br /><br />
-              <h3 class="card-title">Datos del Conductor</h3>
+              <h4>
+                <font style="vertical-align: inherit;"
+                  ><font style="vertical-align: inherit;"
+                    >Datos del Conductor</font
+                  ></font
+                >
+              </h4>
               <br />
               <div class="row">
                 <div class="col-lg-4">

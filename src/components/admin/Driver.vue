@@ -282,9 +282,23 @@
                       <div class="form-group row">
                         <div class="col-sm-12">
                           <input
+                            v-if = "idDocumentType == 1" 
                             type="number"
                             class="form-control"
                             v-model="numero"
+                            maxlength="8"
+                            placeholder="N° Documento"
+                            title="Ingresar número de identidad del conductor."
+                            data-toggle="tooltip"
+                            data-placement="right"
+                            @blur="$v.numero.$touch()"
+                          />
+                          <input
+                            v-if = "idDocumentType == 2" 
+                            type="number"
+                            class="form-control"
+                            v-model="numero"
+                            maxlength="12"
                             placeholder="N° Documento"
                             title="Ingresar número de identidad del conductor."
                             data-toggle="tooltip"
@@ -1062,14 +1076,14 @@
                               v-if="!$v.placa.required"
                             >
                               Este campo es obligatorio(*)
-                            </p>                          
+                            </p>
                             <p
                               class="errorMessage error"
                               v-if="!$v.placa.validPlaca"
                             >
                               El número de placa no es válido(*)
                             </p>
-                          </template>                            
+                          </template>
                           <!-- <template v-if="$v.placa.$error">
                             <p class="errorMessage error" v-if="!$v.placa.required">Este campo es obligatorio(*)</p>
                           </template>                               -->
@@ -1103,20 +1117,20 @@
                               >Ingresar la capacidad máxima del vehículo.</code
                             >-->
                           </div>
-                        <template v-if="$v.capacidadCarga.$error">
-                          <p
-                            class="errorMessage error"
-                            v-if="!$v.capacidadCarga.required"
-                          >
-                            Este campo es obligatorio(*)
-                          </p>
-                          <p
-                            class="errorMessage error"
-                            v-if="!$v.capacidadCarga.validNumeric"
-                          >
-                            La capacidad ingresada no es válida(*)
-                          </p>                          
-                        </template>
+                          <template v-if="$v.capacidadCarga.$error">
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.capacidadCarga.required"
+                            >
+                              Este campo es obligatorio(*)
+                            </p>
+                            <p
+                              class="errorMessage error"
+                              v-if="!$v.capacidadCarga.validNumeric"
+                            >
+                              La capacidad ingresada no es válida(*)
+                            </p>
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -1131,7 +1145,11 @@
                           >Tipo de Vehículo</label
                         >
                         <div class="col-sm-9">
-                          <select class="form-control" v-model="idVehicleType" @blur="$v.idVehicleType.$touch()">
+                          <select
+                            class="form-control"
+                            v-model="idVehicleType"
+                            @blur="$v.idVehicleType.$touch()"
+                          >
                             <option
                               v-for="item in vehicletypes"
                               :value="item.id"
@@ -1147,7 +1165,7 @@
                             >
                               Seleccione tipo de vehículo(*)
                             </p>
-                          </template>                           
+                          </template>
                         </div>
                       </div>
                     </div>
@@ -1458,7 +1476,6 @@
 </template>
 
 <script>
-import '@/purple/assets/js/off-canvas.js'
 import HomeAdmin from '@/components/admin/HomeAdmin'
 import LateralMenu from '@/components/admin/LateralMenu'
 import Swal from 'sweetalert2'
@@ -1556,48 +1573,50 @@ export default {
     },
 
     saveDrivers () {
-      console.log(this.nombre)
-      const config = {
-        headers: { 'content-type': 'multipart/form-data' },
-        withCredentials: 'include'
+      if (this.constanciaEstadoSalud === '' || this.imagen === '') {
+        Swal.fire('Error!', 'Se debe completar todos los campos!', 'error')
+      } else {
+        const config = {
+          headers: { 'content-type': 'multipart/form-data' },
+          withCredentials: 'include'
+        }
+        let me = this
+        let formData = new FormData()
+        formData.append('nombre', this.nombre)
+        formData.append('apellidoPaterno', this.apellidoPaterno)
+        formData.append('apellidoMaterno', this.apellidoMaterno)
+        formData.append('telefono', this.telefono)
+        formData.append('email', this.email)
+        formData.append('direccion', this.direccion)
+        formData.append('idDocumentType', this.idDocumentType)
+        formData.append('licenciaConducir', this.licenciaConducir)
+        formData.append('numero', this.numero)
+        formData.append('banco', this.banco)
+        formData.append('cuentaBancaria', this.cuentaBancaria)
+        formData.append('constanciaEstadoSalud', this.constanciaEstadoSalud)
+        formData.append('name', this.name)
+        formData.append('password', this.password)
+        formData.append('imagen', this.imagen)
+        let url = '/drivers' // Ruta que hemos creado para enviar un vehiculo y guardarlo
+        this.$http
+          .post(url, formData, config)
+          .then(function (response) {
+            Swal.fire(
+              'Registro Exitoso!',
+              'Se registró correctamente los datos del conductor!',
+              'success'
+            )
+            me.getDrivers() // llamamos al metodo getVehicles(); para que refresque nuestro array y muestro los nuevos datos
+            me.clearFields() // Limpiamos los campos e inicializamos la variable update a 0
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
       }
-      let me = this
-      let formData = new FormData()
-      formData.append('nombre', this.nombre)
-      formData.append('apellidoPaterno', this.apellidoPaterno)
-      formData.append('apellidoMaterno', this.apellidoMaterno)
-      formData.append('telefono', this.telefono)
-      formData.append('email', this.email)
-      formData.append('direccion', this.direccion)
-      formData.append('idDocumentType', this.idDocumentType)
-      formData.append('licenciaConducir', this.licenciaConducir)
-      formData.append('numero', this.numero)
-      formData.append('banco', this.banco)
-      formData.append('cuentaBancaria', this.cuentaBancaria)
-      formData.append('constanciaEstadoSalud', this.constanciaEstadoSalud)
-      formData.append('name', this.name)
-      formData.append('password', this.password)
-      formData.append('imagen', this.imagen)
-      let url = '/drivers' // Ruta que hemos creado para enviar un vehiculo y guardarlo
-      this.$http
-        .post(url, formData, config)
-        .then(function (response) {
-          Swal.fire(
-            'Registro Exitoso!',
-            'Se registró correctamente los datos del conductor!',
-            'success'
-          )
-          me.getDrivers() // llamamos al metodo getVehicles(); para que refresque nuestro array y muestro los nuevos datos
-          me.clearFields() // Limpiamos los campos e inicializamos la variable update a 0
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
     },
 
     addVehicles (id) {
       this.idDriver = id
-      console.log(this.idDriver)
     },
 
     viewdetalle (item) {
