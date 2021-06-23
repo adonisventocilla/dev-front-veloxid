@@ -103,8 +103,8 @@
                     <div class="col-lg-3 pl-0">
                       <p class="mt-2 mb-2"><b>Conductor Asignado</b></p>
                       <p>
-                        Nombres : {{ nombresconductor }} <br />
-                        DNI: {{ dni }}
+                        Nombres Y Apellidos : {{ nombresconductor }} <br />
+                        Documento de Identidad: {{ dni }}
                       </p>
                     </div>
                     <div class="col-lg-3 pr-0">

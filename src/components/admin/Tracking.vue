@@ -45,14 +45,14 @@
                             {{ detail.fecha_entrega | timeFormat }} <br />
                             Estado del Servicio :
                             <label
-                              v-if="detail.service_state_id == 2"
-                              class="badge badge-info"
-                              >Aceptado</label
-                            >
-                            <label
-                              v-if="detail.service_state_id == 1"
+                              v-if="detail.service_state_id == 1 || detail.service_state_id == 6 || detail.service_state_id == 7"
                               class="badge badge-warning"
                               >Pendiente</label
+                            >
+                            <label
+                              v-if="detail.service_state_id == 2"
+                              class="badge badge-warning"
+                              >Pedido Asignado</label
                             >
                             <label
                               v-if="detail.service_state_id == 3"
@@ -67,12 +67,7 @@
                             <label
                               v-if="detail.service_state_id == 5"
                               class="badge badge-danger"
-                              >Falso Flete</label
-                            >
-                            <label
-                              v-if="detail.service_state_id == 6"
-                              class="badge badge-danger"
-                              >Rechazado</label
+                              >En Espera</label
                             >
                           </p>
                         </div>
@@ -81,7 +76,7 @@
                       <div
                         class="container-fluid d-flex justify-content-between"
                       >
-                        <div class="col-lg-5 pl-0">
+                        <div class="col-lg-4 pl-0">
                           <p class="mt-2 mb-2"><b>Datos para Recojo</b></p>
                           <p>
                             Distrito : {{ distRecojo }} <br />
@@ -89,12 +84,19 @@
                             Dirección : {{ detail.direccion_origen }}
                           </p>
                         </div>
-                        <div class="col-lg-5 pr-0">
+                        <div class="col-lg-4 pr-0">
                           <p class="mt-2 mb-2"><b>Datos para Entrega</b></p>
                           <p>
                             Distrito : {{ distEntrega }} <br />
                             Zona : {{ zonaEntrega }}<br />
                             Dirección : {{ detail.direccion_destino }}
+                          </p>
+                        </div>
+                        <div class="col-lg-4 pr-0">
+                          <p class="mt-2 mb-2"><b>Datos de Conductor Asignado</b></p>
+                          <p>
+                            Nombres Y Apellidos : {{ nombresconductor }} <br />
+                            Documento de Identidad: {{ dni }}
                           </p>
                         </div>
                       </div>
@@ -137,24 +139,21 @@
                                 <td class="text-left">
                                   {{ item.descripcion }}
                                 </td>
-                                <td>{{ item.peso }}g</td>
-                                <td>{{ item.alto }}</td>
-                                <td>{{ item.ancho }}</td>
-                                <td>{{ item.largo }}</td>
+                                <td>{{ item.peso }} {{item.peso_medida}}</td>
+                                <td>{{ item.alto }} {{item.alto_medida}}</td>
+                                <td>{{ item.ancho }} {{item.ancho_medida}}</td>
+                                <td>{{ item.largo }} {{item.largo_medida}}</td>
                                 <td>{{ item.cantidad }}</td>
-                                <td>{{ item.precio_unitario }}</td>
-                                <td>
+                                <td>S/. {{ item.precio_unitario }}</td>
+                                <td>S/.
                                   {{ item.cantidad * item.precio_unitario }}
                                 </td>
                                 <td>
-                                  <figure>
                                     <img
-                                      with="200"
-                                      height="200"
-                                      :src="img"
+                                      style="width: 200px; height: 220px"
+                                      :src="'http://localhost' + item.imagen"
                                       alt="Foto del Producto"
                                     />
-                                  </figure>
                                 </td>
                               </tr>
                             </tbody>
@@ -165,7 +164,7 @@
                         <!-- <p class="text-right mb-2">Sub - Total amount: $12,348</p> -->
                         <!-- <p class="text-right">IGV (8%) : S/.<p> -->
                         <h4 class="text-right mb-3">
-                          Total : S/{{ detail.total }}
+                          Total : S/. {{ detail.total }}
                         </h4>
                         <hr />
                       </div>
@@ -190,7 +189,13 @@
 
             <div class="card">
               <div class="card-body">
-                <h4 class="card-title">Mis Pedidos</h4>
+                <h4>
+                <font style="vertical-align: inherit;"
+                  ><font style="vertical-align: inherit;"
+                    >Mis Pedidos</font
+                  ></font
+                >
+              </h4>
                 <div class="row mt-4">
                   <div class="table-sorter-wrapper col-lg-12 table-responsive">
                     <table id="sortable-table-2" class="table table-striped">
@@ -228,18 +233,13 @@
                           <td>{{ item.fecha_recojo | timeFormat }}</td>
                           <td>{{ item.fecha_entrega | timeFormat }}</td>
                           <td>
-                            <div v-if="item.service_state_id == 1">
+                            <div v-if="item.service_state_id == 1 || item.service_state_id == 6 || item.service_state_id == 7">
                               <label class="badge badge-warning"
                                 >Pendiente</label
                               >
                             </div>
                             <div v-if="item.service_state_id == 2">
-                              <label class="badge badge-info">Aceptado</label>
-                            </div>
-                            <div v-if="item.service_state_id == 6">
-                              <label class="badge badge-danger"
-                                >Rechazado</label
-                              >
+                              <label class="badge badge-info">Pedido Asignado</label>
                             </div>
                             <div v-if="item.service_state_id == 3">
                               <label class="badge badge-secondary"
@@ -253,7 +253,7 @@
                             </div>
                             <div v-if="item.service_state_id == 5">
                               <label class="badge badge-danger"
-                                >Falso Flete</label
+                                >En Espera</label
                               >
                             </div>
                           </td>
@@ -384,6 +384,7 @@ export default {
       })
       .then(res => {
         this.services = res.data.data
+        this.current_page = res.data.current_page
       })
   },
 
@@ -401,7 +402,6 @@ export default {
         .then(res => {
           this.services = res.data.data
           this.current_page = res.data.current_page
-          console.log(this.services)
         })
         .catch(function (error) {
           // handle error
@@ -422,6 +422,13 @@ export default {
         this.zonaRecojo = this.detail.distrito_origen.zona.zona
         this.distEntrega = this.detail.distrito_destino.distrito
         this.zonaEntrega = this.detail.distrito_destino.zona.zona
+        this.nombresconductor =
+            this.detail.allocations[0].driver.user.person.nombre +
+            ' ' +
+            this.detail.allocations[0].driver.user.person.apellidoPaterno +
+            ' ' +
+            this.detail.allocations[0].driver.user.person.apellidoMaterno
+        this.dni = this.detail.allocations[0].driver.user.person.numero
         this.products = this.detail.products
       })
     },
