@@ -12,67 +12,159 @@
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
-          <div class="page-header">
-            <h3 class="page-title">
-              Dashboard
-            </h3>
-            <nav aria-label="breadcrumb"></nav>
-          </div>
-          <div class="row">
-            <div class="col-md-4 stretch-card grid-margin">
-              <div class="card bg-gradient-danger card-img-holder text-white">
-                <div class="card-body">
-                  <img
-                    src="@/purple/assets/images/dashboard/circle.svg"
-                    class="card-img-absolute"
-                    alt="circle-image"
-                  />
-                  <h4 class="font-weight-normal mb-3">
-                    Pedidos
-                    <i class="mdi mdi-chart-line mdi-24px float-right"></i>
-                  </h4>
-                  <h2 class="mb-5">16</h2>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 stretch-card grid-margin">
-              <div class="card bg-gradient-info card-img-holder text-white">
-                <div class="card-body">
-                  <img
-                    src="@/purple/assets/images/dashboard/circle.svg"
-                    class="card-img-absolute"
-                    alt="circle-image"
-                  />
-                  <h4 class="font-weight-normal mb-3">
-                    Pedidos Pendientes
-                    <i
-                      class="mdi mdi-bookmark-outline mdi-24px float-right"
-                    ></i>
-                  </h4>
-                  <h2 class="mb-5">10</h2>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 stretch-card grid-margin">
-              <div class="card bg-gradient-success card-img-holder text-white">
-                <div class="card-body">
-                  <img
-                    src="@/purple/assets/images/dashboard/circle.svg"
-                    class="card-img-absolute"
-                    alt="circle-image"
-                  />
-                  <h4 class="font-weight-normal mb-3">
-                    Conductores Activos
-                    <i class="mdi mdi-diamond mdi-24px float-right"></i>
-                  </h4>
-                  <h2 class="mb-5">{{ active }}</h2>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <div class="card">
             <div class="card-body">
+              <!-- Filtros -->
+              <div class="form-group row" style="margin-top: 30px">
+                <div class="col-lg-3">
+                  <label>Desde:</label>
+                  <input type="date" class="form-control" v-model="from" />
+                </div>
+                <div class="col-lg-3">
+                  <label>Hasta:</label>
+                  <input type="date" class="form-control" v-model="to" />
+                </div>
+                <div class="col-lg-2">
+                  <label></label>
+                  <button
+                    class="form-control btn btn-gradient-primary mr-2"
+                    @click="filtrarPedidos()"
+                  >
+                    Filtrar
+                  </button>
+                </div>
+              </div>
+
+              <div class="page-header">
+                <h3 class="page-title">
+                  Dashboard
+                </h3>
+                <nav aria-label="breadcrumb"></nav>
+              </div>
+              <div class="row">
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div
+                    class="card bg-gradient-danger card-img-holder text-white"
+                  >
+                    <div class="card-body card-dashboard">
+                      <img
+                        src="@/purple/assets/images/dashboard/circle.svg"
+                        class="card-img-absolute"
+                        alt="circle-image"
+                      />
+                      <h4 class="font-weight-normal mb-3">
+                        Pendientes
+                      </h4>
+                      <h2 class="mb-5">{{ data.Pendiente }}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div
+                    class="card bg-gradient-danger card-img-holder text-white"
+                  >
+                    <div class="card-body card-dashboard ">
+                      <img
+                        src="@/purple/assets/images/dashboard/circle.svg"
+                        class="card-img-absolute"
+                        alt="circle-image"
+                      />
+                      <h4 class="font-weight-normal mb-3">
+                        En Aceptación
+                      </h4>
+                      <h2 class="mb-5">{{data.EnAceptación}}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div
+                    class="card bg-gradient-danger card-img-holder text-white"
+                  >
+                    <div class="card-body card-dashboard ">
+                      <img
+                        src="@/purple/assets/images/dashboard/circle.svg"
+                        class="card-img-absolute"
+                        alt="circle-image"
+                      />
+                      <h4 class="font-weight-normal mb-3">
+                        Aceptados
+                      </h4>
+                      <h2 class="mb-5">{{ data.Aceptado }}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div
+                    class="card bg-gradient-danger card-img-holder text-white"
+                  >
+                    <div class="card-body card-dashboard ">
+                      <img
+                        src="@/purple/assets/images/dashboard/circle.svg"
+                        class="card-img-absolute"
+                        alt="circle-image"
+                      />
+                      <h4 class="font-weight-normal mb-3">
+                        Rechazados
+                      </h4>
+                      <h2 class="mb-5">{{ data.Rechazado }}</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div
+                    class="card bg-gradient-danger card-img-holder text-white"
+                  >
+                    <div class="card-body card-dashboard ">
+                      <img
+                        src="@/purple/assets/images/dashboard/circle.svg"
+                        class="card-img-absolute"
+                        alt="circle-image"
+                      />
+                      <h4 class="font-weight-normal mb-3">
+                        En Tránsito
+                      </h4>
+                      <h2 class="mb-5">{{ data.Entránsito}}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div
+                    class="card bg-gradient-danger card-img-holder text-white"
+                  >
+                    <div class="card-body card-dashboard ">
+                      <img
+                        src="@/purple/assets/images/dashboard/circle.svg"
+                        class="card-img-absolute"
+                        alt="circle-image"
+                      />
+                      <h4 class="font-weight-normal mb-3">
+                        Entregados
+                      </h4>
+                      <h2 class="mb-5">{{ data.Entregado }}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-3 stretch-card grid-margin">
+                  <div
+                    class="card bg-gradient-danger card-img-holder text-white"
+                  >
+                    <div class="card-body card-dashboard ">
+                      <img
+                        src="@/purple/assets/images/dashboard/circle.svg"
+                        class="card-img-absolute"
+                        alt="circle-image"
+                      />
+                      <h4 class="font-weight-normal mb-3">
+                        Falso Flete
+                      </h4>
+                      <h2 class="mb-5">{{ data.Falsoflete }}</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <!-- MODAL PARA VER DETALLE-->
               <div class="modal fade" id="myModal">
@@ -95,12 +187,15 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
-                      <div class="container-fluid d-flex justify-content-between">
+                      <div
+                        class="container-fluid d-flex justify-content-between"
+                      >
                         <div class="col-lg-6 pl-0">
                           <p class="mb-2 mt-3"><b>Datos Generales</b></p>
                           <p>
                             Código : {{ detail.id }}<br />
-                            Fecha de Recojo : {{ detail.fecha_recojo | timeFormat }}
+                            Fecha de Recojo :
+                            {{ detail.fecha_recojo | timeFormat }}
                             <br />
                             Fecha de Entrega :
                             {{ detail.fecha_entrega | timeFormat }}
@@ -145,7 +240,9 @@
                         </div>
                       </div>
 
-                      <div class="container-fluid d-flex justify-content-between">
+                      <div
+                        class="container-fluid d-flex justify-content-between"
+                      >
                         <div class="col-lg-3 pl-0">
                           <p class="mt-2 mb-2"><b>Datos para Recojo</b></p>
                           <p>
@@ -164,7 +261,12 @@
                         </div>
                         <div class="col-lg-3 pl-0">
                           <p class="mt-2 mb-2"><b>Conductor Asignado</b></p>
-                          <p>
+                          <p
+                            v-if="
+                              nombresconductor !== undefined ||
+                                dni !== undefined
+                            "
+                          >
                             Nombres Y Apellidos : {{ nombresconductor }} <br />
                             Documento de Identidad: {{ dni }}
                           </p>
@@ -186,7 +288,9 @@
                           </div>
                         </div>
                       </div>
-                      <div class="container-fluid d-flex justify-content-between">
+                      <div
+                        class="container-fluid d-flex justify-content-between"
+                      >
                         <div class="col-lg-6 pl-0">
                           <p class="mb-2 mt-2"><b>Productos</b></p>
                         </div>
@@ -197,7 +301,9 @@
                         <div class="table-responsive w-100">
                           <table class="table">
                             <thead>
-                              <tr style="background-color: #309D4F; color: #fff">
+                              <tr
+                                style="background-color: #309D4F; color: #fff"
+                              >
                                 <th>#</th>
                                 <th>Descripción</th>
                                 <th class="text-right">Peso</th>
@@ -217,14 +323,22 @@
                                 :key="item.id"
                               >
                                 <td class="text-left">{{ item.id }}</td>
-                                <td class="text-left">{{ item.descripcion }}</td>
+                                <td class="text-left">
+                                  {{ item.descripcion }}
+                                </td>
                                 <td>{{ item.peso }} {{ item.peso_medida }}</td>
                                 <td>{{ item.alto }} {{ item.alto_medida }}</td>
-                                <td>{{ item.ancho }} {{ item.ancho_medida }}</td>
-                                <td>{{ item.largo }} {{ item.largo_medida }}</td>
+                                <td>
+                                  {{ item.ancho }} {{ item.ancho_medida }}
+                                </td>
+                                <td>
+                                  {{ item.largo }} {{ item.largo_medida }}
+                                </td>
                                 <td>{{ item.cantidad }}</td>
                                 <td>{{ item.precio_unitario }}</td>
-                                <td>{{ item.cantidad * item.precio_unitario }}</td>
+                                <td>
+                                  {{ item.cantidad * item.precio_unitario }}
+                                </td>
                                 <!-- <td>
                             <div class="file-field"><a class="btn-floating purple-gradient mt-0 float-left"><i aria-hidden="true" class="fas fa-cloud-upload-alt"></i> <input type="file" @change="subirImagen"></a></div>
                           </td> -->
@@ -277,51 +391,22 @@
               </div>
               <!-- FIN -->
 
-              <h4>
-                <font style="vertical-align: inherit;"
-                  ><font style="vertical-align: inherit;">Pedidos</font></font
-                >
-              </h4>
-              <!-- Filtros -->
-              <div class="form-group row" style="margin-top: 30px">
-                <div class="col-lg-3">
-                  <label>Desde:</label>
-                  <input type="date" class="form-control" v-model="from" />
-                </div>
-                <div class="col-lg-3">
-                  <label>Hasta:</label>
-                  <input type="date" class="form-control" v-model="to" />
-                </div>      
-
-                <div class="col-lg-4">
-                  <label>Filtrar por Estado:</label>
-                  <select class="form-control" v-model="state">
-                    <option value="">Todos</option>
-                    <option
-                      v-for="item in states"
-                      :value="item.id"
-                      :key="item.id"
-                    >
-                      {{ item.estado }}
-                    </option>
-                  </select>
-                </div>
-                <div class="col-lg-2">
-                  <label></label>
-                  <button
-                    class="form-control btn btn-gradient-primary mr-2"
-                    @click="filtrarPedidos()"
-                  >
-                    Filtrar
-                  </button>
-                </div>
-              </div>
+              <h3 class="page-title">
+                Listado de pedidos
+              </h3>
+              <br />
+              <p>
+                Se muestra los últimos 15 pedidos dentro del rango seleccionado.
+              </p>
               <!-- Tabla -->
               <div class="row">
                 <div class="table-sorter-wrapper col-lg-12 table-responsive">
                   <table id="sortable-table-2" class="table table-striped">
                     <thead>
-                      <tr class="m-0" style="background-color: #309D4F; color: #fff">
+                      <tr
+                        class="m-0"
+                        style="background-color: #309D4F; color: #fff"
+                      >
                         <th>Código</th>
                         <th class="sortStyle ascStyle w-50">
                           Origen<i class="mdi mdi-chevron-down"></i>
@@ -349,7 +434,11 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr class="m-0" v-for="item in services.data" :key="item.id">
+                      <tr
+                        class="m-0"
+                        v-for="item in services.data"
+                        :key="item.id"
+                      >
                         <td>{{ item.id }}</td>
                         <td class="w-50">
                           {{ item.direccion_origen }} -
@@ -421,53 +510,8 @@
                   </table>
                 </div>
               </div>
-              <!-- Paginacion -->
-              <div class="row">
-                <div class="col-sm-12 col-md-5"></div>
-                <div class="col-sm-12 col-md-7">
-                  <div
-                    class="dataTables_paginate paging_simple_numbers"
-                    id="order-listing_paginate"
-                  >
-                    <ul class="pagination">
-                      <li id="order-listing_previous">
-                        <button
-                          aria-controls="order-listing"
-                          data-dt-idx="0"
-                          tabindex="0"
-                          class="page-link"
-                          @click="getPedidos(current_page - 1)"
-                        >
-                          Anterior
-                        </button>
-                      </li>
-                      <li class="paginate_button page-item active">
-                        <a
-                          aria-controls="order-listing"
-                          data-dt-idx="0"
-                          tabindex="0"
-                          class="page-link"
-                          >{{ current_page }}</a
-                        >
-                      </li>
-                      <li id="order-listing_next">
-                        <button
-                          aria-controls="order-listing"
-                          data-dt-idx="0"
-                          tabindex="0"
-                          class="page-link"
-                          @click="getPedidos(current_page + 1)"
-                        >
-                          Siguiente
-                        </button>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -484,36 +528,26 @@ export default {
   data () {
     return {
       active: '',
-
+      data: '',
       state: '',
-      states: '',
       services: [],
       service_id: '',
       detail: [],
-      products: [], 
+      products: [],
       imagenminiatura: '',
       imagenevidence: '',
       distRecojo: '',
       zonaRecojo: '',
       distEntrega: '',
       zonaEntrega: '',
-
+      nombresconductor: '',
+      dni: '',
       from: '',
-      to: '',
-
-      current_page: 0     
+      to: ''
     }
   },
 
   created () {
-    this.$http
-      .get('/services/states', {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: 'include'
-      })
-      .then(res => {
-        this.states = res.data
-      })
     this.$http
       .get('/services/all', {
         headers: { 'Content-Type': 'application/json' },
@@ -521,65 +555,27 @@ export default {
       })
       .then(res => {
         this.services = res.data
-        this.current_page = res.data.current_page
       })
     this.$http
-      .get('/drivers', {
-        headers: { 'Content-Type': 'application/json' },
-        withCredentials: 'include'
-      })
+      .post(
+        '/dashboard/services ',
+        {},
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: 'include'
+        }
+      )
       .then(res => {
-        this.active = res.data.active
+        this.data = res.data
       })
   },
 
   methods: {
-    getPedidos (num_page) {
-      this.$http
-        .get('/services/all', {
-          params: {
-            page: num_page
-          },
-          headers: { 'Content-Type': 'application/json' },
-          withCredentials: 'include'
-        })
-        .then(res => {
-          this.services = res.data
-          this.current_page = res.data.current_page
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error)
-        })
-    },
     // Métodos de filtro
     filtrarPedidos () {
-      if (this.state === '') {
-        this.$http
-          .get('/services/all', {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: 'include'
-          })
-          .then(res => {
-            this.services = res.data
-            this.current_page = res.data.current_page
-          })
-      } else {
-        this.$http
-          .get('/services/states/' + this.state, {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: 'include'
-          })
-          .then(res => {
-            this.services = res.data
-            this.current_page = res.data.current_page
-          })
-      }
-    },
-    filtrar () {
       this.$http
         .post(
-          '/revisions',
+          '/dashboard/services ',
           {
             from: this.from,
             to: this.to
@@ -590,12 +586,9 @@ export default {
           }
         )
         .then(res => {
-          this.revisionhistory = res.data.data
+          this.data = res.data
         })
-        .catch(function (error) {
-          console.log(error)
-        })
-    },    
+    },
     // Detalle de Pedido
     getDetalle (arg) {
       this.$http
@@ -628,48 +621,19 @@ export default {
       this.imagenevidence = ''
       this.nombresconductor = ''
       this.dni = ''
-    },
-
-    load (id) {
-      this.service_id = id
-    },
-
-    asignar () {
-      if (this.driver_id === '') {
-        this.$fire({
-          title: 'Error',
-          text: 'Seleccione a un Conductor',
-          type: 'error',
-          showConfirmButton: false,
-          timer: 3000
-        })
-      }
-      this.$http
-        .post(
-          '/allocations',
-          {
-            service_id: this.service_id,
-            driver_id: this.driver_id
-          },
-          {
-            headers: { 'Content-Type': 'application/json' },
-            withCredentials: 'include'
-          }
-        )
-        .then(res => {
-          Swal.fire(
-            'Operación Exitosa!',
-            'Se asignó el pedido correctamente!',
-            'success'
-          )
-          this.getPedidos()
-        })
-    }   
+    }
   },
   filters: {
     timeFormat: function (arg) {
       return moment(arg).format('L')
     }
-  },  
+  }
 }
 </script>
+
+<style>
+.card .card-dashboard {
+  padding: 1rem 2rem !important;
+  margin-bottom: -35px !important;
+}
+</style>
