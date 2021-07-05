@@ -1049,8 +1049,8 @@ export default {
   },
   methods: {
     saveProductos (producto) {
-      if (producto.descripcion === '') {
-        Swal.fire('Error!', 'No se ha registrado un producto', 'error')
+      if (producto.descripcion === '' || producto.imagen === '' || this.distritodestino === '' || this.distritoorigen === '') {
+        Swal.fire('Error!', 'Todos los campos de registro son obligatorios', 'error')
       } else {
         // Obtener precio del producto
 
@@ -1157,6 +1157,7 @@ export default {
       localStorage.removeItem('service')
       localStorage.removeItem('distritoorigen')
       localStorage.removeItem('distritodestino')
+      location.reload()
     },
 
     confirmPedido () {

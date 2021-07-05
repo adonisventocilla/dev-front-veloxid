@@ -396,7 +396,7 @@
               </h3>
               <br />
               <p>
-                Se muestra los últimos 15 pedidos dentro del rango seleccionado.
+                Se muestra los últimos 12 pedidos dentro del rango seleccionado.
               </p>
               <!-- Tabla -->
               <div class="row">
