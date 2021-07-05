@@ -648,7 +648,7 @@
                     <div
                       v-if="
                         item.deleted_at !== null &&
-                          item.is_suitable === 2
+                          item.is_suitable === 0
                       "
                       class="badge style-badge-danger"
                     >

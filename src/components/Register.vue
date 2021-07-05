@@ -285,7 +285,7 @@ export default {
         )
         .then(res => {
           this.data = res.data
-          Swal.fire('Registro Exitoso!', 'You clicked the button!', 'success')
+          Swal.fire('Registro Exitoso!', 'Te has registrado!', 'success')
           this.$router.push('/login')
         })
         .catch(function () {

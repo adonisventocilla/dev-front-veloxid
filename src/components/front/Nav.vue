@@ -17,6 +17,7 @@
         >
         <router-link to="/home" v-if="message == 'Success' && rol == '3'">Home</router-link>
         <router-link to="/tracking" v-if="message == 'Success' && rol == '1'">Home</router-link>
+        <router-link to="/confirmacionconductor" v-if="message == 'Success' && rol == '2'">Home</router-link>
         <router-link
           router-link
           to="/login"

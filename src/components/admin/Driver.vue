@@ -1328,7 +1328,7 @@
                     <div
                       v-if="
                         item.status.nombre === 'activo' &&
-                          item.driver.is_suitable === 2
+                          item.driver.is_suitable === 0
                       "
                       class="badge style-badge-danger"
                     >

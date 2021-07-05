@@ -46,7 +46,7 @@ const routes = new Router({
       component: Driver
     },
     {
-      path: '/vehicles/:id',
+      path: '/vehiculos/:id',
       name: 'Vehicle',
       component: Vehicle
     },
@@ -98,11 +98,17 @@ routes.beforeEach((to, from, next) => {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
     }
+    if (Cookies.get('rolLogged') !== '3') {
+      next(from)
+    }
   }
 
   if (to.fullPath === '/conductores') {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
+    }
+    if (Cookies.get('rolLogged') !== '3') {
+      next(from)
     }
   }
 
@@ -110,17 +116,17 @@ routes.beforeEach((to, from, next) => {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
     }
+    if (Cookies.get('rolLogged') !== '3') {
+      next(from)
+    }
   }
 
   if (to.fullPath === '/evaluacion') {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
     }
-  }
-
-  if (to.fullPath === '/vehicles') {
-    if (Cookies.get('userLogged') === undefined) {
-      next('/login')
+    if (Cookies.get('rolLogged') !== '3') {
+      next(from)
     }
   }
 
@@ -128,11 +134,17 @@ routes.beforeEach((to, from, next) => {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
     }
+    if (Cookies.get('rolLogged') !== '3') {
+      next(from)
+    }
   }
 
   if (to.fullPath === '/revisionesdetalle') {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
+    }
+    if (Cookies.get('rolLogged') !== '3') {
+      next(from)
     }
   }
 
@@ -140,11 +152,17 @@ routes.beforeEach((to, from, next) => {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
     }
+    if (Cookies.get('rolLogged') !== '4') {
+      next(from)
+    }
   }
 
   if (to.fullPath === '/tracking') {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
+    }
+    if (Cookies.get('rolLogged') !== '1') {
+      next(from)
     }
   }
 
@@ -152,11 +170,17 @@ routes.beforeEach((to, from, next) => {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
     }
+    if (Cookies.get('rolLogged') !== '3') {
+      next(from)
+    }
   }
 
   if (to.fullPath === '/confirmacionconductor') {
     if (Cookies.get('userLogged') === undefined) {
       next('/login')
+    }
+    if (Cookies.get('rolLogged') !== '2') {
+      next(from)
     }
   }
 

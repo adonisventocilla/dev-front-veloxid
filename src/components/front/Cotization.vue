@@ -1073,7 +1073,8 @@ export default {
             quantity: producto.cantidad
           })
           .then(res => {
-            this.producto.precio_unitario = res.data
+            console.log(res)
+            this.producto.precio_unitario = res.data / this.producto.cantidad
             this.producto.subcategory_id = this.producto.subcategory.id
 
             // Sumar
@@ -1173,7 +1174,7 @@ export default {
         if (this.message === undefined) {
           Swal.fire(
             'Alerta!',
-            'Necesita loguarse para confirmar el servicio.',
+            'Necesita loguearse para confirmar el servicio.',
             'warning'
           )
           this.confirmacion = false

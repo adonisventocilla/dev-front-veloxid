@@ -45,7 +45,11 @@
                             {{ detail.fecha_entrega | timeFormat }} <br />
                             Estado del Servicio :
                             <label
-                              v-if="detail.service_state_id == 1 || detail.service_state_id == 6 || detail.service_state_id == 7"
+                              v-if="
+                                detail.service_state_id == 1 ||
+                                  detail.service_state_id == 6 ||
+                                  detail.service_state_id == 7
+                              "
                               class="badge badge-warning"
                               >Pendiente</label
                             >
@@ -93,8 +97,15 @@
                           </p>
                         </div>
                         <div class="col-lg-4 pr-0">
-                          <p class="mt-2 mb-2"><b>Datos de Conductor Asignado</b></p>
-                          <p>
+                          <p class="mt-2 mb-2">
+                            <b>Datos de Conductor Asignado</b>
+                          </p>
+                          <p
+                            v-if="
+                              nombresconductor !== undefined ||
+                                dni !== undefined
+                            "
+                          >
                             Nombres Y Apellidos : {{ nombresconductor }} <br />
                             Documento de Identidad: {{ dni }}
                           </p>
@@ -139,21 +150,26 @@
                                 <td class="text-left">
                                   {{ item.descripcion }}
                                 </td>
-                                <td>{{ item.peso }} {{item.peso_medida}}</td>
-                                <td>{{ item.alto }} {{item.alto_medida}}</td>
-                                <td>{{ item.ancho }} {{item.ancho_medida}}</td>
-                                <td>{{ item.largo }} {{item.largo_medida}}</td>
+                                <td>{{ item.peso }} {{ item.peso_medida }}</td>
+                                <td>{{ item.alto }} {{ item.alto_medida }}</td>
+                                <td>
+                                  {{ item.ancho }} {{ item.ancho_medida }}
+                                </td>
+                                <td>
+                                  {{ item.largo }} {{ item.largo_medida }}
+                                </td>
                                 <td>{{ item.cantidad }}</td>
                                 <td>S/. {{ item.precio_unitario }}</td>
-                                <td>S/.
+                                <td>
+                                  S/.
                                   {{ item.cantidad * item.precio_unitario }}
                                 </td>
                                 <td>
-                                    <img
-                                      style="width: 200px; height: 220px"
-                                      :src="'http://localhost' + item.imagen"
-                                      alt="Foto del Producto"
-                                    />
+                                  <img
+                                    style="width: 100px; height: 120px"
+                                    :src="'http://localhost' + item.imagen"
+                                    alt="Foto del Producto"
+                                  />
                                 </td>
                               </tr>
                             </tbody>
@@ -190,12 +206,12 @@
             <div class="card">
               <div class="card-body">
                 <h4>
-                <font style="vertical-align: inherit;"
-                  ><font style="vertical-align: inherit;"
-                    >Mis Pedidos</font
-                  ></font
-                >
-              </h4>
+                  <font style="vertical-align: inherit;"
+                    ><font style="vertical-align: inherit;"
+                      >Mis Pedidos</font
+                    ></font
+                  >
+                </h4>
                 <div class="row mt-4">
                   <div class="table-sorter-wrapper col-lg-12 table-responsive">
                     <table id="sortable-table-2" class="table table-striped">
@@ -233,13 +249,21 @@
                           <td>{{ item.fecha_recojo | timeFormat }}</td>
                           <td>{{ item.fecha_entrega | timeFormat }}</td>
                           <td>
-                            <div v-if="item.service_state_id == 1 || item.service_state_id == 6 || item.service_state_id == 7">
+                            <div
+                              v-if="
+                                item.service_state_id == 1 ||
+                                  item.service_state_id == 6 ||
+                                  item.service_state_id == 7
+                              "
+                            >
                               <label class="badge badge-warning"
                                 >Pendiente</label
                               >
                             </div>
                             <div v-if="item.service_state_id == 2">
-                              <label class="badge badge-info">Pedido Asignado</label>
+                              <label class="badge badge-info"
+                                >Pedido Asignado</label
+                              >
                             </div>
                             <div v-if="item.service_state_id == 3">
                               <label class="badge badge-secondary"
@@ -358,6 +382,8 @@ export default {
       products: [],
       imagenminiatura: '',
       imagen: '',
+      nombresconductor: '',
+      dni: '',
       distRecojo: '',
       zonaRecojo: '',
       distEntrega: '',
@@ -422,14 +448,19 @@ export default {
         this.zonaRecojo = this.detail.distrito_origen.zona.zona
         this.distEntrega = this.detail.distrito_destino.distrito
         this.zonaEntrega = this.detail.distrito_destino.zona.zona
-        this.nombresconductor =
+        this.products = this.detail.products
+        if (this.detail.allocations.length) {
+          this.nombresconductor =
             this.detail.allocations[0].driver.user.person.nombre +
             ' ' +
             this.detail.allocations[0].driver.user.person.apellidoPaterno +
             ' ' +
             this.detail.allocations[0].driver.user.person.apellidoMaterno
-        this.dni = this.detail.allocations[0].driver.user.person.numero
-        this.products = this.detail.products
+          this.dni = this.detail.allocations[0].driver.user.person.numero
+        } else {
+          this.nombresconductor = ''
+          this.dni = ''
+        }
       })
     },
 
@@ -442,12 +473,8 @@ export default {
       this.products = ''
       this.imagenminiatura = ''
       this.imagen = ''
-    }
-  },
-
-  computed: {
-    img () {
-      return this.imagenminiatura
+      this.nombresconductor = ''
+      this.dni = ''
     }
   },
 

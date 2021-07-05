@@ -169,8 +169,8 @@
                             <td class="text-center">
                               <figure>
                                 <img
-                                  with="200"
-                                  height="200"
+                                  with="400"
+                                  height="400"
                                   :src="'http://localhost' + item.imagen"
                                   alt="Foto del Producto"
                                 />
@@ -584,14 +584,20 @@ export default {
           this.distEntrega = this.detail.distrito_destino.distrito
           this.zonaEntrega = this.detail.distrito_destino.zona.zona
           this.products = this.detail.products
-          this.nombresconductor =
-            this.detail.allocations[0].driver.user.person.nombre +
-            ' ' +
-            this.detail.allocations[0].driver.user.person.apellidoPaterno +
-            ' ' +
-            this.detail.allocations[0].driver.user.person.apellidoMaterno
-          this.dni = this.detail.allocations[0].driver.user.person.numero
-          this.imagenevidence = this.detail.galleries[0].imagen
+          if (this.detail.allocations.length) {
+            this.nombresconductor =
+              this.detail.allocations[0].driver.user.person.nombre +
+              ' ' +
+              this.detail.allocations[0].driver.user.person.apellidoPaterno +
+              ' ' +
+              this.detail.allocations[0].driver.user.person.apellidoMaterno
+            this.dni = this.detail.allocations[0].driver.user.person.numero
+            this.imagenevidence = this.detail.galleries[0].imagen
+          } else {
+            this.nombresconductor = ''
+            this.dni = ''
+            this.imagenevidence = ''
+          }
         })
     },
 

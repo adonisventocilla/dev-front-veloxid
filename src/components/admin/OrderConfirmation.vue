@@ -130,7 +130,7 @@
                             <th class="text-right">Ancho</th>
                             <th class="text-right">Largo</th>
                             <th class="text-right">Cantidad</th>
-
+                            <th colspan="2" class="text-center">Imagen</th>
                             <th class="text-right"></th>
                           </tr>
                         </thead>
@@ -147,7 +147,13 @@
                             <td>{{ item.ancho }} {{ item.ancho_medida }}</td>
                             <td>{{ item.largo }} {{ item.largo_medida }}</td>
                             <td>{{ item.cantidad }}</td>
-
+                            <td>
+                              <img
+                                style="width: 100px; height: 120px"
+                                :src="'http://localhost' + item.imagen"
+                                alt="Foto del Producto"
+                              />
+                            </td>
                             <td></td>
                           </tr>
                         </tbody>
@@ -921,7 +927,11 @@ export default {
           this.distEntrega = this.detail.distrito_destino.distrito
           this.zonaEntrega = this.detail.distrito_destino.zona.zona
           this.products = this.detail.products
-          this.imagenevidence = this.detail.galleries[0].imagen
+          if (this.detail.galleries.length) {
+            this.imagenevidence = this.detail.galleries[0].imagen
+          } else {
+            this.imagenevidence = ''
+          }
         })
     },
 

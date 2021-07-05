@@ -17,29 +17,38 @@
               <div class="card">
                 <div class="card-body">
                   <h4>
-                <font style="vertical-align: inherit;"
-                  ><font style="vertical-align: inherit;"
-                    >Historial de Revisiones</font
-                  ></font
-                >
-              </h4>
+                    <font style="vertical-align: inherit;"
+                      ><font style="vertical-align: inherit;"
+                        >Historial de Revisiones</font
+                      ></font
+                    >
+                  </h4>
 
                   <div class="form-group row" style="margin-top: 30px">
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                       <label>Desde:</label>
                       <input type="date" class="form-control" v-model="from" />
                     </div>
-                    <div class="col-lg-4">
+                    <div class="col-lg-3">
                       <label>Hasta:</label>
                       <input type="date" class="form-control" v-model="to" />
                     </div>
-                    <div class="col-lg-4" style="margin-top: 23px">
+                    <div class="col-lg-3" style="margin-top: 23px">
                       <button
                         type="submit"
                         class="btn btn-gradient-primary"
                         @click="filtrar()"
                       >
                         Filtrar
+                      </button>
+                    </div>
+                    <div class="col-lg-3" style="margin-top: 23px">
+                      <button
+                        type="submit"
+                        class="btn btn-gradient-primary"
+                        @click="filtrarall()"
+                      >
+                        Ver Todo
                       </button>
                     </div>
                   </div>
@@ -223,6 +232,27 @@ export default {
           {
             from: this.from,
             to: this.to
+          },
+          {
+            headers: { 'Content-Type': 'application/json' },
+            withCredentials: 'include'
+          }
+        )
+        .then(res => {
+          this.revisionhistory = res.data.data
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
+    },
+
+    filtrarall () {
+      this.$http
+        .post(
+          '/revisions',
+          {
+            from: '',
+            to: ''
           },
           {
             headers: { 'Content-Type': 'application/json' },
