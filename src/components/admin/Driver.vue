@@ -1894,7 +1894,7 @@ export default {
       required,
       minLength: minLength(3),
       validString (value) {
-        var re = /^[A-Za-z ]+$/
+        var re = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g
         return re.test(value)
       }
     },
@@ -1902,7 +1902,7 @@ export default {
       required,
       minLength: minLength(3),
       validString (value) {
-        var re = /^[A-Za-z ]+$/
+        var re = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g
         return re.test(value)
       }
     },
@@ -1910,7 +1910,7 @@ export default {
       required,
       minLength: minLength(3),
       validString (value) {
-        var re = /^[A-Za-z ]+$/
+        var re = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/g
         return re.test(value)
       }
     },
