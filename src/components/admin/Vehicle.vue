@@ -32,6 +32,7 @@
                     class="close"
                     data-dismiss="modal"
                     aria-label="Close"
+                    @click="clearFields()"
                   >
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -191,6 +192,7 @@
                   <button
                     @click="saveVehicles()"
                     class="btn btn-gradient-primary mr-2"
+                    data-dismiss="modal"
                   >
                     Registrar
                   </button>

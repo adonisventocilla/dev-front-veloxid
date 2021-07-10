@@ -346,12 +346,12 @@ export default {
 
     clearFieldsD () {
       /* Limpia los campos */
-      this.requerimentdriver = ''
+      this.requerimentdriver = []
     },
 
     clearFieldsV () {
       /* Limpia los campos */
-      this.requerimentvehicle = ''
+      this.requerimentvehicle = []
     }
   }
 }
