@@ -230,6 +230,7 @@
                     class="close"
                     data-dismiss="modal"
                     aria-label="Close"
+                    @click="clearFields()"
                   >
                     <span aria-hidden="true">&times;</span>
                   </button>

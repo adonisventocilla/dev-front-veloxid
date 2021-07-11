@@ -943,6 +943,7 @@ export default {
       this.document_type = ''
       this.imagenminiatura = ''
       this.imagenevidence = ''
+      this.$v.$reset()
     }
   },
 

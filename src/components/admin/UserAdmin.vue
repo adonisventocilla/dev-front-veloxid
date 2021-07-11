@@ -39,115 +39,117 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group row">
-                        <div class="col-sm-12">
-                          <input
-                            type="text"
-                            class="form-control"
-                            v-model="user.name"
-                            placeholder="Nombres y Apellidos"
-                            maxlength="60"
-                            title="Ingresar nombres completos"
-                            data-toggle="tooltip"
-                            data-placement="right"
-                            @blur="$v.user.name.$touch()"
-                            required
-                          />
-                          <template v-if="$v.user.name.$error">
-                            <p
-                              class="errorMessage error"
-                              v-if="!$v.user.name.required"
-                            >
-                              Este campo es obligatorio(*)
-                            </p>
-                            <p
-                              class="errorMessage error"
-                              v-if="!$v.user.name.maxLength"
-                            >
-                              Máx. 60 caracteres(*)
-                            </p>
-                          </template>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <div class="col-sm-12">
+                            <input
+                              type="text"
+                              class="form-control"
+                              v-model="user.name"
+                              placeholder="Nombres y Apellidos"
+                              maxlength="60"
+                              title="Ingresar nombres completos"
+                              data-toggle="tooltip"
+                              data-placement="right"
+                              @blur="$v.user.name.$touch()"
+                              required
+                            />
+                            <template v-if="$v.user.name.$error">
+                              <p
+                                class="errorMessage error"
+                                v-if="!$v.user.name.required"
+                              >
+                                Este campo es obligatorio(*)
+                              </p>
+                              <p
+                                class="errorMessage error"
+                                v-if="!$v.user.name.maxLength"
+                              >
+                                Máx. 60 caracteres(*)
+                              </p>
+                            </template>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group row">
-                        <div class="col-sm-12">
-                          <input
-                            type="email"
-                            class="form-control"
-                            v-model="user.email"
-                            placeholder="Email"
-                            title="Ingresar correo electrónico actual."
-                            data-toggle="tooltip"
-                            data-placement="right"
-                            @blur="$v.user.email.$touch()"
-                            required
-                          />
-                          <template v-if="$v.user.email.$error">
-                            <p
-                              class="errorMessage error"
-                              v-if="!$v.user.email.required"
-                            >
-                              Este campo es obligatorio(*)
-                            </p>
-                            <p
-                              class="errorMessage error"
-                              v-if="!$v.user.email.email"
-                            >
-                              Correo inválido(*)
-                            </p>
-                          </template>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <div class="col-sm-12">
+                            <input
+                              type="email"
+                              class="form-control"
+                              v-model="user.email"
+                              placeholder="Email"
+                              title="Ingresar correo electrónico actual."
+                              data-toggle="tooltip"
+                              data-placement="right"
+                              @blur="$v.user.email.$touch()"
+                              required
+                            />
+                            <template v-if="$v.user.email.$error">
+                              <p
+                                class="errorMessage error"
+                                v-if="!$v.user.email.required"
+                              >
+                                Este campo es obligatorio(*)
+                              </p>
+                              <p
+                                class="errorMessage error"
+                                v-if="!$v.user.email.email"
+                              >
+                                Correo inválido(*)
+                              </p>
+                            </template>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="row">
-                    <div class="col-md-12">
-                      <div class="form-group row">
-                        <div class="col-sm-12">
-                          <input
-                            type="password"
-                            class="form-control"
-                            v-model="user.password"
-                            placeholder="Password"
-                            title="Ingresar una contraseña con 8 caracteres mínimo."
-                            data-toggle="tooltip"
-                            data-placement="right"
-                            @blur="$v.user.password.$touch()"
-                            required
-                          />
-                          <template v-if="$v.user.password.$error">
-                            <p
-                              class="errorMessage error"
-                              v-if="!$v.user.password.required"
-                            >
-                              Este campo es obligatorio(*)
-                            </p>
-                            <p
-                              class="errorMessage error"
-                              v-if="!$v.user.password.minLength"
-                            >
-                              Mín. 8 caracteres(*)
-                            </p>
-                          </template>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group row">
+                          <div class="col-sm-12">
+                            <input
+                              type="password"
+                              class="form-control"
+                              v-model="user.password"
+                              placeholder="Password"
+                              title="Ingresar una contraseña con 8 caracteres mínimo."
+                              data-toggle="tooltip"
+                              data-placement="right"
+                              @blur="$v.user.password.$touch()"
+                              required
+                            />
+                            <template v-if="$v.user.password.$error">
+                              <p
+                                class="errorMessage error"
+                                v-if="!$v.user.password.required"
+                              >
+                                Este campo es obligatorio(*)
+                              </p>
+                              <p
+                                class="errorMessage error"
+                                v-if="!$v.user.password.minLength"
+                              >
+                                Mín. 8 caracteres(*)
+                              </p>
+                            </template>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
                 </div>
 
                 <div class="modal-footer">
                   <!-- Botón que añade los datos del formulario, solo se muestra si la variable update es igual a 0-->
                   <button
+                    :disabled = "$v.$invalid"
                     @click="saveUser()"
                     class="btn btn-gradient-primary mr-2"
+                    data-dismiss="modal"
                   >
                     Registrar
                   </button>
@@ -501,6 +503,7 @@ export default {
     },
 
     saveUser () {
+      let me = this
       this.$http
         .post('/chiefs_drivers', this.user, {
           headers: { 'Content-Type': 'application/json' },
@@ -512,8 +515,8 @@ export default {
             'Se registró correctamente los datos del usuario!',
             'success'
           )
-          this.getUsers()
-          this.clearFields()
+          me.getUsers()
+          me.clearFields()
         })
         .catch(function (error) {
           console.log(error)
@@ -593,10 +596,11 @@ export default {
 
     clearFields () {
       /* Limpia los campos e inicializa la variable update a 0 */
-      this.user.id = 0
+      this.user.id = ''
       this.user.name = ''
       this.user.email = ''
       this.user.password = ''
+      this.$v.$reset()
     },
 
     loadFieldsUpdate (id) {
@@ -609,6 +613,7 @@ export default {
           withCredentials: 'include'
         })
         .then(function (res) {
+          me.user.id = res.data.id
           me.user.name = res.data.name
           me.user.email = res.data.email
         })
@@ -634,7 +639,7 @@ export default {
         formData.append('email', this.user.email)
       }
       formData.append('_method', 'put')
-      let url = '/chiefs_drivers/' + this.user.id // Ruta que hemos creado para enviar una tarea y guardarla
+      let url = '/chiefs_drivers/' + this.user.id
       this.$http
         .post(url, formData, config)
         .then(function (response) {
