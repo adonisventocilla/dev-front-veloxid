@@ -315,12 +315,12 @@ export default {
 
     searchDriver (key_busqueda) {
       this.$http
-        .get('/drivers/search?query=' + key_busqueda, {
+        .get('/drivers/activated?query=' + key_busqueda, {
           headers: { 'Content-Type': 'application/json' },
           withCredentials: 'include'
         })
         .then(res => {
-          this.driverlist = res.data.data
+          this.driverlist = res.data
         })
     },
 
