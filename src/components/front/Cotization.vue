@@ -552,8 +552,8 @@
                         <td>{{ item.ancho }}{{ item.ancho_medida }}</td>
                         <td>{{ item.largo }}{{ item.largo_medida }}</td>
                         <td>{{ item.cantidad }}</td>
-                        <td>{{ item.precio_unitario }}</td>
-                        <td>{{ item.subtotal }}</td>
+                        <td>S/ {{ item.precio_unitario }}</td>
+                        <td>S/ {{ item.subtotal }}</td>
                         <td>
                           <button
                             class="btn btn-danger btn-fw"
@@ -574,13 +574,8 @@
                     <label class="col-sm-4 col-form-label"
                       >Total De Cotización</label
                     >
-                    <div class="col-sm-8">
-                      <input
-                        type="text"
-                        class="form-control"
-                        v-model="service.total"
-                        disabled
-                      />
+                    <div class="col-sm-8 col-form-label">
+                      S/ {{ service.total }} / ({{ amount_dolar }} USD)
                     </div>
                   </div>
                 </div>
@@ -892,32 +887,35 @@
                     </template>
                   </div>
                   <div class="row">
-                    <div class="form-group row">
-                      <div class="col-md-6">
-                        <button
-                          v-if="terminos == false"
-                          class="btn btn-secondary mr-2"
-                          disabled
+                    <div class="form-group row justify-content-center">
+                      <div
+                        class="col-md-12"
+                        v-if="
+                          terminos == true &&
+                            this.service.direccion_origen !== '' &&
+                            this.service.direccion_destino !== '' &&
+                            this.service.fecha_recojo !== '' &&
+                            this.service.fecha_entrega !== ''
+                        "
+                        style="margin-right:-50%"
+                      >
+                        <PayPal
+                          @click="validarconfirmacion()"
+                          :amount="amount_dolar"
+                          currency="USD"
+                          :client="credentials"
+                          env="sandbox"
+                          :button-style="myStyle"
+                          :experience="experienceOptions"
+                          v-on:payment-authorized="paymentAuthorized"
+                          v-on:payment-completed="paymentCompleted"
+                          v-on:payment-cancelled="paymentCancelled"
                         >
-                          Pagar
-                        </button>
-                        <button
-                          v-else
-                          class="btn btn-gradient-primary mr-2"
-                          @click="makeRequest()"
-                        >
-                          Pagar
-                        </button>
+                        </PayPal>
                       </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group row">
-                        <button
-                          class="btn btn-secondary"
-                          @click="cancelarPedido()"
-                        >
-                          Cancelar
-                        </button>
+                      <div v-else class="text-danger">
+                        Debe completar todos los campos y aceptar los términos
+                        para realizar el pago.
                       </div>
                     </div>
                   </div>
@@ -936,12 +934,31 @@ import Swal from 'sweetalert2'
 import Cookies from 'js-cookie'
 import Nav from '@/components/front/Nav'
 import { required, minLength } from 'vuelidate/lib/validators'
+import PayPal from 'vue-paypal-checkout'
 
 export default {
   name: 'Cotization',
-  components: { Nav },
+  components: { Nav, PayPal },
   data () {
     return {
+      credentials: {
+        sandbox:
+          'AdHJYWWH6lUM2PBW3dS_Zp8uPOzZfTNAMIRe3l7eOiiEy5NbJMOwWi8Dq8K4gOSZLj0E_wSacxS-8M7h',
+        production: '<production client id>'
+      },
+      experienceOptions: {
+        input_fields: {
+          no_shipping: 1
+        }
+      },
+      myStyle: {
+        label: 'paypal',
+        size: 'responsive',
+        shape: 'rect',
+        height: 55,
+        color: 'silver'
+      },
+      prices: '',
       update: 0,
       cotizar: true,
       distritos: [],
@@ -979,62 +996,12 @@ export default {
       },
       confirmacion: false,
       terminos: false,
-      payment_id: ''
+      payment_id: '',
+      amount_dolar: 0
     }
   },
 
   created () {
-    this.payment_id = this.$route.query.payment_id
-    if (this.payment_id) {
-      const config = {
-        headers: { 'content-type': 'application/json' },
-        withCredentials: 'include'
-      }
-      var service = JSON.parse(localStorage.getItem('service'))
-      service.transaction_id = this.payment_id
-      /* let formData = new FormData()
-      formData.append('direccion_origen', service.direccion_origen)
-      formData.append('direccion_destino', service.direccion_destino)
-      formData.append('distrito_origen_id', service.distrito_origen_id)
-      formData.append('distrito_destino_id', service.distrito_destino_id)
-      formData.append('fecha_recojo', service.fecha_recojo)
-      formData.append('fecha_entrega', service.fecha_entrega)
-      formData.append('total', service.total)
-      formData.append('transaction_id', service.transaction_id)
-      formData.append('products[]', service.products) */
-      let url = '/services'
-      this.$http
-        .post(
-          url,
-          {
-            direccion_origen: service.direccion_origen,
-            direccion_destino: service.direccion_destino,
-            distrito_origen_id: service.distrito_origen_id,
-            distrito_destino_id: service.distrito_destino_id,
-            fecha_recojo: service.fecha_recojo,
-            fecha_entrega: service.fecha_entrega,
-            total: service.total,
-            transaction_id: service.transaction_id,
-            products: service.products
-          },
-          config
-        )
-        .then(res => {
-          localStorage.removeItem('service')
-          localStorage.removeItem('distritoorigen')
-          localStorage.removeItem('distritodestino')
-          Swal.fire(
-            'Operación Exitosa!',
-            'Tu servicio ha sido registrado correctamente!',
-            'success'
-          )
-          this.$router.push('/tracking')
-        })
-        .catch(error => {
-          console.log(error)
-        })
-    }
-
     this.$http.get('/distritos').then(res => {
       this.distritos = res.data
     })
@@ -1048,9 +1015,81 @@ export default {
     })
   },
   methods: {
+    paymentAuthorized: function (data) {
+      const parsed = JSON.stringify(this.service)
+      localStorage.setItem('service', parsed)
+      console.log(data)
+    },
+    paymentCompleted: function (data) {
+      const parsed = JSON.stringify(this.service)
+      localStorage.setItem('service', parsed)
+      console.log(data)
+      this.payment_id = data.payer.payer_info.payer_id
+      if (this.payment_id) {
+        const config = {
+          headers: { 'content-type': 'application/json' },
+          withCredentials: 'include'
+        }
+        var service = JSON.parse(localStorage.getItem('service'))
+        service.transaction_id = this.payment_id
+        let url = '/services'
+        this.$http
+          .post(
+            url,
+            {
+              direccion_origen: service.direccion_origen,
+              direccion_destino: service.direccion_destino,
+              distrito_origen_id: service.distrito_origen_id,
+              distrito_destino_id: service.distrito_destino_id,
+              fecha_recojo: service.fecha_recojo,
+              fecha_entrega: service.fecha_entrega,
+              total: service.total,
+              transaction_id: service.transaction_id,
+              products: service.products
+            },
+            config
+          )
+          .then(res => {
+            localStorage.removeItem('service')
+            localStorage.removeItem('distritoorigen')
+            localStorage.removeItem('distritodestino')
+            Swal.fire(
+              'Operación Exitosa!',
+              'Tu servicio ha sido registrado correctamente! Tú número de transacción es ' +
+                this.payment_id,
+              'success'
+            )
+            this.$router.push('/tracking')
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
+    },
+
+    paymentCancelled: function (data) {
+      const parsed = JSON.stringify(this.service)
+      localStorage.setItem('service', parsed)
+      console.log(data)
+      Swal.fire(
+        'Cancelaste!',
+        'Completa tu pago para registrar el pedido correctamente por favor!',
+        'error'
+      )
+    },
+    
     saveProductos (producto) {
-      if (producto.descripcion === '' || producto.imagen === '' || this.distritodestino === '' || this.distritoorigen === '') {
-        Swal.fire('Error!', 'Todos los campos de registro son obligatorios', 'error')
+      if (
+        producto.descripcion === '' ||
+        producto.imagen === '' ||
+        this.distritodestino === '' ||
+        this.distritoorigen === ''
+      ) {
+        Swal.fire(
+          'Error!',
+          'Todos los campos de registro son obligatorios',
+          'error'
+        )
       } else {
         // Obtener precio del producto
 
@@ -1183,12 +1222,12 @@ export default {
           this.confirmacion = true
         }
       }
-    },
+    }
 
-    makeRequest: function () {
+    /* makeRequest: function () {
       const parsed = JSON.stringify(this.service)
       localStorage.setItem('service', parsed)
-      if (
+       if (
         this.service.direccion_origen === '' ||
         this.service.direccion_destino === '' ||
         this.service.fecha_recojo === '' ||
@@ -1213,7 +1252,7 @@ export default {
             console.log(error)
           })
       }
-    }
+    } */
   },
 
   computed: {
@@ -1248,6 +1287,8 @@ export default {
         localStorage.removeItem('distritodestino')
       }
     }
+
+    this.amount_dolar = Math.round(this.service.total / 3.98)
   },
 
   validations: {
