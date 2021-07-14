@@ -282,7 +282,7 @@
                       <div class="form-group row">
                         <div class="col-sm-12">
                           <input
-                            v-if = "idDocumentType == 1" 
+                            v-if="idDocumentType == 1"
                             type="number"
                             class="form-control"
                             v-model="numero"
@@ -294,7 +294,7 @@
                             @blur="$v.numero.$touch()"
                           />
                           <input
-                            v-if = "idDocumentType == 2" 
+                            v-if="idDocumentType == 2"
                             type="number"
                             class="form-control"
                             v-model="numero"
@@ -1346,14 +1346,11 @@
                     <br />
                     <strong>Usuario:</strong> {{ item.email }}<br />
                   </p>
-                  <div
-                    v-if="item.status.nombre === 'activo'"
-                    class="text-success"
-                  >
-                    Estado: {{ item.status.nombre }}
+                  <div v-if="item.deleted_at === null" class="text-success">
+                    Estado: Activo
                   </div>
                   <div v-else class="text-danger">
-                    Estado: {{ item.status.nombre }}
+                    Estado: Inactivo
                   </div>
                   <br />
                   <p class="card-text">
@@ -1362,7 +1359,6 @@
                       {{ item.updated_at | timeformat }}</small
                     >
                   </p>
-
                   <div>
                     <div class="form-group">
                       <div class="row">
