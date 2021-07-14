@@ -900,7 +900,6 @@
                         style="margin-right:-50%"
                       >
                         <PayPal
-                          @click="validarconfirmacion()"
                           :amount="amount_dolar"
                           currency="USD"
                           :client="credentials"
