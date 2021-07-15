@@ -65,6 +65,7 @@
                       type="text"
                       name="name"
                       id="name"
+                      required
                       class="form-control"
                       placeholder="Nombres y Apellidos"
                       autocomplete="name"
@@ -104,6 +105,7 @@
                       type="email"
                       name="email"
                       id="email"
+                      required
                       class="form-control"
                       placeholder="Email"
                       autocomplete="email"
@@ -141,6 +143,7 @@
                       type="password"
                       class="form-control"
                       name="password"
+                      required
                       placeholder="Contraseña"
                       autocomplete="current-password"
                       @blur="$v.data.password.$touch()"

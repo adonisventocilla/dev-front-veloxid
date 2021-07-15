@@ -192,6 +192,7 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
+                <form>
                 <div class="modal-body">
                   <div class="row">
                     <div class="col-md-12">
@@ -299,6 +300,7 @@
                     Cancelar
                   </button>
                 </div>
+                </form>
               </div>
             </div>
           </div>

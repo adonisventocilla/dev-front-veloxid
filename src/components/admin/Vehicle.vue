@@ -21,6 +21,7 @@
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
           >
+          <form>
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -160,6 +161,7 @@
                             type="file"
                             class="form-control file-upload-info"
                             @change="subirImagen"
+                            required
                           />
                           <code style="color: #9c9fa6;"
                             >Subir fotografía del vehículo.</code
@@ -190,6 +192,7 @@
                 <div class="modal-footer">
                   <!-- Botón que añade los datos del formulario, solo se muestra si la variable update es igual a 0-->
                   <button
+                    :disabled = "$v.$invalid"
                     @click="saveVehicles()"
                     class="btn btn-gradient-primary mr-2"
                     data-dismiss="modal"
@@ -207,6 +210,7 @@
                 </div>
               </div>
             </div>
+            </form>
           </div>
           <!-- FIN -->
 
@@ -219,6 +223,7 @@
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
           >
+          <form>
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
@@ -343,6 +348,7 @@
                             type="file"
                             class="form-control file-upload-info"
                             @change="subirImagen"
+                            required
                           />
                         </div>
                       </div>
@@ -370,6 +376,7 @@
                 <div class="modal-footer">
                   <!-- Botón que modifica la tarea que anteriormente hemos seleccionado, solo se muestra si la variable update es diferente a 0-->
                   <button
+                    :disabled = "$v.$invalid"
                     @click="updateVehicles()"
                     class="btn btn-warning btn-fw"
                     data-dismiss="modal"
@@ -387,6 +394,7 @@
                 </div>
               </div>
             </div>
+            </form>
           </div>
           <!-- FIN -->
 
@@ -633,32 +641,26 @@
               <div class="card">
                 <div class="card-body">
                   <center>
-                  <img
-                    class="card-img-top"
-                    :src="'http://localhost' + item.imagen"
-                    style="width: 200px; height: 200px"
-                  />
-                  <br /><br />
-                                     <div
-                      v-if="
-                        item.deleted_at === null &&
-                          item.is_suitable === 1
-                      "
+                    <img
+                      class="card-img-top"
+                      :src="'http://localhost' + item.imagen"
+                      style="width: 200px; height: 200px"
+                    />
+                    <br /><br />
+                    <div
+                      v-if="item.deleted_at === null && item.is_suitable === 1"
                       class="badge style-badge-success"
                     >
                       Apto
                     </div>
                     <div
-                      v-if="
-                        item.deleted_at !== null &&
-                          item.is_suitable === 0
-                      "
+                      v-if="item.deleted_at !== null && item.is_suitable === 0"
                       class="badge style-badge-danger"
                     >
                       No Apto
                     </div>
-                    </center>
-                    <br />
+                  </center>
+                  <br />
                   <p class="card-text crop-text-2">
                     <strong>Placa:</strong> {{ item.placa }} <br />
                     <strong>Capacidad Carga:</strong>
@@ -881,32 +883,36 @@ export default {
     },
 
     saveVehicles () {
-      const config = {
-        headers: { 'content-type': 'multipart/form-data' },
-        withCredentials: 'include'
+      if (this.placa === '' || this.capacidadCarga === '') {
+        Swal.fire('Error!', 'Se debe completar todos los campos!', 'error')
+      } else {
+        const config = {
+          headers: { 'content-type': 'multipart/form-data' },
+          withCredentials: 'include'
+        }
+        let me = this
+        let formData = new FormData()
+        formData.append('placa', this.placa)
+        formData.append('capacidadCarga', this.capacidadCarga)
+        formData.append('idVehicleType', this.idVehicleType)
+        formData.append('imagen', this.imagen)
+        let url = '/drivers/' + this.id + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
+        this.$http
+          .post(url, formData, config)
+          .then(function (response) {
+            Swal.fire(
+              'Registro Exitoso!',
+              'Se registró correctamente los datos del vehiculo!',
+              'success'
+            )
+            me.getVehicles() // llamamos al metodo getVehicles(); para que refresque nuestro array y muestro los nuevos datos
+            me.clearFields() // Limpiamos los campos e inicializamos la variable update a 0
+          })
+          .catch(function (error) {
+            console.log(error)
+            Swal.fire('Error!', 'Inténtelo más tarde', 'error')
+          })
       }
-      let me = this
-      let formData = new FormData()
-      formData.append('placa', this.placa)
-      formData.append('capacidadCarga', this.capacidadCarga)
-      formData.append('idVehicleType', this.idVehicleType)
-      formData.append('imagen', this.imagen)
-      let url = '/drivers/' + this.id + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
-      this.$http
-        .post(url, formData, config)
-        .then(function (response) {
-          Swal.fire(
-            'Registro Exitoso!',
-            'Se registró correctamente los datos del vehiculo!',
-            'success'
-          )
-          me.getVehicles() // llamamos al metodo getVehicles(); para que refresque nuestro array y muestro los nuevos datos
-          me.clearFields() // Limpiamos los campos e inicializamos la variable update a 0
-        })
-        .catch(function (error) {
-          console.log(error)
-          Swal.fire('Error!', 'Inténtelo más tarde', 'error')
-        })
     },
 
     updateVehicles () {

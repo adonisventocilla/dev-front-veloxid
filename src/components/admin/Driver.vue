@@ -486,6 +486,7 @@
                             type="file"
                             class="form-control file-upload-info"
                             @change="subirArchivo"
+                            required
                           />
                         </div>
                       </div>
@@ -503,6 +504,7 @@
                             type="file"
                             class="form-control file-upload-info"
                             @change="subirImagen"
+                            required
                           />
                         </div>
                       </div>
@@ -1625,31 +1627,35 @@ export default {
     },
 
     saveVehicles () {
-      const config = {
-        headers: { 'content-type': 'multipart/form-data' },
-        withCredentials: 'include'
+      if (this.placa === '' || this.capacidadCarga === '') {
+        Swal.fire('Error!', 'Se debe completar todos los campos!', 'error')
+      } else {
+        const config = {
+          headers: { 'content-type': 'multipart/form-data' },
+          withCredentials: 'include'
+        }
+        let me = this
+        let formData = new FormData()
+        formData.append('placa', this.placa)
+        formData.append('capacidadCarga', this.capacidadCarga)
+        formData.append('idVehicleType', this.idVehicleType)
+        formData.append('imagen', this.imagen)
+        let url = '/drivers/' + this.idDriver + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
+        this.$http
+          .post(url, formData, config)
+          .then(function (response) {
+            Swal.fire(
+              'Registro Exitoso!',
+              'Se registró correctamente los datos del vehículo!',
+              'success'
+            )
+            me.getDrivers() // llamamos al metodo getVehicles(); para que refresque nuestro array y muestro los nuevos datos
+            me.clearFieldsV() // Limpiamos los campos e inicializamos la variable update a 0
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
       }
-      let me = this
-      let formData = new FormData()
-      formData.append('placa', this.placa)
-      formData.append('capacidadCarga', this.capacidadCarga)
-      formData.append('idVehicleType', this.idVehicleType)
-      formData.append('imagen', this.imagen)
-      let url = '/drivers/' + this.idDriver + '/vehicles' // Ruta que hemos creado para enviar un vehiculo y guardarlo
-      this.$http
-        .post(url, formData, config)
-        .then(function (response) {
-          Swal.fire(
-            'Registro Exitoso!',
-            'Se registró correctamente los datos del vehículo!',
-            'success'
-          )
-          me.getDrivers() // llamamos al metodo getVehicles(); para que refresque nuestro array y muestro los nuevos datos
-          me.clearFieldsV() // Limpiamos los campos e inicializamos la variable update a 0
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
     },
 
     subirArchivo (e) {
