@@ -23,7 +23,7 @@ Vue.config.productionTip = false
 
 /* URL base para acceder a APIS */
 Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://localhost/api'
+axios.defaults.baseURL = 'https://dev-back.veloxid.xyz/api'
 
 Vue.use(Vuelidate)
 
